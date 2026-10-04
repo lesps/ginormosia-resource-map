@@ -194,6 +194,12 @@ describe('footer', () => {
     expect(foot).toContain('© LEVEL-5 Inc.');
     expect(foot).toMatch(/not affiliated with or endorsed by LEVEL-5/);
   });
+
+  it('credits the fan map annotations with a link', () => {
+    const a = t.$('footer a[href="https://www.reddit.com/r/fantasylife/comments/1l6srj4/ginormosia_map_wip/"]');
+    expect(a).not.toBeNull();
+    expect(a.closest('p').textContent).toMatch(/annotations/i);
+  });
 });
 
 describe('url state', () => {

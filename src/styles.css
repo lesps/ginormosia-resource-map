@@ -270,3 +270,4 @@ mark { background: var(--hit); color: #1d2a24; border-radius: 4px; padding: 0 2p
 }
 .legal { font-size: .8rem; }
 .legal cite { font-style: italic; }
+.foot a { color: var(--accent); font-weight: 700; }
