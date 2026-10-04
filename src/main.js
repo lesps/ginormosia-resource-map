@@ -11,7 +11,7 @@ import { setupInstall } from './ui/install.js';
 import { toast } from './ui/toast.js';
 
 const { actions, applyHash } = mountApp(document.getElementById('app'), data, {
-  imageSrc: `${import.meta.env.BASE_URL}map-1600.webp`,
+  imageSrc: `${import.meta.env.BASE_URL}map.webp`,
   hash: location.hash,
   onHash: (h) => history.replaceState(null, '', h || location.pathname + location.search),
 });

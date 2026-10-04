@@ -11,7 +11,7 @@ npm ci
 npm test                       # tests/lib + tests/ui
 npm run build && npm run test:build   # tests/build runs against dist/
 npm run dev | npm run preview
-npm run assets                 # regenerate public/map-1600.webp + icons; commit the output
+npm run assets                 # regenerate public/map.webp + icons; commit the output
 BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 ```
 
@@ -21,7 +21,7 @@ BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 - `src/ui/`: DOM. `app.js` (`mountApp`, wires everything, keyboard shortcuts), `state.js` (store), `controls.js`, `map.js`, `panel.js`, `install.js`, `toast.js`, `dom.js` (`h()` helper).
 - `src/main.js`: entry point (fonts, CSS, SW registration, hash sync). It's untested by design; keep logic out of it.
 - `src/styles.css`: tokens and light/dark themes. Pin styling is in the "Pins" section.
-- `scripts/`: sharp scripts. `assets/`: source map (3200², not shipped) and `icon.svg`. `public/`: generated outputs. `reference/prototype.html`: behavior reference only.
+- `scripts/`: sharp scripts. `assets/`: source map `ginormosia-map.jpg` (1024×1012, not shipped; converted to `public/map.webp` at native size) and `icon.svg`. `public/`: generated outputs. `reference/prototype.html`: behavior reference only.
 - `tests/lib`, `tests/ui` (jsdom via `// @vitest-environment jsdom`), `tests/build` (separate config `vitest.build.config.js`).
 
 ## Rules
@@ -31,12 +31,11 @@ BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 
 ## Deviations from SPEC.md
 - Data `version` 2 adds a required `type` on every entry (sub-type filtering). `search`/`regionMatches`/`regionHasCategory` take an optional 4th `type` argument.
-- Zoom is 1×/2×/3×, not 1×/2×. The selected pin shows its name label (the spec said no labels; this is only for the selection, hover and focus).
-- Pins anchor their tip on the tower (the marker sits above it) rather than covering it.
+- The map image is a different, labelled 1024×1012 map (not the 3200² fan-annotated one). The frame's aspect ratio comes from `data.image`, and pins sit just above each region's number label.
+- Zoom is 1×/2×/3×, not 1×/2×. Pin markers draw smaller at 1× on narrow screens; the tap target stays 44×56.
 - Results lists are sorted lowest rank first instead of data order. Type chips follow `data.typeOrder` (the game's tiers; validated to match the types in use exactly).
 - Additions not in the spec: idle region list, sticky toolbar, URL-hash state, keyboard shortcuts, install button/iOS help, offline badge.
 
 ## Known data caveats
-- West/East Greatgut labels on the image look swapped; pins follow guides (`wgg` left x≈0.418, `egg` right x≈0.606). Don't edit the image.
 - Hot Spring Bream rank disputed (`"1 or 5"`). Great Darkwood Tree vs Shroomhaven "Great Darkness Tree" unconfirmed (typed separately). `"-"` = spawns, rank unknown. Common fish, herbs and ground pickups aren't covered.
 - `type` groupings are this project's own grouping, not the game's. `typeOrder` positions for Haniwa Stone, Fossil, Red Ore, Pear, Fruit Tree and Eel are unverified guesses.

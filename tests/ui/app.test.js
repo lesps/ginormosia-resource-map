@@ -17,8 +17,15 @@ describe('map', () => {
 
   it('positions pins by normalized coordinates', () => {
     const p = t.pin('Drakeseye Valley');
-    expect(p.style.left).toBe('8.4%');
-    expect(p.style.top).toBe('48.7%');
+    expect(p.style.left).toBe('15.9%');
+    expect(p.style.top).toBe('34.3%');
+  });
+
+  it('sizes the map from the data image dimensions', () => {
+    const img = t.$('.map-inner img');
+    expect(img.getAttribute('width')).toBe('1024');
+    expect(img.getAttribute('height')).toBe('1012');
+    expect(t.$('.map-scroll').style.aspectRatio).toBe('1024 / 1012');
   });
 
   it('shows a dot per category the region has', () => {
@@ -195,11 +202,8 @@ describe('footer', () => {
     expect(foot).toMatch(/not affiliated with or endorsed by LEVEL-5/);
   });
 
-  it('credits the fan map annotations with a link', () => {
-    const a = t.$('footer a[href="https://www.reddit.com/r/fantasylife/comments/1l6srj4/ginormosia_map_wip/"]');
-    expect(a).not.toBeNull();
-    expect(a.closest('p').textContent).toMatch(/annotations/i);
-    expect(a.closest('p').textContent).toContain('u/dzchan');
+  it('does not credit the old fan-annotated map', () => {
+    expect(t.$('footer').textContent).not.toMatch(/reddit|dzchan/i);
   });
 });
 

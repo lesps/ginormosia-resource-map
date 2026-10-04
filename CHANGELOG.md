@@ -5,6 +5,14 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Changed
+- New map image: a labelled 1024×1012 map replaces the fan-annotated one. It ships as `public/map.webp` at native size (90 KB, down from 335 KB). All 15 pins were re-placed just above each region's number, and the map frame now follows the image's aspect ratio from `data.image`.
+- Pin markers draw smaller at 1× on phone-width screens so map labels stay readable (the tap target is unchanged).
+
+### Removed
+- The selected pin's name tag; the new image labels every region.
+- The r/fantasylife fan-annotation credit, and the swapped West/East Greatgut caveat, which no longer applies.
+
+### Changed
 - Sub-type chips follow the game's tier order, set by a new `typeOrder` list in `data/regions.json` (validated against the types in use). Chip tooltips show the earliest rank.
 
 ### Added

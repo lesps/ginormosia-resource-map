@@ -6,7 +6,7 @@ Live: `https://<user>.github.io/ginormosia-resource-map/` (once Pages is enabled
 
 ## Features
 
-- **Map with 15 pins**, one on each region's tower. Pins are red teardrop markers with a white outline and shadow so they stand out on the art. Each one carries colored dots for the categories found there (ore, trees, fish).
+- **Map with 15 pins**, one just above each region's numbered label. Pins are red teardrop markers with a white outline and shadow so they stand out on the art. Each one carries colored dots for the categories found there (ore, trees, fish). On phones the marker is drawn smaller at 1× so labels stay readable, while the tap target stays 44×56 px.
 - **Category and sub-type filters.** Pick Ore, Trees or Fish, then a type row appears (for example Gold, Platinum, Starcrystal; Oak, Cherry, Angeltree; Tuna, Lordfish). Type chips follow the game's tier order (Copper → Iron → Silver → Gold → Platinum…; Oak → Palm → Pine…), and each shows how many regions have it. Choosing a type turns matching pins gold with a count badge, dims the rest, and lists every spawn, lowest rank first.
 - **Search** across all names (case-insensitive substring), combined with the active filters. Matches are highlighted.
 - **Region panel**: tap a pin, a result, or a name in the region list. Shows where the region is and its resources with the minimum Area Rank. Close with × or Esc.
@@ -14,7 +14,7 @@ Live: `https://<user>.github.io/ginormosia-resource-map/` (once Pages is enabled
 - **Shareable state**: the filter, type, search and selected region are kept in the URL hash (`#cat=ore&type=Platinum&r=moltana`).
 - **Keyboard**: `/` focuses search, Esc closes the region and then clears the search, Enter/Space selects a focused pin.
 - **Installable and offline**: an Install button (Android/desktop Chrome) or Add-to-Home-Screen steps (iOS). Once loaded, it works fully offline. An "Offline" badge shows when you lose your connection.
-- Light/dark themes, safe-area aware, self-hosted fonts, about 0.7 MB in total.
+- Light/dark themes, safe-area aware, self-hosted fonts, about 0.45 MB in total.
 
 ## Install on your phone
 
@@ -32,7 +32,7 @@ npm test             # unit + jsdom UI tests (Vitest)
 npm run build        # production build to dist/
 npm run test:build   # checks dist/: manifest, service worker precache, base path, size budget
 npm run preview      # serve dist/ locally
-npm run assets       # regenerate public/map-1600.webp and the icons (sharp)
+npm run assets       # regenerate public/map.webp and the icons (sharp)
 ```
 
 `npm run test:build` needs a fresh `npm run build` first. To check a sub-path build: `BASE_PATH=/ginormosia-resource-map/ npm run build && BASE_PATH=/ginormosia-resource-map/ npm run test:build`.
@@ -47,7 +47,7 @@ All resource data is in `data/regions.json`. A correction should only need a dat
 
 - `type` groups tiers of the same resource and drives the sub-type chips. Reuse an existing type where one fits.
 - `minRank` is a string: `"1"`–`"5"`, `"any"`, `"top"`, `"3+"`, `"-"` (rank not recorded) or `"1 or 5"` (disputed).
-- Pins use normalized coordinates (`0–1`, origin top-left) on the region's tower diamond.
+- Pins use normalized coordinates (`0–1`, origin top-left), placed just above the region's number on the map. `image.width`/`height` must match `assets/ginormosia-map.jpg`; the map frame takes its aspect ratio from them.
 
 - `typeOrder` lists each category's types in the game's tier order and sets the chip order. Every type used in the data must appear there exactly once, and nothing else. To fix a tier, move the name in the list.
 
@@ -57,7 +57,6 @@ All resource data is in `data/regions.json`. A correction should only need a dat
 
 These are deliberate; don't "fix" them by accident.
 
-- **Swapped labels:** the image's West/East Greatgut labels look swapped. Pins follow the guide descriptions: `wgg` is the left diamond (x≈0.418), `egg` the right (x≈0.606). The image is not edited.
 - **Hot Spring Bream** rank is disputed (`"1 or 5"`).
 - **Great Darkwood Tree:** whether it is Shroomhaven's "Great Darkness Tree" event is unconfirmed, so Shroomhaven's tree has its own `Darkness Tree` type and Great Darkwood Tree stays on the not-in-Ginormosia list.
 - **Rank `"-"` entries** (Starry Tree, Electric Eel, etc.) are known to spawn, but the rank isn't recorded.
@@ -69,7 +68,7 @@ These are deliberate; don't "fix" them by accident.
 
 `.github/workflows/deploy.yml` runs tests, builds with `BASE_PATH=/<repo-name>/`, checks the build and deploys to GitHub Pages on every push to `main`. To turn it on, go to Settings → Pages → Source: **GitHub Actions**.
 
-**Public repo means public art.** GitHub Pages on a free account needs a public repo. The map image is Level-5 game art with fan annotations, so publishing the site redistributes it. That's the owner's call.
+**Public repo means public art.** GitHub Pages on a free account needs a public repo. The map image is Level-5 game art, so publishing the site redistributes it. That's the owner's call.
 
 **Private-repo fallback:** build and serve on your local network, then install from the phone:
 
@@ -82,7 +81,5 @@ Open `http://<your-computer-ip>:3000` on the phone. Note that service workers (a
 ## Credits
 
 Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant.
-
-Map labels and tower markers: fan annotations by u/dzchan, from [“Ginormosia map WIP” on r/fantasylife](https://www.reddit.com/r/fantasylife/comments/1l6srj4/ginormosia_map_wip/).
 
 *Fantasy Life i: The Girl Who Steals Time* and the map artwork © LEVEL-5 Inc. Fan-made, unofficial and not affiliated with or endorsed by LEVEL-5. The app icon is original artwork.
