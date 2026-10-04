@@ -5,6 +5,10 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- Round-2 research merged: real locations for 17 entries (e.g. Drakeseye and Crickneck Oak, the Fangshore Sugar Tree ring, Godfish and Poseidon Swordfish east of Wyrm Maw Cave, Tunoco Quetzal and Forest Lordfish by the Monkey Village), and Gamer Guides node coordinates kept as `ggXY`.
+- `spawnType` on 112 of 202 entries (overworld, tier roll, roaming, legendary, area challenge, fixed boss), so How to find now says how a spawn appears instead of "the exact spot isn't recorded". `shadow` (big/small) on 19 fish entries, shown as a checklist step.
+- New entries, marked unconfirmed: Palm Tree in 5 regions, Palm Fruit Tree in 4, Cherry and Starry Tree in Shroomhaven, Great Starry Tree in Fangshore (challenge), and Rainbow Flying Fish in South Greatgut (disputed). New landmarks for Fangshore and Shroomhaven.
+- Official English names for 6 drops (Fire/Earth Mana and Shard, Good Mysteria Masonry, Sack of Gold), plus better translations for Sack of Silver and Cherry Lordfish Moss.
 - "How to find" checklist in each detail card: rank and tower, location, and the spawn rules that apply (crowns, legendary rolls, events, night/day, cave respawns, tier rolls, level), from `src/lib/find.js`.
 - Pins now sit on each region's tower. Positions came from the tower diamonds in an in-game map screenshot, mapped onto the current image by fitting the two coastlines (pins moved 31–87 px).
 - Resource detail cards: rows expand to show where, conditions, drops, note, reliability, sources and the Japanese name. Rows carry badges (gold/silver crown, legendary, event, night, day, cave, level, unconfirmed/disputed) and a one-line location. Search results open the exact card, and the open card is kept in the URL (`e=`).
@@ -16,6 +20,9 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - Credit and link for the fan map annotations by u/dzchan (r/fantasylife “Ginormosia map WIP”).
 
 ### Changed
+- Round-2 rank changes: Amazing Gold (Drakeseye) 5 → 4; Superior Gold (Drakesnout) 3 → 2; Amazing Blue (Pettlewing) 4 → 5; Great Iron (Shroomhaven) 3 → 2; Darkwood (Shroomhaven) 3 → 4; Great Starry (Wingtip) 1 → 3; Dunefin Tuna (West Dryridge) 1 → 3; Electric Eel 1 → 3; Hot Spring Bream resolved to R1; Coldwater Tuna disputed (1 or 5).
+- Confirmed by new sources: East Dryridge copper, Drakeseye Amazing Gold, Shroomhaven blue/iron ore and Darkwood, Fangshore Silver and Superior Marine Ore, Crystalline Bass, Iron Golems, Godfish and Poseidon Swordfish. Marked disputed: Drakesnout Amazing Gold, Fangshore Great Silver and Amazing Marine Ore, West Dryridge Great Haniwa, Rainbow Flying Fish.
+- Great Darkness Tree is now a Darkwood tier roll at R4 (was an event). Tree tier order follows Gamer Guides' rarity field.
 - Detail cards no longer show Reliability or the Japanese name; Where and Conditions are folded into the How to find checklist. The unconfirmed/disputed row badges stay, and Japanese names still match in search.
 - Corrections from the guide: Rainbow Flying Fish moved from West Dryridge/South Greatgut to East Dryridge; Coldwater Tuna any → R5; Great Dragontree top → R5; Poseidon Swordfish top → R5; Starry/Great Starry Tree and Electric Eel ranks recorded (R1); Legendary Shiny Geode and Rocket Fish 3 → 3+; Crops any → R1. Viridia's Magic Ore Deposit is now Great Magic Ore Deposit, and King Woolie moved from Other to Bosses.
 - New entries include Sand Fish, Cactus Fish, Skeleton Fish, Sneakfish, Crystalline Bass (disputed), Blackgill, Sneaky Tuna, Evil Carp, Faraway Sweetfish, Lulab Trout, Redgill, Lavashrimp, Godfish, Gold in Moltana Wastes, Superior Gold in Drakesnout, Legendary King Spud in four plains regions, and the Pickaxe/Axe of Time recipes.

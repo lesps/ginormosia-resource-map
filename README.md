@@ -55,10 +55,13 @@ All resource data is in `data/regions.json`. A correction should only need a dat
 Only `name`, `type` and `minRank` are required. Categories are `ore`, `trees`, `fish`, `boss` and `other`. Entry names must be unique within a region, because they form the deep-link key.
 
 - `type` groups tiers of the same resource and drives the sub-type chips. Reuse an existing type where one fits.
-- `minRank` is a string: `"1"`–`"6"`, `"any"`, `"top"`, `"3+"`, `"-"` (rank not recorded) or `"1 or 5"` (disputed).
+- `minRank` is a string: `"1"`–`"6"`, `"any"`, `"top"`, `"3+"`, `"-"` (rank not recorded) or `"1 or 5"` (sources disagree; currently Coldwater Tuna).
 - Pins use normalized coordinates (`0–1`, origin top-left), placed on the region's tower. They were measured by detecting the tower diamonds in an in-game map screenshot and fitting the screenshot's coastline onto this image (about 1% of the map width of uncertainty). `image.width`/`height` must match `assets/ginormosia-map.jpg`; the map frame takes its aspect ratio from them.
 
 - `tags` come from a fixed set: `gold-crown`, `silver-crown`, `legendary`, `event`, `night`, `day`, `cave`. `confidence` is `confirmed`, `single-source` or `disputed`, and every key in `sources` must exist in the top-level `sources` map.
+- `spawnType` (optional) describes how a spawn without a recorded spot appears: `overworld`, `tier-roll`, `roaming`, `legendary-event`, `area-challenge` or `fixed-boss`. The How to find checklist turns it into a sentence; a recorded `where` always wins.
+- `shadow` (fish only, optional) is `big` or `small`, the fish-shadow size to cast at.
+- `ggXY` (optional) holds Gamer Guides map coordinates for individual nodes, kept for future per-node pins; the app doesn't use them yet.
 - `drops[].official` is `true` only when the English name is confirmed. Translated names are `false`, keep the original in `ja`, and show with a ≈ mark in the app. Drops from silver-crown monster groups carry `from` (the monster) and optionally `when` (`night`/`day`).
 - Regions also carry `nameJa`, `tower`, `landmarks` and `summary`. Top-level `mechanics` feeds the "How spawns work" box.
 - `typeOrder` lists each category's types in the game's tier order and sets the chip order. Every type used in the data must appear there exactly once, and nothing else. To fix a tier, move the name in the list.
@@ -69,14 +72,15 @@ Only `name`, `type` and `minRank` are required. Categories are `ore`, `trees`, `
 
 These are deliberate; don't "fix" them by accident.
 
-- **Hot Spring Bream** rank is disputed (`"1 or 5"`).
-- **Great Darkwood Tree:** whether it is Shroomhaven's "Great Darkness Tree" event is unconfirmed, so Shroomhaven's tree has its own `Darkness Tree` type and Great Darkwood Tree stays on the not-in-Ginormosia list.
+- **Coldwater Tuna** rank is disputed (`"1 or 5"`): Japanese sources say Rank 1, Gamer Guides says Rank 5+.
+- **Rainbow Flying Fish** is listed in both East Dryridge and South Greatgut, marked disputed: sources split 2–2.
+- **Great Darkwood Tree:** Japanese sources list it in Shroomhaven from Rank 4 as a regular Darkwood tier, so Shroomhaven's "Great Darkness Tree" is now typed as Darkwood at R4. It stays on the not-in-Ginormosia list with a note, until checked in game.
 - **Rank `"-"` entries** (Starry Tree, Electric Eel, etc.) are known to spawn, but the rank isn't recorded.
 - **Not covered:** common fish, herbs and ground pickups.
 - **Data v3 provenance:** details, bosses and corrections come from a region-by-region guide compiled on 2026-10-04 from Gamer Guides, the FAQ & Data Project and Japanese sources (GameWith, Game8, kokorogu, wikiwiki). Entries found only in the earlier dataset (mostly coastal Tuna and Flying Fish) are kept, marked unconfirmed, with source `earlier`.
 - **Translated names:** Japanese drop and monster names were translated for this app. 96 drop names have no confirmed English name (`official: false`) and may not match the English release.
 - **Per-node pins** aren't available yet. Tower positions on the current image are now known (the region pins), but the towers' coordinates on Gamer Guides' interactive map still need measuring before node coordinates can be converted.
-- **Tier order** (`typeOrder`) comes from published mining and woodcutting levels (Copper Lv 2, Iron 18, Blue Ore ~20, Silver ~23, Marine Ore ~25, Gold ~30, Platinum ~43; Oak 2–3, Palm 9–10, Pine 15, Sugar/Desert ~22–30, Skytree ~35, Darkwood ~50) and fish star ratings. No level was found for Haniwa Stone, Fossil, Red Ore, Pear, Fruit Tree or Eel, so those positions are best guesses. Boss, legendary and event types go last.
+- **Tier order** (`typeOrder`) comes from published mining and woodcutting levels (Copper Lv 2, Iron 18, Blue Ore ~20, Silver ~23, Marine Ore ~25, Gold ~30, Platinum ~43; Oak 2–3, Palm 9–10, Pine 15, Sugar/Desert ~22–30, Skytree ~35, Darkwood ~50) and fish star ratings. Boss, legendary and event types go last. Tree tiers follow Gamer Guides' rarity field (Oak/Palm/Desert 1, Apple/Pine/Palm Fruit 2, Cherry/Sugar/Pear 3, Starry/Cherry Fruit 4, Darkwood 5). Red Ore is rarity 4, like Gold and Platinum. Haniwa Stone, Fossil, Eel and Sand Fish still have no published tier.
 - **Type groupings** (`type` field) were added for filtering and are this project's own grouping, not the game's. Boss types (Silver-crown, Field boss, Dungeon, Challenge, Legendary) were derived from each boss's conditions and location. New fish types (Sand Fish, Skeleton Fish, Evil Carp, Crystalline Bass, Godfish) have guessed tier positions. `Cherry Fruit Tree` and `Palm Fruit Tree` are grouped as `Fruit Tree`, separate from lumber `Cherry`/`Palm`. `Eruptuna` is grouped under `Tuna`.
 
 ## Hosting

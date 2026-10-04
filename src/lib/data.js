@@ -3,6 +3,7 @@ import { RANKS } from './rank.js';
 export const CATEGORIES = ['ore', 'trees', 'fish', 'boss', 'other'];
 export const TAGS = ['gold-crown', 'silver-crown', 'legendary', 'event', 'night', 'day', 'cave'];
 export const CONFIDENCE = ['confirmed', 'single-source', 'disputed'];
+export const SPAWN_TYPES = ['overworld', 'tier-roll', 'roaming', 'legendary-event', 'area-challenge', 'fixed-boss'];
 
 export function validateRegions(data) {
   for (const k of ['width', 'height']) {
@@ -28,7 +29,7 @@ export function validateRegions(data) {
           throw new Error(`Region "${r.id}": "${e.name}" is missing a type`);
         if (typeof e.minRank !== 'string' || !RANKS.includes(e.minRank))
           throw new Error(`Region "${r.id}": "${e.name}" has invalid minRank "${e.minRank}"`);
-        validateDetails(data, r, e);
+        validateDetails(data, r, e, cat);
         if (names.has(e.name)) throw new Error(`Region "${r.id}": duplicate entry "${e.name}"`);
         names.add(e.name);
       });
@@ -44,8 +45,10 @@ export function validateRegions(data) {
   return data;
 }
 
-function validateDetails(data, r, e) {
+function validateDetails(data, r, e, cat) {
   const where = `Region "${r.id}": "${e.name}"`;
+  if (e.spawnType !== undefined && !SPAWN_TYPES.includes(e.spawnType)) throw new Error(`${where} has unknown spawnType "${e.spawnType}"`);
+  if (e.shadow !== undefined && (cat !== 'fish' || !['big', 'small'].includes(e.shadow))) throw new Error(`${where} has invalid shadow "${e.shadow}" (fish only: big or small)`);
   if (e.confidence !== undefined && !CONFIDENCE.includes(e.confidence)) throw new Error(`${where} has invalid confidence "${e.confidence}"`);
   for (const src of e.sources ?? []) if (!data.sources?.[src]) throw new Error(`${where} cites undefined source "${src}"`);
   for (const t of e.tags ?? []) if (!TAGS.includes(t)) throw new Error(`${where} has unknown tag "${t}"`);

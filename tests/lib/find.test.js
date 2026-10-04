@@ -15,10 +15,11 @@ describe('howToFind', () => {
     expect(s).toContain('Recommended level 60+');
   });
 
-  it('says when a spawn is available from the start and the spot is not recorded', () => {
+  it('says when a spawn is available from the start, and when a spot is not recorded', () => {
     const s = steps('wdd', 'Palm Tree');
     expect(s).toMatch(/Area Rank 1/);
-    expect(s).toMatch(/exact spot isn’t recorded/i);
+    expect(s).toMatch(/Common across West Dryridge Desert/);
+    expect(howToFind({ name: 'X', minRank: '1' }, region('wdd'), 'trees').join('\n')).toMatch(/exact spot isn’t recorded/i);
   });
 
   it('explains legendary challenges', () => {
@@ -39,12 +40,13 @@ describe('howToFind', () => {
   });
 
   it('explains random tier rolls for higher-tier nodes', () => {
-    expect(steps('wdd', 'Great Desert Tree')).toMatch(/roll at random/);
+    expect(steps('wdd', 'Great Desert Tree')).toMatch(/Rolls on West Dryridge Desert’s regular spots/);
+    expect(howToFind({ name: 'Great Oak Tree', minRank: '3' }, region('wdd'), 'trees').join('\n')).toMatch(/roll at random/);
     expect(steps('wdd', 'Desert Tree')).not.toMatch(/roll at random/);
   });
 
   it('handles disputed and unrecorded ranks', () => {
-    expect(steps('scorchrock', 'Hot Spring Bream')).toMatch(/sources disagree/i);
+    expect(steps('drakesnout', 'Coldwater Tuna')).toMatch(/sources disagree/i);
     expect(steps('viridia', 'Golemstone')).toMatch(/rank isn’t recorded/i);
   });
 
@@ -56,7 +58,7 @@ describe('howToFind', () => {
     expect(steps('wgg', 'King Woolie')).not.toMatch(/Only appears during/);
     expect(steps('wgg', 'King Woolie')).toMatch(/Also via 'Head of the Flock'/);
     expect(steps('shroomhaven', 'Great Skytree')).not.toMatch(/Only appears during/);
-    expect(steps('shroomhaven', 'Great Darkness Tree')).toMatch(/Only appears during an event/);
+    expect(steps('wingtip', 'Oak / Great Oak Tree')).toMatch(/Only appears during the 'Watch Out for Fakes' event/);
   });
 
   it('merges a level note instead of repeating it', () => {
@@ -66,6 +68,38 @@ describe('howToFind', () => {
   });
 
   it('uses a plain apostrophe for names ending in s', () => {
-    expect(steps('fangshore', 'Godfish')).toContain('Fangshore Isles’ waters');
+    expect(howToFind({ name: 'X', minRank: '1' }, region('fangshore'), 'fish').join('\n')).toContain('Fangshore Isles’ waters');
+  });
+});
+
+describe('howToFind with spawn types and shadows', () => {
+  const r = { id: 'x', name: 'Test Isles', tower: "Test's Tower" };
+  const s = (e, cat = 'ore') => howToFind({ minRank: '1', ...e }, r, cat).join('\n');
+
+  it('describes common overworld spawns', () => {
+    expect(s({ name: 'Oak Tree', spawnType: 'overworld' }, 'trees')).toMatch(/Common across Test Isles/);
+    expect(s({ name: 'Tuna', spawnType: 'overworld' }, 'fish')).toMatch(/sea fishing spots along Test Isles’ coast/);
+  });
+
+  it('describes tier rolls without repeating the tier tip', () => {
+    const t = s({ name: 'Great Oak Tree', spawnType: 'tier-roll' }, 'trees');
+    expect(t).toMatch(/Rolls on Test Isles’ regular spots/);
+    expect(t.match(/roll/gi).length).toBeLessThanOrEqual(2);
+  });
+
+  it('describes roaming, legendary, challenge and fixed-boss spawns', () => {
+    expect(s({ name: 'Iron Golem', spawnType: 'roaming' }, 'boss')).toMatch(/Roams the overworld/);
+    expect(s({ name: 'Legendary God Tree', spawnType: 'legendary-event', tags: ['legendary'] }, 'trees')).toMatch(/marked on the map while active/);
+    expect(s({ name: 'Giant Ancient Fossil', spawnType: 'area-challenge' })).toMatch(/only during the challenge/);
+    expect(s({ name: 'Stone Golem', spawnType: 'fixed-boss' }, 'boss')).toMatch(/shows on the in-game map/);
+  });
+
+  it('prefers a recorded spot over the spawn type', () => {
+    expect(s({ name: 'Oak Tree', spawnType: 'overworld', where: 'Around the town' }, 'trees')).toContain('Go to: Around the town.');
+  });
+
+  it('adds shadow size for fish', () => {
+    expect(s({ name: 'Tuna', shadow: 'big' }, 'fish')).toMatch(/big fish shadows/);
+    expect(s({ name: 'Flying Fish', shadow: 'small' }, 'fish')).toMatch(/small fish shadows/);
   });
 });

@@ -30,6 +30,25 @@ function splitConditions(text = '') {
   return { event, extras };
 }
 
+function spawnStep(type, region, possessive, category) {
+  switch (type) {
+    case 'overworld':
+      return category === 'fish' ? `Common catch at sea fishing spots along ${possessive} coast.` : `Common across ${region.name}; any regular spot will do.`;
+    case 'tier-roll':
+      return `Rolls on ${possessive} regular spots; there’s no dedicated spot, and a higher Area Rank raises the odds.`;
+    case 'roaming':
+      return `Roams the overworld in ${region.name}.`;
+    case 'legendary-event':
+      return `Appears somewhere in ${region.name} and is marked on the map while active.`;
+    case 'area-challenge':
+      return 'Appears only during the challenge and is marked on the map while active.';
+    case 'fixed-boss':
+      return 'Fixed spawn point. The exact spot isn’t recorded, but it shows on the in-game map with a respawn timer once you’re nearby.';
+    default:
+      return `The exact spot isn’t recorded; look around ${category === 'fish' ? `${possessive} waters` : region.name}.`;
+  }
+}
+
 export function howToFind(entry, region, category) {
   const tags = entry.tags ?? [];
   const { event, extras } = splitConditions(entry.conditions);
@@ -37,9 +56,8 @@ export function howToFind(entry, region, category) {
   const steps = [rankStep(entry.minRank, region)];
 
   const possessive = region.name.endsWith('s') ? `${region.name}’` : `${region.name}’s`;
-  steps.push(entry.where
-    ? end(`Go to: ${entry.where}`)
-    : `The exact spot isn’t recorded; look around ${category === 'fish' ? `${possessive} waters` : region.name}.`);
+  steps.push(entry.where ? end(`Go to: ${entry.where}`) : spawnStep(entry.spawnType, region, possessive, category));
+  if (entry.shadow) steps.push(`Fish at ${entry.shadow} fish shadows.`);
 
   if (tags.includes('gold-crown')) steps.push(`Gold-crown: appears from Area Rank 5 and respawns 5 minutes after you ${verb}.`);
   if (tags.includes('silver-crown')) steps.push('Silver-crown: no cooldown. Change any tower’s Area Rank or use the Anywhere Gate to respawn it instantly.');
@@ -51,7 +69,7 @@ export function howToFind(entry, region, category) {
   if (tags.includes('night')) steps.push('Go at night.');
   if (tags.includes('day')) steps.push('Go during the day.');
   if (tags.includes('cave') && (category === 'ore' || category === 'trees') && !/re-enter/.test(entry.where ?? '')) steps.push('Cave nodes respawn when you leave and re-enter the cave.');
-  if ((category === 'ore' || category === 'trees') && /^(Great|Superior|Amazing) /.test(entry.name) && !tags.includes('gold-crown')) {
+  if ((category === 'ore' || category === 'trees') && /^(Great|Superior|Amazing) /.test(entry.name) && !tags.includes('gold-crown') && entry.spawnType !== 'tier-roll') {
     steps.push('Great, Superior and Amazing tiers roll at random on regular spots; a higher Area Rank raises the odds.');
   }
   const evenAtR1 = extras.findIndex((x) => /^Lv\d+\+? even at Rank 1$/.test(x));
