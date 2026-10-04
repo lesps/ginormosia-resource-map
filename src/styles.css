@@ -143,43 +143,37 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 .map-inner { position: relative; width: 100%; }
 .map-inner img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 
-/* Pins: the button is the 44×56 hit target; its bottom-centre is the tower. */
+/* Pins: the button is the 44×56 hit target; its bottom-centre is the anchor point.
+   --head sizes only the visible marker, so the tap target never shrinks. */
 .pin {
-  --s: 1;
+  --s: 1; --head: 32px;
   position: absolute; width: 44px; height: 56px; padding: 0; border: 0; background: none; cursor: pointer;
   transform: translate(-50%, -100%) scale(var(--s)); transform-origin: 50% 100%;
   transition: transform .15s ease, opacity .2s ease, filter .2s ease;
   z-index: 1;
 }
+@media (max-width: 600px) { .map-inner[data-zoom='1'] .pin { --head: 24px; } }
 .pin .head {
-  position: absolute; left: 50%; bottom: 7px; width: 32px; height: 32px; margin-left: -16px;
+  position: absolute; left: 50%; bottom: calc(var(--head) * .21); width: var(--head); height: var(--head); margin-left: calc(var(--head) / -2);
   border-radius: 50% 50% 50% 0; rotate: -45deg;
-  background: var(--pin); border: 3px solid #fff;
+  background: var(--pin); border: calc(var(--head) * .09) solid #fff;
   box-shadow: -1px 3px 6px rgba(0, 0, 0, .45);
   display: grid; place-items: center;
   transition: background-color .2s ease;
 }
 .pin .dots {
-  rotate: 45deg; width: 18px; height: 18px; border-radius: 50%; background: #fff;
+  rotate: 45deg; width: calc(var(--head) * .56); height: calc(var(--head) * .56); border-radius: 50%; background: #fff;
   display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 1px;
 }
-.pin .dots .dot { width: 6px; height: 6px; }
+.pin .dots .dot { width: calc(var(--head) * .19); height: calc(var(--head) * .19); }
 .pin .dots .dot[data-cat='ore'] { background: #5a6888; }
 .pin .dots .dot[data-cat='trees'] { background: #3f8a46; }
 .pin .dots .dot[data-cat='fish'] { background: #2b7cc0; }
 .pin .count {
-  display: none; position: absolute; top: 0; right: -4px; min-width: 22px; height: 22px; padding: 0 5px;
+  display: none; position: absolute; top: calc(56px - var(--head) * 1.6); right: -4px; min-width: 22px; height: 22px; padding: 0 5px;
   border-radius: 11px; background: #1d2a24; color: #fff; border: 2px solid #fff;
   font: 700 12px/18px var(--font-body); text-align: center;
 }
-.pin .label {
-  display: none; position: absolute; top: calc(100% + 4px); left: 50%; translate: -50% 0;
-  padding: 3px 10px; border-radius: 999px; white-space: nowrap;
-  background: #1d2a24; color: #fff; font: 700 13px/1.4 var(--font-body);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .35); pointer-events: none;
-}
-.pin[data-edge='l'] .label { left: 0; translate: 0 0; }
-.pin[data-edge='r'] .label { left: auto; right: 0; translate: 0 0; }
 .pin::after {
   content: ''; position: absolute; left: 50%; bottom: 0; width: 16px; height: 16px; margin: 0 0 -8px -8px;
   border-radius: 50%; border: 3px solid var(--hit); opacity: 0; pointer-events: none;
@@ -195,8 +189,6 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 .pin.dim { opacity: .22; --s: .85; filter: grayscale(.7); }
 .pin.sel { --s: 1.25; z-index: 5; opacity: 1; filter: none; }
 .pin.sel .head { box-shadow: 0 0 0 4px var(--hit), -1px 3px 8px rgba(0, 0, 0, .5); }
-.pin.sel .label, .pin:hover .label, .pin:focus-visible .label { display: block; }
-.pin.sel .label { background: var(--hit); color: #1d2a24; }
 @keyframes ping { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
 
 /* Panel */

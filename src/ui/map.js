@@ -3,16 +3,15 @@ import { regionHasCategory, search } from '../lib/search.js';
 
 export const ZOOMS = [1, 2, 3];
 
-export function createMap(store, regions, { imageSrc, imageAlt }) {
+export function createMap(store, regions, { imageSrc, imageAlt, width, height }) {
   const pins = new Map();
   const inner = h('div', { class: 'map-inner' },
-    h('img', { src: imageSrc, alt: imageAlt, width: 1600, height: 1600, decoding: 'async', draggable: 'false' }));
+    h('img', { src: imageSrc, alt: imageAlt, width, height, decoding: 'async', draggable: 'false' }));
 
   for (const r of regions) {
     const select = () => store.set({ selectedId: r.id, fromResults: false });
     const pin = h('button', {
-      class: 'pin', type: 'button', 'aria-label': r.name, 'aria-pressed': 'false',
-      dataset: { id: r.id, edge: r.pin.x < 0.15 ? 'l' : r.pin.x > 0.85 ? 'r' : null },
+      class: 'pin', type: 'button', 'aria-label': r.name, 'aria-pressed': 'false', dataset: { id: r.id },
       style: `left:${+(r.pin.x * 100).toFixed(3)}%;top:${+(r.pin.y * 100).toFixed(3)}%`,
       onclick: select,
       onkeydown: (e) => {
@@ -22,13 +21,12 @@ export function createMap(store, regions, { imageSrc, imageAlt }) {
       h('span', { class: 'head', 'aria-hidden': 'true' },
         h('span', { class: 'dots' }, PIN_CATS.filter((c) => r[c].length).map((c) => h('span', { class: 'dot', dataset: { cat: c } })))),
       h('span', { class: 'count', 'aria-hidden': 'true' }),
-      h('span', { class: 'label', 'aria-hidden': 'true' }, r.name),
     );
     pins.set(r.id, pin);
     inner.append(pin);
   }
 
-  const scroller = h('div', { class: 'map-scroll', tabindex: '-1' }, inner);
+  const scroller = h('div', { class: 'map-scroll', tabindex: '-1', style: `aspect-ratio: ${width} / ${height}` }, inner);
   const zoomBtns = ZOOMS.map((z) => h('button', { type: 'button', onclick: () => store.set({ zoom: z }) }, `${z}×`));
   const el = h('section', { class: 'mapcard', 'aria-label': 'Map' },
     h('div', { class: 'mapbar' },
@@ -61,6 +59,7 @@ export function createMap(store, regions, { imageSrc, imageAlt }) {
       if (hit) pin.setAttribute('aria-description', `${n} match${n === 1 ? '' : 'es'}`);
       else pin.removeAttribute('aria-description');
     }
+    inner.dataset.zoom = String(s.zoom);
     zoomBtns.forEach((b, i) => b.setAttribute('aria-pressed', String(ZOOMS[i] === s.zoom)));
 
     if (prev && prev.zoom !== s.zoom) {

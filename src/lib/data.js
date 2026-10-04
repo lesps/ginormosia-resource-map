@@ -3,6 +3,10 @@ import { RANKS } from './rank.js';
 export const CATEGORIES = ['ore', 'trees', 'fish', 'other'];
 
 export function validateRegions(data) {
+  for (const k of ['width', 'height']) {
+    const v = data.image?.[k];
+    if (typeof v !== 'number' || v <= 0) throw new Error(`image.${k} must be a positive number, got ${JSON.stringify(v)}`);
+  }
   const seen = new Set();
   for (const r of data.regions) {
     if (seen.has(r.id)) throw new Error(`Duplicate region id "${r.id}"`);

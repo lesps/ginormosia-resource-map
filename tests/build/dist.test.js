@@ -19,9 +19,9 @@ describe('dist/', () => {
     expect(bytes).toBeLessThan(1.5 * 1024 * 1024);
   });
 
-  it('ships the 1600px map and not the 3200px source', () => {
-    expect(existsSync(join(dist, 'map-1600.webp'))).toBe(true);
-    expect(walk(dist).some((f) => f.endsWith('ginormosia-map.webp'))).toBe(false);
+  it('ships the webp map and not the source jpg', () => {
+    expect(existsSync(join(dist, 'map.webp'))).toBe(true);
+    expect(walk(dist).some((f) => /ginormosia-map\.(jpg|webp)$/.test(f))).toBe(false);
   });
 });
 
@@ -51,7 +51,7 @@ describe('service worker', () => {
   const mainJs = readdirSync(join(dist, 'assets')).find((f) => /^index-.*\.js$/.test(f));
 
   it('exists and precaches the map, the main bundle and the shell', () => {
-    expect(sw).toContain('"map-1600.webp"');
+    expect(sw).toContain('"map.webp"');
     expect(mainJs).toBeTruthy();
     expect(sw).toContain(`"assets/${mainJs}"`);
     expect(sw).toContain('"index.html"');

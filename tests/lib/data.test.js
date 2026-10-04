@@ -83,6 +83,12 @@ describe('validateRegions', () => {
     expect(() => validateRegions(d)).toThrow(/typeOrder\.fish.*"Kraken"/);
   });
 
+  it.each([['width', 0], ['height', 'x']])('rejects image %s = %s', (k, v) => {
+    const d = clone();
+    d.image[k] = v;
+    expect(() => validateRegions(d)).toThrow(new RegExp(`image\\.${k}`));
+  });
+
   it('returns the data object from loadRegions', () => {
     const d = clone();
     expect(loadRegions(d)).toBe(d);
