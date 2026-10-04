@@ -74,10 +74,27 @@ describe('regionMatches', () => {
 });
 
 describe('typesFor', () => {
-  it('lists types alphabetically with region counts', () => {
-    const t = typesFor(regions, 'ore');
-    expect(t.map((x) => x.type)).toEqual([...t.map((x) => x.type)].sort((a, b) => a.localeCompare(b)));
-    expect(t.find((x) => x.type === 'Platinum')).toEqual({ type: 'Platinum', regions: 3 });
+  const order = raw.typeOrder;
+
+  it('reports region count and earliest rank per type', () => {
+    expect(typesFor(regions, 'ore', order.ore).find((x) => x.type === 'Platinum')).toEqual({ type: 'Platinum', regions: 3, minRank: '1' });
   });
+
+  it.each(['ore', 'trees', 'fish'])('follows the game tier order in typeOrder.%s', (cat) => {
+    const t = typesFor(regions, cat, order[cat]).map((x) => x.type);
+    expect(t).toEqual(order[cat]);
+  });
+
+  it('puts copper before iron before silver before gold before platinum', () => {
+    const ore = typesFor(regions, 'ore', order.ore).map((x) => x.type);
+    const idx = ['Copper', 'Iron', 'Silver', 'Gold', 'Platinum'].map((t) => ore.indexOf(t));
+    expect(idx).toEqual([...idx].sort((a, b) => a - b));
+  });
+
+  it('falls back to alphabetical without an order', () => {
+    const t = typesFor(regions, 'fish').map((x) => x.type);
+    expect(t).toEqual([...t].sort((a, b) => a.localeCompare(b)));
+  });
+
   it('is empty for "all"', () => expect(typesFor(regions, 'all')).toEqual([]));
 });

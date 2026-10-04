@@ -71,6 +71,18 @@ describe('validateRegions', () => {
     expect(() => validateRegions(d)).toThrow(/drakeseye.*Oak Tree.*type/);
   });
 
+  it('rejects a type missing from typeOrder', () => {
+    const d = clone();
+    d.typeOrder.ore = d.typeOrder.ore.filter((t) => t !== 'Platinum');
+    expect(() => validateRegions(d)).toThrow(/typeOrder\.ore.*"Platinum"/);
+  });
+
+  it('rejects a typeOrder entry no data uses', () => {
+    const d = clone();
+    d.typeOrder.fish.push('Kraken');
+    expect(() => validateRegions(d)).toThrow(/typeOrder\.fish.*"Kraken"/);
+  });
+
   it('returns the data object from loadRegions', () => {
     const d = clone();
     expect(loadRegions(d)).toBe(d);

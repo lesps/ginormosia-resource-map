@@ -1,3 +1,5 @@
+import { rankOrder } from './rank.js';
+
 const SEARCHABLE = { all: ['ore', 'trees', 'fish', 'other'], ore: ['ore'], trees: ['trees'], fish: ['fish'] };
 
 const cats = (category) => SEARCHABLE[category] ?? [category];
@@ -23,9 +25,22 @@ export function regionHasCategory(region, category, type = null) {
 export const regionMatches = (region, query, category, type = null) =>
   search([region], query, category, type).length > 0;
 
-export function typesFor(regions, category) {
+// Ordered by `order` (the game's tiers, from data.typeOrder); alphabetical without one.
+export function typesFor(regions, category, order = []) {
   if (category === 'all') return [];
-  const counts = new Map();
-  for (const r of regions) for (const t of new Set((r[category] ?? []).map((e) => e.type))) counts.set(t, (counts.get(t) ?? 0) + 1);
-  return [...counts].map(([type, n]) => ({ type, regions: n })).sort((a, b) => a.type.localeCompare(b.type));
+  const byType = new Map();
+  for (const r of regions) {
+    for (const e of r[category] ?? []) {
+      const t = byType.get(e.type) ?? { type: e.type, ids: new Set(), minRank: e.minRank };
+      t.ids.add(r.id);
+      if (rankOrder(e.minRank) < rankOrder(t.minRank)) t.minRank = e.minRank;
+      byType.set(e.type, t);
+    }
+  }
+  return [...byType.values()]
+    .map(({ type, ids, minRank }) => ({ type, regions: ids.size, minRank }))
+    .sort((a, b) => {
+      const ia = order.indexOf(a.type), ib = order.indexOf(b.type);
+      return (ia < 0) - (ib < 0) || ia - ib || a.type.localeCompare(b.type);
+    });
 }

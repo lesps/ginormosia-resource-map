@@ -33,10 +33,10 @@ BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 - Data `version` 2 adds a required `type` on every entry (sub-type filtering). `search`/`regionMatches`/`regionHasCategory` take an optional 4th `type` argument.
 - Zoom is 1×/2×/3×, not 1×/2×. The selected pin shows its name label (the spec said no labels; this is only for the selection, hover and focus).
 - Pins anchor their tip on the tower (the marker sits above it) rather than covering it.
-- Results lists are sorted lowest rank first instead of data order.
+- Results lists are sorted lowest rank first instead of data order. Type chips follow `data.typeOrder` (the game's tiers; validated to match the types in use exactly).
 - Additions not in the spec: idle region list, sticky toolbar, URL-hash state, keyboard shortcuts, install button/iOS help, offline badge.
 
 ## Known data caveats
 - West/East Greatgut labels on the image look swapped; pins follow guides (`wgg` left x≈0.418, `egg` right x≈0.606). Don't edit the image.
 - Hot Spring Bream rank disputed (`"1 or 5"`). Great Darkwood Tree vs Shroomhaven "Great Darkness Tree" unconfirmed (typed separately). `"-"` = spawns, rank unknown. Common fish, herbs and ground pickups aren't covered.
-- `type` groupings are this project's own grouping, not the game's.
+- `type` groupings are this project's own grouping, not the game's. `typeOrder` positions for Haniwa Stone, Fossil, Red Ore, Pear, Fruit Tree and Eel are unverified guesses.

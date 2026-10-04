@@ -24,6 +24,13 @@ export function validateRegions(data) {
       });
     }
   }
+  for (const cat of CATEGORIES) {
+    const order = data.typeOrder?.[cat];
+    if (!Array.isArray(order)) throw new Error(`typeOrder.${cat} must be an array`);
+    const used = new Set(data.regions.flatMap((r) => r[cat].map((e) => e.type)));
+    for (const t of used) if (!order.includes(t)) throw new Error(`typeOrder.${cat} is missing type "${t}"`);
+    for (const t of order) if (!used.has(t)) throw new Error(`typeOrder.${cat} lists "${t}", which no entry uses`);
+  }
   return data;
 }
 
