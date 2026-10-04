@@ -1,0 +1,1056 @@
+{
+  "version": 2,
+  "image": {
+    "file": "assets/ginormosia-map.webp",
+    "width": 3200,
+    "height": 3200,
+    "coordSpace": "normalized 0-1, origin top-left; pins sit on each region tower marker"
+  },
+  "categories": [
+    "ore",
+    "trees",
+    "fish",
+    "other"
+  ],
+  "rankLegend": {
+    "1-5": "minimum Area Rank",
+    "any": "spawns at every rank",
+    "top": "top-rank event",
+    "3+": "rank 3 or higher",
+    "-": "rank not recorded",
+    "1 or 5": "sources disagree"
+  },
+  "regions": [
+    {
+      "id": "drakeseye",
+      "name": "Drakeseye Valley",
+      "where": "West coast, central lake with four rivers",
+      "pin": {
+        "x": 0.084,
+        "y": 0.487
+      },
+      "ore": [
+        {
+          "name": "Gold Deposit",
+          "type": "Gold",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Gold Deposit",
+          "type": "Gold",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Gold Deposit",
+          "type": "Gold",
+          "minRank": "3"
+        },
+        {
+          "name": "Amazing Gold Deposit",
+          "type": "Gold",
+          "minRank": "5"
+        },
+        {
+          "name": "Water Starcrystal",
+          "type": "Starcrystal",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Oak Tree",
+          "type": "Oak",
+          "minRank": "1"
+        },
+        {
+          "name": "Giant's Tree",
+          "type": "Giant's Tree",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Flying Fish",
+          "type": "Flying Fish",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Swordfish",
+          "type": "Swordfish",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "drakesnout",
+      "name": "Drakesnout Range",
+      "where": "Westernmost region, south of Drakeseye",
+      "pin": {
+        "x": 0.047,
+        "y": 0.587
+      },
+      "ore": [
+        {
+          "name": "Gold Deposit",
+          "type": "Gold",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Gold Deposit",
+          "type": "Gold",
+          "minRank": "3"
+        },
+        {
+          "name": "Graphite Deposit",
+          "type": "Graphite",
+          "minRank": "5",
+          "note": "boss"
+        },
+        {
+          "name": "Amazing Gold Deposit",
+          "type": "Gold",
+          "minRank": "5",
+          "note": "Mountain's Treasure event"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Cherry Fruit Tree",
+          "type": "Fruit Tree",
+          "minRank": "1"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Flying Fish",
+          "type": "Flying Fish",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Coldwater Tuna",
+          "type": "Tuna",
+          "minRank": "any",
+          "note": "boss"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "fangshore",
+      "name": "Fangshore Isles",
+      "where": "Island cluster west of the Greatgut Plains",
+      "pin": {
+        "x": 0.243,
+        "y": 0.582
+      },
+      "ore": [
+        {
+          "name": "Silver Deposit",
+          "type": "Silver",
+          "minRank": "1",
+          "note": "Wyrm Maw Cave"
+        },
+        {
+          "name": "Superior Marine Ore Deposit",
+          "type": "Marine Ore",
+          "minRank": "2",
+          "note": "Wyrm Maw Cave"
+        },
+        {
+          "name": "Great Silver Deposit",
+          "type": "Silver",
+          "minRank": "3",
+          "note": "Wyrm Maw Cave"
+        },
+        {
+          "name": "Amazing Marine Ore Deposit",
+          "type": "Marine Ore",
+          "minRank": "4",
+          "note": "Wyrm Maw Cave"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Sugar Tree",
+          "type": "Sugar",
+          "minRank": "1"
+        },
+        {
+          "name": "Pear Tree",
+          "type": "Pear",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Sugar Tree",
+          "type": "Sugar",
+          "minRank": "3"
+        },
+        {
+          "name": "Water Angeltree",
+          "type": "Angeltree",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Tropica Bream",
+          "type": "Bream",
+          "minRank": "1",
+          "note": "west coast"
+        },
+        {
+          "name": "Legendary Rocket Fish",
+          "type": "Rocket Fish",
+          "minRank": "3",
+          "note": "legendary event"
+        },
+        {
+          "name": "Poseidon Swordfish",
+          "type": "Swordfish",
+          "minRank": "top",
+          "note": "Lordly Shark event"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "crickneck",
+      "name": "Crickneck Canyon",
+      "where": "Mountains northwest of the Greatgut Plains",
+      "pin": {
+        "x": 0.354,
+        "y": 0.382
+      },
+      "ore": [
+        {
+          "name": "Gold Deposit",
+          "type": "Gold",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Gold Deposit",
+          "type": "Gold",
+          "minRank": "2"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Oak Tree",
+          "type": "Oak",
+          "minRank": "1"
+        }
+      ],
+      "fish": [],
+      "other": []
+    },
+    {
+      "id": "scorchrock",
+      "name": "Scorchrock Mountain",
+      "where": "West half of the volcano plus a grassy peninsula",
+      "pin": {
+        "x": 0.444,
+        "y": 0.251
+      },
+      "ore": [
+        {
+          "name": "Platinum Deposit",
+          "type": "Platinum",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Red Ore Deposit",
+          "type": "Red Ore",
+          "minRank": "2"
+        },
+        {
+          "name": "Great Platinum Deposit",
+          "type": "Platinum",
+          "minRank": "3"
+        },
+        {
+          "name": "Amazing Red Ore Deposit",
+          "type": "Red Ore",
+          "minRank": "4",
+          "note": "Agekara Cave West"
+        },
+        {
+          "name": "Dragon's Claw",
+          "type": "Dragon's Claw",
+          "minRank": "5",
+          "note": "Agekara Cave / Dragon Dare"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Starry Tree",
+          "type": "Starry",
+          "minRank": "-"
+        },
+        {
+          "name": "Earth Angeltree",
+          "type": "Angeltree",
+          "minRank": "5",
+          "note": "boss"
+        },
+        {
+          "name": "Great Dragontree",
+          "type": "Dragontree",
+          "minRank": "top",
+          "note": "Dragon Dare event only"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Flying Fish",
+          "type": "Flying Fish",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Hot Spring Bream",
+          "type": "Bream",
+          "minRank": "1 or 5",
+          "note": "inland lake; sources disagree"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "moltana",
+      "name": "Moltana Wastes",
+      "where": "East half of the volcano; lava in the north",
+      "pin": {
+        "x": 0.64,
+        "y": 0.281
+      },
+      "ore": [
+        {
+          "name": "Platinum Deposit",
+          "type": "Platinum",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Red Ore Deposit",
+          "type": "Red Ore",
+          "minRank": "1",
+          "note": "drops Magma Ore"
+        },
+        {
+          "name": "Great Platinum Deposit",
+          "type": "Platinum",
+          "minRank": "3"
+        },
+        {
+          "name": "Amazing Red Ore Deposit",
+          "type": "Red Ore",
+          "minRank": "3",
+          "note": "drops Magma Ore"
+        },
+        {
+          "name": "Golemstone",
+          "type": "Golemstone",
+          "minRank": "5",
+          "note": "boss"
+        },
+        {
+          "name": "Heart of Darkness",
+          "type": "Heart of Darkness",
+          "minRank": "5",
+          "note": "Evil Primeval event"
+        }
+      ],
+      "trees": [],
+      "fish": [
+        {
+          "name": "Eruptuna",
+          "type": "Tuna",
+          "minRank": "5",
+          "note": "lava pools"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "wingtip",
+      "name": "Wingtip Valley",
+      "where": "Northernmost of the three northeast peninsulas",
+      "pin": {
+        "x": 0.769,
+        "y": 0.204
+      },
+      "ore": [
+        {
+          "name": "Iron Deposit",
+          "type": "Iron",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Blue Ore Deposit",
+          "type": "Blue Ore",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Iron Deposit",
+          "type": "Iron",
+          "minRank": "3"
+        },
+        {
+          "name": "Amazing Blue Ore Deposit",
+          "type": "Blue Ore",
+          "minRank": "4"
+        },
+        {
+          "name": "Wind Starcrystal",
+          "type": "Starcrystal",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Starry Tree",
+          "type": "Starry",
+          "minRank": "-"
+        },
+        {
+          "name": "Great Starry Tree",
+          "type": "Starry",
+          "minRank": "-"
+        },
+        {
+          "name": "Oak / Great Oak Tree",
+          "type": "Oak",
+          "minRank": "3",
+          "note": "Watch Out for Fakes event"
+        },
+        {
+          "name": "Legendary God Tree",
+          "type": "God Tree",
+          "minRank": "3+",
+          "note": "legendary event"
+        }
+      ],
+      "fish": [],
+      "other": []
+    },
+    {
+      "id": "shroomhaven",
+      "name": "Shroomhaven",
+      "where": "Middle northeast peninsula",
+      "pin": {
+        "x": 0.841,
+        "y": 0.316
+      },
+      "ore": [
+        {
+          "name": "Superior Blue Ore Deposit",
+          "type": "Blue Ore",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Iron Deposit",
+          "type": "Iron",
+          "minRank": "3"
+        },
+        {
+          "name": "Amazing Blue Ore Deposit",
+          "type": "Blue Ore",
+          "minRank": "3"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Pine Tree",
+          "type": "Pine",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Pine Tree",
+          "type": "Pine",
+          "minRank": "1"
+        },
+        {
+          "name": "Palm Fruit Tree",
+          "type": "Fruit Tree",
+          "minRank": "1"
+        },
+        {
+          "name": "Skytree",
+          "type": "Skytree",
+          "minRank": "2"
+        },
+        {
+          "name": "Great Skytree",
+          "type": "Skytree",
+          "minRank": "3",
+          "note": "R1 via Monkey Business event"
+        },
+        {
+          "name": "Darkwood Tree",
+          "type": "Darkwood",
+          "minRank": "3"
+        },
+        {
+          "name": "Great Darkness Tree",
+          "type": "Darkness Tree",
+          "minRank": "5",
+          "note": "event"
+        },
+        {
+          "name": "Wind Angeltree",
+          "type": "Angeltree",
+          "minRank": "5",
+          "note": "boss"
+        },
+        {
+          "name": "Legendary God Tree",
+          "type": "God Tree",
+          "minRank": "3+",
+          "note": "legendary event"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Forest Lordfish",
+          "type": "Lordfish",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "pettlewing",
+      "name": "Pettlewing Woods",
+      "where": "Southernmost northeast peninsula",
+      "pin": {
+        "x": 0.719,
+        "y": 0.417
+      },
+      "ore": [
+        {
+          "name": "Iron Deposit",
+          "type": "Iron",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Blue Ore Deposit",
+          "type": "Blue Ore",
+          "minRank": "2"
+        },
+        {
+          "name": "Great Iron Deposit",
+          "type": "Iron",
+          "minRank": "3"
+        },
+        {
+          "name": "Amazing Blue Ore Deposit",
+          "type": "Blue Ore",
+          "minRank": "4"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Oak Tree",
+          "type": "Oak",
+          "minRank": "1"
+        },
+        {
+          "name": "Cherry Tree",
+          "type": "Cherry",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Pine Tree",
+          "type": "Pine",
+          "minRank": "2"
+        },
+        {
+          "name": "Great Cherry Tree",
+          "type": "Cherry",
+          "minRank": "3"
+        },
+        {
+          "name": "Recluse Cherry Tree",
+          "type": "Cherry",
+          "minRank": "5",
+          "note": "boss"
+        },
+        {
+          "name": "Legendary God Tree",
+          "type": "God Tree",
+          "minRank": "3+",
+          "note": "legendary event"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Cherry Lordfish",
+          "type": "Lordfish",
+          "minRank": "5",
+          "note": "inside Pettlewing Forest"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "wgg",
+      "name": "West Greatgut Plains",
+      "where": "Central plains with the barrier castle",
+      "pin": {
+        "x": 0.418,
+        "y": 0.551
+      },
+      "ore": [],
+      "trees": [
+        {
+          "name": "Oak Tree",
+          "type": "Oak",
+          "minRank": "1"
+        },
+        {
+          "name": "Apple Tree",
+          "type": "Apple",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Oak Tree",
+          "type": "Oak",
+          "minRank": "3"
+        },
+        {
+          "name": "Fire Angeltree",
+          "type": "Angeltree",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "fish": [],
+      "other": [
+        {
+          "name": "Legendary King Spud",
+          "type": "King Spud",
+          "minRank": "3+",
+          "note": "legendary event"
+        },
+        {
+          "name": "King Woolie",
+          "type": "Monster",
+          "minRank": "5",
+          "note": "boss monster"
+        }
+      ]
+    },
+    {
+      "id": "egg",
+      "name": "East Greatgut Plains",
+      "where": "Grassland with an island-filled lake",
+      "pin": {
+        "x": 0.606,
+        "y": 0.505
+      },
+      "ore": [
+        {
+          "name": "Copper Deposit",
+          "type": "Copper",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Copper Deposit",
+          "type": "Copper",
+          "minRank": "2"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Oak Tree",
+          "type": "Oak",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Oak Tree",
+          "type": "Oak",
+          "minRank": "3"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Electric Eel",
+          "type": "Eel",
+          "minRank": "-",
+          "note": "shallows mid-region"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "sgg",
+      "name": "South Greatgut Plains",
+      "where": "River to the north, mountains to the south",
+      "pin": {
+        "x": 0.418,
+        "y": 0.689
+      },
+      "ore": [
+        {
+          "name": "Superior Copper Deposit",
+          "type": "Copper",
+          "minRank": "1"
+        },
+        {
+          "name": "Platinum Deposit",
+          "type": "Platinum",
+          "minRank": "2"
+        },
+        {
+          "name": "Amazing Copper Deposit",
+          "type": "Copper",
+          "minRank": "3"
+        },
+        {
+          "name": "Great Platinum Deposit",
+          "type": "Platinum",
+          "minRank": "4"
+        },
+        {
+          "name": "Fire Starcrystal",
+          "type": "Starcrystal",
+          "minRank": "5",
+          "note": "Great Nayvel Cave"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Oak Tree",
+          "type": "Oak",
+          "minRank": "1"
+        },
+        {
+          "name": "Apple Tree",
+          "type": "Apple",
+          "minRank": "1"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Rainbow Flying Fish",
+          "type": "Flying Fish",
+          "minRank": "5",
+          "note": "boss"
+        },
+        {
+          "name": "Deepsea Lordfish",
+          "type": "Lordfish",
+          "minRank": "5",
+          "note": "Great Nayvel Cave"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "viridia",
+      "name": "Viridia Plateau",
+      "where": "Grassland with arid mountains to the east",
+      "pin": {
+        "x": 0.684,
+        "y": 0.682
+      },
+      "ore": [
+        {
+          "name": "Copper Deposit",
+          "type": "Copper",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Copper Deposit",
+          "type": "Copper",
+          "minRank": "2"
+        },
+        {
+          "name": "Great Copper Deposit",
+          "type": "Copper",
+          "minRank": "3"
+        },
+        {
+          "name": "Amazing Copper Deposit",
+          "type": "Copper",
+          "minRank": "4"
+        },
+        {
+          "name": "Magic Ore Deposit",
+          "type": "Magic Ore",
+          "minRank": "-",
+          "note": "Sker'ri Shrine, round 2"
+        },
+        {
+          "name": "Golemstone",
+          "type": "Golemstone",
+          "minRank": "-",
+          "note": "Sker'ri Shrine, round 3"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Oak Tree",
+          "type": "Oak",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Oak Tree",
+          "type": "Oak",
+          "minRank": "3"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Plains Lordfish",
+          "type": "Lordfish",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "other": [
+        {
+          "name": "Crops",
+          "type": "Crops",
+          "minRank": "any",
+          "note": "only region with farm plots"
+        }
+      ]
+    },
+    {
+      "id": "wdd",
+      "name": "West Dryridge Desert",
+      "where": "Southern desert; where you arrive",
+      "pin": {
+        "x": 0.411,
+        "y": 0.904
+      },
+      "ore": [
+        {
+          "name": "Haniwa Stone",
+          "type": "Haniwa Stone",
+          "minRank": "1"
+        },
+        {
+          "name": "Ancient Fossil",
+          "type": "Fossil",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Haniwa Stone",
+          "type": "Haniwa Stone",
+          "minRank": "3"
+        },
+        {
+          "name": "Legendary Shiny Geode",
+          "type": "Geode",
+          "minRank": "3",
+          "note": "legendary event"
+        },
+        {
+          "name": "Earth Starcrystal",
+          "type": "Starcrystal",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "trees": [
+        {
+          "name": "Palm Tree",
+          "type": "Palm",
+          "minRank": "1"
+        },
+        {
+          "name": "Desert Tree",
+          "type": "Desert",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Palm Tree",
+          "type": "Palm",
+          "minRank": "2"
+        },
+        {
+          "name": "Great Desert Tree",
+          "type": "Desert",
+          "minRank": "3"
+        }
+      ],
+      "fish": [
+        {
+          "name": "Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Dunefin Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Flying Fish",
+          "type": "Flying Fish",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Rainbow Flying Fish",
+          "type": "Flying Fish",
+          "minRank": "-",
+          "note": "freshwater"
+        },
+        {
+          "name": "Golden Swordfish",
+          "type": "Swordfish",
+          "minRank": "5",
+          "note": "boss"
+        }
+      ],
+      "other": []
+    },
+    {
+      "id": "edd",
+      "name": "East Dryridge Desert",
+      "where": "Southern desert, east of the start",
+      "pin": {
+        "x": 0.616,
+        "y": 0.815
+      },
+      "ore": [
+        {
+          "name": "Copper Deposit",
+          "type": "Copper",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Copper Deposit",
+          "type": "Copper",
+          "minRank": "1"
+        },
+        {
+          "name": "Superior Copper Deposit",
+          "type": "Copper",
+          "minRank": "1"
+        },
+        {
+          "name": "Haniwa Stone",
+          "type": "Haniwa Stone",
+          "minRank": "1"
+        },
+        {
+          "name": "Ancient Fossil",
+          "type": "Fossil",
+          "minRank": "1"
+        },
+        {
+          "name": "Great Haniwa Stone",
+          "type": "Haniwa Stone",
+          "minRank": "2"
+        },
+        {
+          "name": "Legendary Shiny Geode",
+          "type": "Geode",
+          "minRank": "3",
+          "note": "legendary event"
+        },
+        {
+          "name": "Amazing Copper Deposit",
+          "type": "Copper",
+          "minRank": "4"
+        },
+        {
+          "name": "Giant Ancient Fossil",
+          "type": "Fossil",
+          "minRank": "5",
+          "note": "Living Fossil event"
+        }
+      ],
+      "trees": [],
+      "fish": [
+        {
+          "name": "Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Dunefin Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "note": "coast"
+        },
+        {
+          "name": "Bluescale Lordfish",
+          "type": "Lordfish",
+          "minRank": "5",
+          "note": "Wyrmtail Cave"
+        }
+      ],
+      "other": []
+    }
+  ],
+  "notInGinormosia": [
+    {
+      "name": "Luminous Magic Ore",
+      "foundAt": "Sealed areas in Cave of Trials B1 and Warren Willow Hollow B1"
+    },
+    {
+      "name": "Luminous Darkwood Tree",
+      "foundAt": "Warren Willow Hollow B1, Lulab Forest"
+    },
+    {
+      "name": "Beelzebub Tuna",
+      "foundAt": "Treasure Grove only"
+    },
+    {
+      "name": "Great Lucky Bream",
+      "foundAt": "Treasure Grove only"
+    },
+    {
+      "name": "High Flying Fish",
+      "foundAt": "Treasure Grove only"
+    },
+    {
+      "name": "Darkfish",
+      "foundAt": "Treasure Grove only"
+    },
+    {
+      "name": "Great Darkwood Tree",
+      "foundAt": "Depths B3; unconfirmed whether Shroomhaven Great Darkness Tree event is the same tree"
+    }
+  ]
+}

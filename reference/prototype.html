@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ginormosia resource map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sea:#2f6f8f; --sea-deep:#235670; --land:#cfe0b4; --land-edge:#7f9a63;
+  --sand:#e6cf96; --ash:#b98a72; --moss:#a7c58a; --violet:#b8a6cf;
+  --bg:#f3f6f1; --ink:#1d2a24; --muted:#5d6b63; --panel:#ffffff; --line:#d7e0d5;
+  --ore:#5a6888; --tree:#3f8a46; --fish:#2b7cc0; --other:#a85fa8; --hit:#f2b02c;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --sea:#173b4d; --sea-deep:#10303f; --land:#5d7350; --land-edge:#9cb67f;
+    --sand:#8f7a4d; --ash:#7d5546; --moss:#4f6b42; --violet:#6b5c80;
+    --bg:#121815; --ink:#e7eee8; --muted:#a3b2a8; --panel:#1b231e; --line:#2c3830;
+  }
+}
+:root[data-theme="dark"]{
+  --sea:#173b4d; --sea-deep:#10303f; --land:#5d7350; --land-edge:#9cb67f;
+  --sand:#8f7a4d; --ash:#7d5546; --moss:#4f6b42; --violet:#6b5c80;
+  --bg:#121815; --ink:#e7eee8; --muted:#a3b2a8; --panel:#1b231e; --line:#2c3830;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.5 Nunito,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:860px;margin:0 auto;padding:16px}
+h1{font:600 1.7rem/1.15 Fredoka,Nunito,system-ui,sans-serif;margin:4px 0 4px}
+.sub{color:var(--muted);margin:0 0 14px;font-size:.92rem}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+input[type=search]{flex:1 1 220px;min-width:0;padding:10px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font:inherit}
+input[type=search]:focus-visible,button:focus-visible{outline:3px solid var(--hit);outline-offset:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 12px;font:600 .85rem Nunito,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip .dot{width:10px;height:10px;border-radius:50%}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--panel)}
+.mapwrap{border-radius:18px;overflow:hidden;background:#cdb991;border:2px solid var(--sea-deep)}
+svg{display:block;width:100%;height:auto}
+.region-label{font:600 15px Fredoka,Nunito,sans-serif;fill:var(--ink);paint-order:stroke;stroke:var(--land);stroke-width:4px;pointer-events:none}
+.pin{cursor:pointer;transition:opacity .2s}
+.pin.dim{opacity:.22}
+.pin.sel .head{stroke:var(--hit);stroke-width:5}
+.pin.hit .head{fill:var(--hit)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.82rem;margin:8px 2px 0}
+.panel{background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:14px}
+.panel h2{font:600 1.3rem Fredoka,Nunito,sans-serif;margin:0 0 2px}
+.panel .where{color:var(--muted);font-size:.88rem;margin:0 0 10px}
+.group{margin:12px 0 0}
+.group h3{font:700 .95rem Nunito,sans-serif;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.group h3 .dot{width:12px;height:12px;border-radius:50%}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--line);font-size:.95rem}
+li:first-child{border-top:0}
+li mark{background:var(--hit);color:#1d2a24;border-radius:4px;padding:0 3px}
+.rank{flex:none;font-weight:700;font-size:.8rem;color:var(--muted);white-space:nowrap}
+.note{color:var(--muted);font-size:.85rem}
+.results li{cursor:pointer}
+.results li:hover{color:var(--tree)}
+.foot{color:var(--muted);font-size:.85rem;margin-top:16px}
+.foot ul li{display:block;font-size:.88rem}
+@media (prefers-reduced-motion:reduce){.pin{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Ginormosia resource map</h1>
+  <p class="sub">Tap a pin for that region's ore, trees and fish. Numbers are the Area Rank a node starts spawning at. Pins sit on each region's tower.</p>
+
+  <div class="controls">
+    <input type="search" id="q" placeholder="Find a resource, e.g. Platinum or Skytree" aria-label="Find a resource">
+    <div class="chips" role="group" aria-label="Filter by type">
+      <button class="chip" data-cat="all" aria-pressed="true">All</button>
+      <button class="chip" data-cat="ore" aria-pressed="false"><span class="dot" style="background:var(--ore)"></span>Ore</button>
+      <button class="chip" data-cat="trees" aria-pressed="false"><span class="dot" style="background:var(--tree)"></span>Trees</button>
+      <button class="chip" data-cat="fish" aria-pressed="false"><span class="dot" style="background:var(--fish)"></span>Fish</button>
+    </div>
+  </div>
+
+  <div class="mapwrap"><svg id="map" viewBox="0 0 1000 1000" role="img" aria-label="Map of Ginormosia with a pin on each region's tower"></svg></div>
+  <div class="legend"><span>The West and East Greatgut labels on this image look swapped; pins follow guide descriptions</span><span>Gold outline: selected</span><span>Gold pin: matches your search</span></div>
+
+  <section class="panel" id="panel" aria-live="polite"></section>
+
+  <div class="foot">
+    <p><strong>Not found anywhere in Ginormosia:</strong></p>
+    <ul>
+      <li>Luminous Magic Ore (sealed areas in Cave of Trials B1, Warren Willow Hollow B1)</li>
+      <li>Luminous Darkwood Tree (Warren Willow Hollow B1, Lulab Forest)</li>
+      <li>Beelzebub Tuna, Great Lucky Bream, High Flying Fish, Darkfish (Treasure Grove only)</li>
+      <li>Great Darkwood Tree is unconfirmed; Shroomhaven's Great Darkness Tree event may be it</li>
+    </ul>
+    <p>Main source: the Ginormosia FAQ &amp; Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant. Common fish, herbs and ground pickups aren't mapped.</p>
+  </div>
+</main>
+
+<script>
+const R = (n,r,note)=>({n,r,note});
+const REGIONS = [
+ {id:"drakeseye",name:"Drakeseye Valley",x:84,y:487,where:"West coast, central lake with four rivers",
+  ore:[R("Gold Deposit",1),R("Superior Gold Deposit",1),R("Great Gold Deposit",3),R("Amazing Gold Deposit",5),R("Water Starcrystal",5,"boss")],
+  trees:[R("Oak Tree",1),R("Giant's Tree",5,"boss")],
+  fish:[R("Tuna",1,"coast"),R("Flying Fish",1,"coast"),R("Swordfish",5,"boss")]},
+ {id:"drakesnout",name:"Drakesnout Range",x:47,y:587,where:"Westernmost region, south of Drakeseye",
+  ore:[R("Gold Deposit",1),R("Great Gold Deposit",3),R("Graphite Deposit",5,"boss"),R("Amazing Gold Deposit",5,"Mountain's Treasure event")],
+  trees:[R("Cherry Fruit Tree",1)],
+  fish:[R("Flying Fish",1,"coast"),R("Coldwater Tuna","any","boss")]},
+ {id:"fangshore",name:"Fangshore Isles",x:243,y:582,where:"Island cluster west of the Greatgut Plains",
+  ore:[R("Silver Deposit",1,"Wyrm Maw Cave"),R("Superior Marine Ore Deposit",2,"Wyrm Maw Cave"),R("Great Silver Deposit",3,"Wyrm Maw Cave"),R("Amazing Marine Ore Deposit",4,"Wyrm Maw Cave")],
+  trees:[R("Sugar Tree",1),R("Pear Tree",1),R("Great Sugar Tree",3),R("Water Angeltree",5,"boss")],
+  fish:[R("Tropica Bream",1,"west coast"),R("Legendary Rocket Fish",3,"legendary event"),R("Poseidon Swordfish","top","Lordly Shark event")]},
+ {id:"crickneck",name:"Crickneck Canyon",x:354,y:382,where:"Mountains northwest of the Greatgut Plains",
+  ore:[R("Gold Deposit",1),R("Superior Gold Deposit",2)],
+  trees:[R("Oak Tree",1)], fish:[]},
+ {id:"scorchrock",name:"Scorchrock Mountain",x:444,y:251,where:"West half of the volcano plus a grassy peninsula",
+  ore:[R("Platinum Deposit",1),R("Superior Red Ore Deposit",2),R("Great Platinum Deposit",3),R("Amazing Red Ore Deposit",4,"Agekara Cave West"),R("Dragon's Claw",5,"Agekara Cave / Dragon Dare")],
+  trees:[R("Starry Tree","–"),R("Earth Angeltree",5,"boss"),R("Great Dragontree","top","Dragon Dare event only")],
+  fish:[R("Tuna",1,"coast"),R("Flying Fish",1,"coast"),R("Hot Spring Bream","1 or 5","inland lake; sources disagree")]},
+ {id:"moltana",name:"Moltana Wastes",x:640,y:281,where:"East half of the volcano; lava in the north",
+  ore:[R("Platinum Deposit",1),R("Superior Red Ore Deposit",1,"drops Magma Ore"),R("Great Platinum Deposit",3),R("Amazing Red Ore Deposit",3,"drops Magma Ore"),R("Golemstone",5,"boss"),R("Heart of Darkness",5,"Evil Primeval event")],
+  trees:[], fish:[R("Eruptuna",5,"lava pools")]},
+ {id:"wingtip",name:"Wingtip Valley",x:769,y:204,where:"Northernmost of the three northeast peninsulas",
+  ore:[R("Iron Deposit",1),R("Superior Blue Ore Deposit",1),R("Great Iron Deposit",3),R("Amazing Blue Ore Deposit",4),R("Wind Starcrystal",5,"boss")],
+  trees:[R("Starry Tree","–"),R("Great Starry Tree","–"),R("Oak / Great Oak Tree",3,"Watch Out for Fakes event"),R("Legendary God Tree","3+","legendary event")],
+  fish:[]},
+ {id:"shroomhaven",name:"Shroomhaven",x:841,y:316,where:"Middle northeast peninsula",
+  ore:[R("Superior Blue Ore Deposit",1),R("Great Iron Deposit",3),R("Amazing Blue Ore Deposit",3)],
+  trees:[R("Pine Tree",1),R("Great Pine Tree",1),R("Palm Fruit Tree",1),R("Skytree",2),R("Great Skytree",3,"R1 via Monkey Business event"),R("Darkwood Tree",3),R("Great Darkness Tree",5,"event"),R("Wind Angeltree",5,"boss"),R("Legendary God Tree","3+","legendary event")],
+  fish:[R("Tuna",1,"coast"),R("Forest Lordfish",5,"boss")]},
+ {id:"pettlewing",name:"Pettlewing Woods",x:719,y:417,where:"Southernmost northeast peninsula",
+  ore:[R("Iron Deposit",1),R("Superior Blue Ore Deposit",2),R("Great Iron Deposit",3),R("Amazing Blue Ore Deposit",4)],
+  trees:[R("Oak Tree",1),R("Cherry Tree",1),R("Great Pine Tree",2),R("Great Cherry Tree",3),R("Recluse Cherry Tree",5,"boss"),R("Legendary God Tree","3+","legendary event")],
+  fish:[R("Tuna",1,"coast"),R("Cherry Lordfish",5,"inside Pettlewing Forest")]},
+ {id:"wgg",name:"West Greatgut Plains",x:418,y:551,where:"Central plains with the barrier castle",
+  ore:[], trees:[R("Oak Tree",1),R("Apple Tree",1),R("Great Oak Tree",3),R("Fire Angeltree",5,"boss")],
+  fish:[], other:[R("Legendary King Spud","3+","legendary event"),R("King Woolie",5,"boss monster")]},
+ {id:"egg",name:"East Greatgut Plains",x:606,y:505,where:"Grassland with an island-filled lake",
+  ore:[R("Copper Deposit",1),R("Superior Copper Deposit",2)],
+  trees:[R("Oak Tree",1),R("Great Oak Tree",3)],
+  fish:[R("Electric Eel","–","shallows mid-region")]},
+ {id:"sgg",name:"South Greatgut Plains",x:418,y:689,where:"River to the north, mountains to the south",
+  ore:[R("Superior Copper Deposit",1),R("Platinum Deposit",2),R("Amazing Copper Deposit",3),R("Great Platinum Deposit",4),R("Fire Starcrystal",5,"Great Nayvel Cave")],
+  trees:[R("Oak Tree",1),R("Apple Tree",1)],
+  fish:[R("Rainbow Flying Fish",5,"boss"),R("Deepsea Lordfish",5,"Great Nayvel Cave")]},
+ {id:"viridia",name:"Viridia Plateau",x:684,y:682,where:"Grassland with arid mountains to the east",
+  ore:[R("Copper Deposit",1),R("Superior Copper Deposit",2),R("Great Copper Deposit",3),R("Amazing Copper Deposit",4),R("Magic Ore Deposit","–","Sker'ri Shrine, round 2"),R("Golemstone","–","Sker'ri Shrine, round 3")],
+  trees:[R("Oak Tree",1),R("Great Oak Tree",3)],
+  fish:[R("Plains Lordfish",5,"boss")],
+  other:[R("Crops","any","only region with farm plots")]},
+ {id:"wdd",name:"West Dryridge Desert",x:411,y:904,where:"Southern desert; where you arrive",
+  ore:[R("Haniwa Stone",1),R("Ancient Fossil",1),R("Great Haniwa Stone",3),R("Legendary Shiny Geode",3,"legendary event"),R("Earth Starcrystal",5,"boss")],
+  trees:[R("Palm Tree",1),R("Desert Tree",1),R("Great Palm Tree",2),R("Great Desert Tree",3)],
+  fish:[R("Tuna",1,"coast"),R("Dunefin Tuna",1,"coast"),R("Flying Fish",1,"coast"),R("Rainbow Flying Fish","–","freshwater"),R("Golden Swordfish",5,"boss")]},
+ {id:"edd",name:"East Dryridge Desert",x:616,y:815,where:"Southern desert, east of the start",
+  ore:[R("Copper Deposit",1),R("Great Copper Deposit",1),R("Superior Copper Deposit",1),R("Haniwa Stone",1),R("Ancient Fossil",1),R("Great Haniwa Stone",2),R("Legendary Shiny Geode",3,"legendary event"),R("Amazing Copper Deposit",4),R("Giant Ancient Fossil",5,"Living Fossil event")],
+  trees:[],
+  fish:[R("Tuna",1,"coast"),R("Dunefin Tuna",1,"coast"),R("Bluescale Lordfish",5,"Wyrmtail Cave")]}
+];
+
+const CATS = {ore:["Ore","--ore"],trees:["Trees","--tree"],fish:["Fish","--fish"],other:["Other","--other"]};
+const NS="http://www.w3.org/2000/svg";
+const svg=document.getElementById("map");
+const el=(t,a={},p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e;};
+
+function drawMap(){
+  el("image",{href:"../assets/ginormosia-map.webp",x:0,y:0,width:1000,height:1000,preserveAspectRatio:"xMidYMid slice"});
+  REGIONS.forEach(r=>{
+    const p=el("g",{class:"pin",tabindex:0,role:"button","aria-label":r.name,"data-id":r.id,transform:`translate(${r.x},${r.y}) scale(.8)`});
+    el("path",{class:"head",d:"M0,0 C-14,-20 -18,-28 -18,-36 A18,18 0 1 1 18,-36 C18,-28 14,-20 0,0 Z",fill:"var(--ink)",stroke:"var(--panel)","stroke-width":2.5},p);
+    const cats=["ore","trees","fish"].filter(c=>r[c]&&r[c].length);
+    cats.forEach((c,i)=>el("circle",{cx:(i-(cats.length-1)/2)*9,cy:-36,r:4.2,fill:`var(${CATS[c][1]})`,stroke:"var(--panel)","stroke-width":1},p));
+        p.addEventListener("click",()=>select(r.id));
+    p.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();select(r.id);}});
+  });
+}
+
+let cat="all", sel=null, query="";
+const panel=document.getElementById("panel");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hl=s=>{if(!query)return esc(s);const i=s.toLowerCase().indexOf(query);return i<0?esc(s):esc(s.slice(0,i))+"<mark>"+esc(s.slice(i,i+query.length))+"</mark>"+esc(s.slice(i+query.length));};
+const rankTxt=r=>r==="any"?"any rank":r==="top"?"top rank":r==="–"?"rank n/a":"R"+r;
+const matches=r=>{if(!query)return[];const out=[];for(const c in CATS)(r[c]||[]).forEach(x=>{if(x.n.toLowerCase().includes(query)&&(cat==="all"||cat===c))out.push([c,x]);});return out;};
+
+function refresh(){
+  document.querySelectorAll(".pin").forEach(p=>{
+    const r=REGIONS.find(x=>x.id===p.dataset.id);
+    const hasCat=cat==="all"||(r[cat]&&r[cat].length);
+    const m=matches(r).length;
+    p.classList.toggle("dim",!hasCat||(query&&!m));
+    p.classList.toggle("hit",!!(query&&m));
+    p.classList.toggle("sel",r.id===sel);
+  });
+  render();
+}
+
+function render(){
+  if(query && !sel){
+    const rows=[];REGIONS.forEach(r=>matches(r).forEach(([c,x])=>rows.push({r,c,x})));
+    if(!rows.length){panel.innerHTML=`<h2>No matches</h2><p class="where">Nothing in Ginormosia matches “${esc(query)}”${cat!=="all"?" under "+CATS[cat][0]:""}. Check the not-found list below, or clear the type filter.</p>`;return;}
+    panel.innerHTML=`<h2>${rows.length} match${rows.length>1?"es":""}</h2><p class="where">Tap a row to open that region.</p><ul class="results">`+
+      rows.map(({r,c,x})=>`<li data-id="${r.id}"><span>${hl(x.n)} <span class="note">in ${esc(r.name)}${x.note?", "+esc(x.note):""}</span></span><span class="rank">${rankTxt(x.r)}</span></li>`).join("")+"</ul>";
+    panel.querySelectorAll("li").forEach(li=>li.addEventListener("click",()=>select(li.dataset.id)));
+    return;
+  }
+  if(!sel){panel.innerHTML=`<h2>Pick a region</h2><p class="where">Tap any pin. The colored dots on a pin show which resource types that region has.</p>`;return;}
+  const r=REGIONS.find(x=>x.id===sel);
+  let html=`<h2>${esc(r.name)}</h2><p class="where">${esc(r.where)}</p>`;
+  for(const c in CATS){
+    if(cat!=="all"&&cat!==c)continue;
+    const list=r[c]||[]; if(!list.length)continue;
+    html+=`<div class="group"><h3><span class="dot" style="background:var(${CATS[c][1]})"></span>${CATS[c][0]}</h3><ul>`+
+      list.map(x=>`<li><span>${hl(x.n)}${x.note?` <span class="note">${esc(x.note)}</span>`:""}</span><span class="rank">${rankTxt(x.r)}</span></li>`).join("")+"</ul></div>";
+  }
+  if(!html.includes("group"))html+=`<p class="note">No ${CATS[cat][0].toLowerCase()} recorded here.</p>`;
+  if(query)html+=`<p class="note"><button class="chip" id="back">Back to search results</button></p>`;
+  panel.innerHTML=html;
+  const b=document.getElementById("back"); if(b)b.addEventListener("click",()=>{sel=null;refresh();});
+}
+
+function select(id){sel=id;refresh();panel.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"});}
+
+document.getElementById("q").addEventListener("input",e=>{query=e.target.value.trim().toLowerCase();sel=null;refresh();});
+document.querySelectorAll(".chip[data-cat]").forEach(b=>b.addEventListener("click",()=>{
+  cat=b.dataset.cat;document.querySelectorAll(".chip[data-cat]").forEach(x=>x.setAttribute("aria-pressed",x===b));refresh();
+}));
+drawMap();refresh();
+</script>
+</body>
+</html>
