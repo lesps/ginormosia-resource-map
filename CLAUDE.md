@@ -17,7 +17,7 @@ BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 
 ## Layout
 - `data/regions.json`: **source of truth** for all resource data and pin coordinates. Corrections are data edits, not code edits. It's imported (bundled) by `src/main.js`.
-- `src/lib/`: pure logic, no DOM: `data.js` (validation, `CATEGORIES`, `TAGS`), `rank.js` (`formatRank`, `rankTitle`), `search.js` (search over names, `nameJa` and drops; `typesFor`; `entryKey` slugs for deep links), `escape.js`, `hash.js` (URL state incl. `e=` open entry).
+- `src/lib/`: pure logic, no DOM: `data.js` (validation, `CATEGORIES`, `TAGS`), `rank.js` (`formatRank`, `rankTitle`), `search.js` (search over names, `nameJa` and drops; `typesFor`; `entryKey` slugs for deep links), `escape.js`, `hash.js` (URL state incl. `e=` open entry), `find.js` (`howToFind`: the detail card's "How to find" steps, derived from rank, tower, `where`, `tags`, `level` and `conditions`).
 - `src/ui/`: DOM. `app.js` (`mountApp`, wires everything, keyboard shortcuts), `state.js` (store), `controls.js`, `map.js`, `panel.js`, `install.js`, `toast.js`, `dom.js` (`h()` helper).
 - `src/main.js`: entry point (fonts, CSS, SW registration, hash sync). It's untested by design; keep logic out of it.
 - `src/styles.css`: tokens and light/dark themes. Pin styling is in the "Pins" section.
