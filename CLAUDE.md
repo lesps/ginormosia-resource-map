@@ -32,7 +32,7 @@ BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 ## Deviations from SPEC.md
 - Data `version` 3: required `type` on every entry; a `boss` category; optional per-entry `where`, `conditions`, `tags`, `level`, `drops`, `note`, `confidence`, `sources`, `nameJa`; region `tower`/`landmarks`/`summary`/`nameJa`; top-level `mechanics`, `sources`, `confidenceLevels`. `search`/`regionMatches`/`regionHasCategory` take an optional 4th `type` argument, and `search` results can carry `drop` when only a drop matched.
 - Resource rows are buttons that expand a detail card (store key `openKey`, hash `e=`). Bosses have their own chip. Rank 6 exists.
-- The map image is a different, labelled 1024×1012 map (not the 3200² fan-annotated one). The frame's aspect ratio comes from `data.image`, and pins sit just above each region's number label.
+- The map image is a different, labelled 1024×1012 map (not the 3200² fan-annotated one). The frame's aspect ratio comes from `data.image`, and pins sit on each region's tower (located from an in-game screenshot via a coastline fit). On this image the towers sit inside the printed labels, so pins can cover part of a label at 1×/2×.
 - Zoom is 1×/2×/3×, not 1×/2×. Pin markers draw smaller at 1× on narrow screens; the tap target stays 44×56.
 - Results lists are sorted lowest rank first instead of data order. Type chips follow `data.typeOrder` (the game's tiers; validated to match the types in use exactly).
 - Additions not in the spec: idle region list, sticky toolbar, URL-hash state, keyboard shortcuts, install button/iOS help, offline badge.

@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- Pins now sit on each region's tower. Positions came from the tower diamonds in an in-game map screenshot, mapped onto the current image by fitting the two coastlines (pins moved 31–87 px).
 - Resource detail cards: rows expand to show where, conditions, drops, note, reliability, sources and the Japanese name. Rows carry badges (gold/silver crown, legendary, event, night, day, cave, level, unconfirmed/disputed) and a one-line location. Search results open the exact card, and the open card is kept in the URL (`e=`).
 - Bosses category and chip (29 bosses with drops), typed Silver-crown / Field boss / Dungeon / Challenge / Legendary.
 - Region summary, tower and landmarks in the region panel. A "How spawns work" box in the footer with a badge key.

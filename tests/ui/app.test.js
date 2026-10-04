@@ -17,8 +17,8 @@ describe('map', () => {
 
   it('positions pins by normalized coordinates', () => {
     const p = t.pin('Drakeseye Valley');
-    expect(p.style.left).toBe('15.9%');
-    expect(p.style.top).toBe('34.3%');
+    expect(p.style.left).toBe('12.7%');
+    expect(p.style.top).toBe('42.2%');
   });
 
   it('sizes the map from the data image dimensions', () => {

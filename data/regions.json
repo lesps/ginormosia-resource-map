@@ -4,7 +4,7 @@
     "file": "assets/ginormosia-map.jpg",
     "width": 1024,
     "height": 1012,
-    "coordSpace": "normalized 0-1, origin top-left; pins sit just above each region's number label"
+    "coordSpace": "normalized 0-1, origin top-left; pins sit on each region's tower (located from an in-game map screenshot)"
   },
   "categories": [
     "ore",
@@ -101,8 +101,8 @@
       "nameJa": "リューノメ山地",
       "where": "West coast, central lake with four rivers",
       "pin": {
-        "x": 0.159,
-        "y": 0.343
+        "x": 0.127,
+        "y": 0.422
       },
       "tower": "Googlonardo's Tower",
       "landmarks": [
@@ -305,8 +305,8 @@
       "nameJa": "ノーズン山地",
       "where": "Westernmost region, south of Drakeseye",
       "pin": {
-        "x": 0.133,
-        "y": 0.51
+        "x": 0.092,
+        "y": 0.517
       },
       "tower": "Googlizabeth's Tower",
       "landmarks": [
@@ -508,8 +508,8 @@
       "nameJa": "キーバ諸島",
       "where": "Island cluster west of the Greatgut Plains",
       "pin": {
-        "x": 0.286,
-        "y": 0.457
+        "x": 0.275,
+        "y": 0.512
       },
       "tower": "Googleph's Tower",
       "landmarks": [
@@ -797,8 +797,8 @@
       "nameJa": "クネック山岳",
       "where": "Mountains northwest of the Greatgut Plains",
       "pin": {
-        "x": 0.384,
-        "y": 0.281
+        "x": 0.377,
+        "y": 0.323
       },
       "tower": "Googlenette's Tower",
       "landmarks": [
@@ -911,8 +911,8 @@
       "nameJa": "セキネツ山地",
       "where": "West half of the volcano plus a grassy peninsula",
       "pin": {
-        "x": 0.455,
-        "y": 0.16
+        "x": 0.463,
+        "y": 0.202
       },
       "tower": "Googlolly's Tower",
       "landmarks": [
@@ -1161,8 +1161,8 @@
       "nameJa": "ドラドロ溶岩地帯",
       "where": "East half of the volcano; lava in the north",
       "pin": {
-        "x": 0.635,
-        "y": 0.198
+        "x": 0.647,
+        "y": 0.23
       },
       "tower": "Googlisha's Tower",
       "landmarks": [
@@ -1449,8 +1449,8 @@
       "nameJa": "ツバサキ谷",
       "where": "Northernmost of the three northeast peninsulas",
       "pin": {
-        "x": 0.787,
-        "y": 0.115
+        "x": 0.769,
+        "y": 0.161
       },
       "tower": "Googloria's Tower",
       "landmarks": [
@@ -1665,8 +1665,8 @@
       "nameJa": "キノココ秘境",
       "where": "Middle northeast peninsula",
       "pin": {
-        "x": 0.809,
-        "y": 0.221
+        "x": 0.838,
+        "y": 0.261
       },
       "tower": "Googlithy's Tower",
       "landmarks": [
@@ -1928,8 +1928,8 @@
       "nameJa": "ハネビラの森",
       "where": "Southernmost northeast peninsula",
       "pin": {
-        "x": 0.724,
-        "y": 0.329
+        "x": 0.723,
+        "y": 0.36
       },
       "tower": "Googlancia's Tower",
       "landmarks": [
@@ -2201,8 +2201,8 @@
       "nameJa": "グランベリー大平原西",
       "where": "Central plains with the barrier castle",
       "pin": {
-        "x": 0.437,
-        "y": 0.415
+        "x": 0.439,
+        "y": 0.482
       },
       "tower": "Googlelot's Tower",
       "landmarks": [
@@ -2445,8 +2445,8 @@
       "nameJa": "グランベリー大平原東",
       "where": "Grassland with an island-filled lake",
       "pin": {
-        "x": 0.649,
-        "y": 0.445
+        "x": 0.615,
+        "y": 0.441
       },
       "tower": "Googlius's Tower",
       "landmarks": [
@@ -2598,8 +2598,8 @@
       "nameJa": "グランベリー大平原南",
       "where": "River to the north, mountains to the south",
       "pin": {
-        "x": 0.43,
-        "y": 0.577
+        "x": 0.441,
+        "y": 0.611
       },
       "tower": "Googlierre's Tower",
       "landmarks": [
@@ -2865,8 +2865,8 @@
       "nameJa": "ミドリーナ台地",
       "where": "Grassland with arid mountains to the east",
       "pin": {
-        "x": 0.693,
-        "y": 0.559
+        "x": 0.688,
+        "y": 0.605
       },
       "tower": "Googlilock's Tower",
       "landmarks": [
@@ -3061,8 +3061,8 @@
       "nameJa": "カラット砂漠西",
       "where": "Southern desert; where you arrive",
       "pin": {
-        "x": 0.438,
-        "y": 0.765
+        "x": 0.43,
+        "y": 0.812
       },
       "tower": "Googlina's Tower",
       "landmarks": [
@@ -3414,8 +3414,8 @@
       "nameJa": "カラット砂漠東",
       "where": "Southern desert, east of the start",
       "pin": {
-        "x": 0.621,
-        "y": 0.69
+        "x": 0.624,
+        "y": 0.729
       },
       "tower": "Googlbert's Tower",
       "landmarks": [

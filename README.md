@@ -6,7 +6,7 @@ Live: `https://<user>.github.io/ginormosia-resource-map/` (once Pages is enabled
 
 ## Features
 
-- **Map with 15 pins**, one just above each region's numbered label. Pins are red teardrop markers with a white outline and shadow so they stand out on the art. Each one carries colored dots for the categories found there (ore, trees, fish, bosses). On phones the marker is drawn smaller at 1× so labels stay readable, while the tap target stays 44×56 px.
+- **Map with 15 pins**, one on each region's tower. Tower positions were located from an in-game map screenshot. Pins are red teardrop markers with a white outline and shadow so they stand out on the art. Each one carries colored dots for the categories found there (ore, trees, fish, bosses). On phones the marker is drawn smaller at 1× so labels stay readable, while the tap target stays 44×56 px.
 - **Category and sub-type filters.** Pick Ore, Trees, Fish or Bosses, then a type row appears (for example Gold, Platinum, Starcrystal; Oak, Cherry, Angeltree; Tuna, Lordfish; Field boss, Silver-crown, Legendary). Type chips follow the game's tier order (Copper → Iron → Silver → Gold → Platinum…; Oak → Palm → Pine…), and each shows how many regions have it. Choosing a type turns matching pins gold with a count badge, dims the rest, and lists every spawn, lowest rank first.
 - **Search** across resource and boss names, their Japanese names, and drops (case-insensitive substring), combined with the active filters. Search "ruby" and you get every node and boss that drops Ruby, labelled "drops Ruby". Matches are highlighted.
 - **Region panel**: tap a pin, a result, or a name in the region list. It shows the region's summary, tower and landmarks, then its ore, trees, fish, bosses and other resources. Close with × or Esc.
@@ -56,7 +56,7 @@ Only `name`, `type` and `minRank` are required. Categories are `ore`, `trees`, `
 
 - `type` groups tiers of the same resource and drives the sub-type chips. Reuse an existing type where one fits.
 - `minRank` is a string: `"1"`–`"6"`, `"any"`, `"top"`, `"3+"`, `"-"` (rank not recorded) or `"1 or 5"` (disputed).
-- Pins use normalized coordinates (`0–1`, origin top-left), placed just above the region's number on the map. `image.width`/`height` must match `assets/ginormosia-map.jpg`; the map frame takes its aspect ratio from them.
+- Pins use normalized coordinates (`0–1`, origin top-left), placed on the region's tower. They were measured by detecting the tower diamonds in an in-game map screenshot and fitting the screenshot's coastline onto this image (about 1% of the map width of uncertainty). `image.width`/`height` must match `assets/ginormosia-map.jpg`; the map frame takes its aspect ratio from them.
 
 - `tags` come from a fixed set: `gold-crown`, `silver-crown`, `legendary`, `event`, `night`, `day`, `cave`. `confidence` is `confirmed`, `single-source` or `disputed`, and every key in `sources` must exist in the top-level `sources` map.
 - `drops[].official` is `true` only when the English name is confirmed. Translated names are `false`, keep the original in `ja`, and show with a ≈ mark in the app. Drops from silver-crown monster groups carry `from` (the monster) and optionally `when` (`night`/`day`).
@@ -75,7 +75,7 @@ These are deliberate; don't "fix" them by accident.
 - **Not covered:** common fish, herbs and ground pickups.
 - **Data v3 provenance:** details, bosses and corrections come from a region-by-region guide compiled on 2026-10-04 from Gamer Guides, the FAQ & Data Project and Japanese sources (GameWith, Game8, kokorogu, wikiwiki). Entries found only in the earlier dataset (mostly coastal Tuna and Flying Fish) are kept, marked unconfirmed, with source `earlier`.
 - **Translated names:** Japanese drop and monster names were translated for this app. 96 drop names have no confirmed English name (`official: false`) and may not match the English release.
-- **Per-node pins** aren't available yet. They need tower coordinates measured on Gamer Guides' interactive map plus tower positions on the current map image.
+- **Per-node pins** aren't available yet. Tower positions on the current image are now known (the region pins), but the towers' coordinates on Gamer Guides' interactive map still need measuring before node coordinates can be converted.
 - **Tier order** (`typeOrder`) comes from published mining and woodcutting levels (Copper Lv 2, Iron 18, Blue Ore ~20, Silver ~23, Marine Ore ~25, Gold ~30, Platinum ~43; Oak 2–3, Palm 9–10, Pine 15, Sugar/Desert ~22–30, Skytree ~35, Darkwood ~50) and fish star ratings. No level was found for Haniwa Stone, Fossil, Red Ore, Pear, Fruit Tree or Eel, so those positions are best guesses. Boss, legendary and event types go last.
 - **Type groupings** (`type` field) were added for filtering and are this project's own grouping, not the game's. Boss types (Silver-crown, Field boss, Dungeon, Challenge, Legendary) were derived from each boss's conditions and location. New fish types (Sand Fish, Skeleton Fish, Evil Carp, Crystalline Bass, Godfish) have guessed tier positions. `Cherry Fruit Tree` and `Palm Fruit Tree` are grouped as `Fruit Tree`, separate from lumber `Cherry`/`Palm`. `Eruptuna` is grouped under `Tuna`.
 
