@@ -4,6 +4,9 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+### Changed
+- Sub-type chips are ordered from most common to rarest (earliest spawn rank, then region count) instead of alphabetically. Chip tooltips show the earliest rank.
+
 ### Added
 - LEVEL-5 copyright credit and non-affiliation notice in the site footer and README.
 - Credit and link for the fan map annotations by u/dzchan (r/fantasylife “Ginormosia map WIP”).

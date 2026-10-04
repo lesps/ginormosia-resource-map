@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import raw from '../../data/regions.json';
 import { search, regionHasCategory, regionMatches, typesFor } from '../../src/lib/search.js';
+import { rankOrder } from '../../src/lib/rank.js';
 
 const regions = raw.regions;
 const byId = (id) => regions.find((r) => r.id === id);
@@ -74,10 +75,28 @@ describe('regionMatches', () => {
 });
 
 describe('typesFor', () => {
-  it('lists types alphabetically with region counts', () => {
-    const t = typesFor(regions, 'ore');
-    expect(t.map((x) => x.type)).toEqual([...t.map((x) => x.type)].sort((a, b) => a.localeCompare(b)));
-    expect(t.find((x) => x.type === 'Platinum')).toEqual({ type: 'Platinum', regions: 3 });
+  it('reports region count and earliest rank per type', () => {
+    expect(typesFor(regions, 'ore').find((x) => x.type === 'Platinum')).toEqual({ type: 'Platinum', regions: 3, minRank: '1' });
+    expect(typesFor(regions, 'ore').find((x) => x.type === 'Golemstone')).toEqual({ type: 'Golemstone', regions: 2, minRank: '5' });
   });
+
+  it.each(['ore', 'trees', 'fish'])('orders %s from most common to rarest', (cat) => {
+    const t = typesFor(regions, cat);
+    for (let i = 1; i < t.length; i++) {
+      const a = t[i - 1], b = t[i];
+      const ra = rankOrder(a.minRank), rb = rankOrder(b.minRank);
+      expect(ra <= rb, `${a.type} before ${b.type}`).toBe(true);
+      if (ra === rb) expect(a.regions >= b.regions, `${a.type} before ${b.type}`).toBe(true);
+      if (ra === rb && a.regions === b.regions) expect(a.type.localeCompare(b.type)).toBeLessThan(0);
+    }
+  });
+
+  it('puts the most widespread starter type first and unknown-rank types last', () => {
+    const ore = typesFor(regions, 'ore').map((x) => x.type);
+    expect(ore[0]).toBe('Copper');
+    expect(ore.at(-1)).toBe('Magic Ore');
+    expect(typesFor(regions, 'trees')[0].type).toBe('Oak');
+  });
+
   it('is empty for "all"', () => expect(typesFor(regions, 'all')).toEqual([]));
 });

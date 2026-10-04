@@ -7,7 +7,7 @@ Live: `https://<user>.github.io/ginormosia-resource-map/` (once Pages is enabled
 ## Features
 
 - **Map with 15 pins**, one on each region's tower. Pins are red teardrop markers with a white outline and shadow so they stand out on the art. Each one carries colored dots for the categories found there (ore, trees, fish).
-- **Category and sub-type filters.** Pick Ore, Trees or Fish, then a type row appears (for example Gold, Platinum, Starcrystal; Oak, Cherry, Angeltree; Tuna, Lordfish). Each type chip shows how many regions have it. Choosing a type turns matching pins gold with a count badge, dims the rest, and lists every spawn, lowest rank first.
+- **Category and sub-type filters.** Pick Ore, Trees or Fish, then a type row appears (for example Gold, Platinum, Starcrystal; Oak, Cherry, Angeltree; Tuna, Lordfish). Type chips run from most common to rarest (earliest spawn rank, then fewer regions = rarer; unknown ranks last), and each shows how many regions have it. Choosing a type turns matching pins gold with a count badge, dims the rest, and lists every spawn, lowest rank first.
 - **Search** across all names (case-insensitive substring), combined with the active filters. Matches are highlighted.
 - **Region panel**: tap a pin, a result, or a name in the region list. Shows where the region is and its resources with the minimum Area Rank. Close with × or Esc.
 - **Zoom** 1× / 2× / 3×. The map pans inside its frame and centers on the selected pin. Pins keep a 44×56 px hit target at every zoom.

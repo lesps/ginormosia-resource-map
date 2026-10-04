@@ -1,5 +1,6 @@
 import { h, CAT_LABEL } from './dom.js';
 import { typesFor } from '../lib/search.js';
+import { formatRank } from '../lib/rank.js';
 
 const FILTERS = ['all', 'ore', 'trees', 'fish'];
 
@@ -41,10 +42,10 @@ export function createControls(store, regions) {
       typeRow.replaceChildren(...(types.length ? [
         h('button', { class: 'type-chip', type: 'button', dataset: { type: '' }, onclick: () => store.set({ type: null }) },
           `Any ${CAT_LABEL[s.category].toLowerCase()}`),
-        ...types.map(({ type, regions: n }) =>
+        ...types.map(({ type, regions: n, minRank }) =>
           h('button', {
             class: 'type-chip', type: 'button', dataset: { type },
-            title: `${type}: ${n} region${n === 1 ? '' : 's'}`,
+            title: `${type}: ${n} region${n === 1 ? '' : 's'}, from ${formatRank(minRank)}`,
             onclick: () => store.set({ type: store.get().type === type ? null : type, selectedId: null, fromResults: false }),
           }, type, h('span', { class: 'n', 'aria-label': `${n} regions` }, String(n)))),
       ] : []));
