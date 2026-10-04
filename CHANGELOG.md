@@ -4,20 +4,28 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+### Added
+- Pins now sit on each region's tower. Positions came from the tower diamonds in an in-game map screenshot, mapped onto the current image by fitting the two coastlines (pins moved 31–87 px).
+- Resource detail cards: rows expand to show where, conditions, drops, note, reliability, sources and the Japanese name. Rows carry badges (gold/silver crown, legendary, event, night, day, cave, level, unconfirmed/disputed) and a one-line location. Search results open the exact card, and the open card is kept in the URL (`e=`).
+- Bosses category and chip (29 bosses with drops), typed Silver-crown / Field boss / Dungeon / Challenge / Legendary.
+- Region summary, tower and landmarks in the region panel. A "How spawns work" box in the footer with a badge key.
+- Search also matches Japanese names and drop names ("ruby" lists everything that drops Ruby).
+- Data v3: details from a new region-by-region guide (Gamer Guides, FAQ & Data Project, GameWith, Game8, kokorogu, wikiwiki). Japanese drop and monster names were translated; 96 translated drop names are flagged as unconfirmed English names (≈ in the app). Validation covers tags, confidence, sources, drops, unique entry names, rank 6, and no Japanese outside `nameJa`/`ja`.
+- LEVEL-5 copyright credit and non-affiliation notice in the site footer and README.
+- Credit and link for the fan map annotations by u/dzchan (r/fantasylife “Ginormosia map WIP”).
+
 ### Changed
+- Corrections from the guide: Rainbow Flying Fish moved from West Dryridge/South Greatgut to East Dryridge; Coldwater Tuna any → R5; Great Dragontree top → R5; Poseidon Swordfish top → R5; Starry/Great Starry Tree and Electric Eel ranks recorded (R1); Legendary Shiny Geode and Rocket Fish 3 → 3+; Crops any → R1. Viridia's Magic Ore Deposit is now Great Magic Ore Deposit, and King Woolie moved from Other to Bosses.
+- New entries include Sand Fish, Cactus Fish, Skeleton Fish, Sneakfish, Crystalline Bass (disputed), Blackgill, Sneaky Tuna, Evil Carp, Faraway Sweetfish, Lulab Trout, Redgill, Lavashrimp, Godfish, Gold in Moltana Wastes, Superior Gold in Drakesnout, Legendary King Spud in four plains regions, and the Pickaxe/Axe of Time recipes.
+- Entries found only in the earlier data (coastal Tuna/Dunefin Tuna/Flying Fish in several regions) are kept but marked unconfirmed.
+- Escape now closes an open card before the region. Type chip rows start with "All …" instead of "Any …".
 - New map image: a labelled 1024×1012 map replaces the fan-annotated one. It ships as `public/map.webp` at native size (90 KB, down from 335 KB). All 15 pins were re-placed just above each region's number, and the map frame now follows the image's aspect ratio from `data.image`.
 - Pin markers draw smaller at 1× on phone-width screens so map labels stay readable (the tap target is unchanged).
+- Sub-type chips follow the game's tier order, set by a new `typeOrder` list in `data/regions.json` (validated against the types in use). Chip tooltips show the earliest rank.
 
 ### Removed
 - The selected pin's name tag; the new image labels every region.
 - The r/fantasylife fan-annotation credit, and the swapped West/East Greatgut caveat, which no longer applies.
-
-### Changed
-- Sub-type chips follow the game's tier order, set by a new `typeOrder` list in `data/regions.json` (validated against the types in use). Chip tooltips show the earliest rank.
-
-### Added
-- LEVEL-5 copyright credit and non-affiliation notice in the site footer and README.
-- Credit and link for the fan map annotations by u/dzchan (r/fantasylife “Ginormosia map WIP”).
 
 ## [1.0.0] - 2026-10-04
 

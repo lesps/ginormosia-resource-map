@@ -1,7 +1,7 @@
 :root {
   --bg: #f3f6f1; --ink: #1d2a24; --muted: #56645c; --panel: #fff; --line: #d7e0d5; --soft: #e8eee6;
   --sea-deep: #235670; --accent: #235670; --on-accent: #fff;
-  --ore: #5a6888; --trees: #3f8a46; --fish: #2b7cc0; --other: #a85fa8;
+  --ore: #5a6888; --trees: #3f8a46; --fish: #2b7cc0; --boss: #c0392b; --other: #a85fa8;
   --pin: #e0483a; --hit: #f2b02c; --focus: #f2b02c;
   --wrap: 860px; --gutter: 16px; --radius: 16px;
   --font-head: Fredoka, Nunito, system-ui, sans-serif;
@@ -107,6 +107,7 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 .dot[data-cat='ore'] { background: var(--ore); }
 .dot[data-cat='trees'] { background: var(--trees); }
 .dot[data-cat='fish'] { background: var(--fish); }
+.dot[data-cat='boss'] { background: var(--boss); }
 
 .status { margin: 0; min-height: 0; }
 .jump {
@@ -169,6 +170,7 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 .pin .dots .dot[data-cat='ore'] { background: #5a6888; }
 .pin .dots .dot[data-cat='trees'] { background: #3f8a46; }
 .pin .dots .dot[data-cat='fish'] { background: #2b7cc0; }
+.pin .dots .dot[data-cat='boss'] { background: #c0392b; }
 .pin .count {
   display: none; position: absolute; top: calc(56px - var(--head) * 1.6); right: -4px; min-width: 22px; height: 22px; padding: 0 5px;
   border-radius: 11px; background: #1d2a24; color: #fff; border: 2px solid #fff;
@@ -217,7 +219,34 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 .panel ul { list-style: none; margin: 0; padding: 0; }
 .panel li { border-top: 1px solid var(--line); }
 .panel li:first-child { border-top: 0; }
-.group li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 7px 0; }
+/* Resource rows: a full-width button that expands a detail card. */
+.entry {
+  width: 100%; display: flex; align-items: center; gap: 8px; text-align: left;
+  min-height: 52px; padding: 8px 4px; border: 0; background: none; cursor: pointer; border-radius: 10px;
+}
+.entry:hover { background: var(--soft); }
+.entries li.open > .entry { background: var(--soft); border-radius: 10px 10px 0 0; }
+.clamp { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.chev { flex: none; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); rotate: 45deg; margin: 0 4px 4px; transition: rotate .15s ease; }
+.entry[aria-expanded='true'] .chev { rotate: 225deg; margin-bottom: -4px; }
+.badges { display: inline-flex; gap: 4px; align-items: center; flex: none; flex-wrap: wrap; justify-content: flex-end; max-width: 45%; }
+.tag { font-size: .9rem; line-height: 1; }
+.lv, .conf { font-size: .7rem; font-weight: 700; padding: 1px 6px; border-radius: 999px; white-space: nowrap; }
+.lv { background: var(--soft); color: var(--muted); border: 1px solid var(--line); }
+.conf { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.conf[data-conf='disputed'] { color: #8a5a00; border-color: #c98a00; border-style: solid; background: #fff4d6; }
+.detail { background: var(--soft); border-radius: 0 0 10px 10px; padding: 4px 12px 10px; margin-bottom: 6px; font-size: .9rem; }
+.detail dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 12px; margin: 6px 0 0; }
+.detail dt { color: var(--muted); font-weight: 700; font-size: .8rem; padding-top: 1px; }
+.detail dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 420px) { .detail dl { grid-template-columns: 1fr; gap: 0; } .detail dd { margin-bottom: 6px; } }
+.drops { list-style: none; margin: 0; padding: 0; }
+.drops li { border: 0 !important; padding: 0 0 2px; }
+.approx-mark { color: var(--muted); font-size: .8em; margin-left: 2px; }
+.drop.approx { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; }
+.rank-note { color: var(--muted); font-size: .8rem; margin: 8px 0 0; }
+.region-info { font-size: .9rem; margin: 0 0 6px; }
+.region-info p { margin: 0 0 4px; }
 .what { display: flex; flex-direction: column; min-width: 0; flex: 1; }
 .name { font-weight: 600; overflow-wrap: anywhere; }
 .note { color: var(--muted); font-size: .84rem; }
@@ -239,6 +268,10 @@ mark { background: var(--hit); color: #1d2a24; border-radius: 4px; padding: 0 2p
 .foot { color: var(--muted); font-size: .86rem; padding-top: 8px; padding-bottom: calc(env(safe-area-inset-bottom) + 24px); }
 .foot h2 { font-size: 1rem; color: var(--ink); margin: 8px 0 4px; }
 .foot ul { margin: 0; padding-left: 18px; }
+.mechanics { background: var(--panel); border: 1.5px solid var(--line); border-radius: 12px; padding: 8px 14px; margin: 8px 0 12px; color: var(--ink); }
+.mechanics summary { cursor: pointer; font-weight: 700; min-height: 32px; display: flex; align-items: center; }
+.mechanics li { margin: 4px 0; }
+.legend-keys { display: grid; gap: 4px; font-size: .82rem; color: var(--muted); margin: 10px 0 2px; }
 .foot li { margin: 3px 0; }
 .foot strong { color: var(--ink); }
 

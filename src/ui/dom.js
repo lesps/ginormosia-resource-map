@@ -14,5 +14,5 @@ export function h(tag, attrs = {}, ...children) {
 
 export const reducedMotion = () => globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
-export const CAT_LABEL = { ore: 'Ore', trees: 'Trees', fish: 'Fish', other: 'Other' };
-export const PIN_CATS = ['ore', 'trees', 'fish'];
+export const CAT_LABEL = { ore: 'Ore', trees: 'Trees', fish: 'Fish', boss: 'Bosses', other: 'Other' };
+export const PIN_CATS = ['ore', 'trees', 'fish', 'boss'];

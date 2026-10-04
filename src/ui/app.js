@@ -2,18 +2,19 @@ import { h, reducedMotion } from './dom.js';
 import { createStore } from './state.js';
 import { createControls } from './controls.js';
 import { createMap } from './map.js';
-import { createPanel } from './panel.js';
-import { loadRegions } from '../lib/data.js';
-import { search, typesFor } from '../lib/search.js';
+import { createPanel, TAG_INFO } from './panel.js';
+import { loadRegions, CATEGORIES } from '../lib/data.js';
+import { search, typesFor, entryKey } from '../lib/search.js';
 import { toHash, fromHash } from '../lib/hash.js';
 
 export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
   const data = loadRegions(json);
   const { regions } = data;
   const valid = {
-    categories: ['all', 'ore', 'trees', 'fish'],
+    categories: ['all', 'ore', 'trees', 'fish', 'boss'],
     regionIds: regions.map((r) => r.id),
-    types: Object.fromEntries(['ore', 'trees', 'fish'].map((c) => [c, typesFor(regions, c, data.typeOrder[c]).map((t) => t.type)])),
+    types: Object.fromEntries(['ore', 'trees', 'fish', 'boss'].map((c) => [c, typesFor(regions, c, data.typeOrder[c]).map((t) => t.type)])),
+    entries: Object.fromEntries(regions.map((r) => [r.id, CATEGORIES.flatMap((c) => r[c].map(entryKey))])),
   };
   const initial = fromHash(hash, valid);
   const store = createStore({ ...initial, zoom: 1, fromResults: false });
@@ -42,6 +43,11 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
     controls.el,
     h('main', { class: 'layout' }, map.el, panel.el),
     h('footer', { class: 'foot' },
+      h('details', { class: 'mechanics' },
+        h('summary', {}, 'How spawns work'),
+        h('ul', {}, data.mechanics.map((m) => h('li', {}, m))),
+        h('p', { class: 'legend-keys' }, Object.values(TAG_INFO).map(([icon, label]) => h('span', {}, h('span', { 'aria-hidden': 'true' }, icon), ` ${label}`)),
+          h('span', {}, h('span', { class: 'approx-mark', 'aria-hidden': 'true' }, '≈'), ' Drop name translated from Japanese; the in-game English name may differ'))),
       h('h2', {}, 'Not found in Ginormosia'),
       h('ul', {}, data.notInGinormosia.map((n) => h('li', {}, h('strong', {}, n.name), ` — ${n.foundAt}`))),
       h('p', {}, 'Common fish, herbs and ground pickups aren’t mapped.'),
@@ -85,7 +91,8 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
       controls.input.focus();
     } else if (e.key === 'Escape') {
       const s = store.get();
-      if (s.selectedId) store.set({ selectedId: null, fromResults: false });
+      if (s.openKey) store.set({ openKey: null });
+      else if (s.selectedId) store.set({ selectedId: null, fromResults: false });
       else if (s.query || s.type) store.set({ query: '', type: null });
     }
   }, { signal: ac.signal });

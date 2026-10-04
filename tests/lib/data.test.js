@@ -37,8 +37,8 @@ describe('validateRegions', () => {
 
   it('rejects an unknown minRank', () => {
     const d = clone();
-    d.regions[0].ore[0].minRank = '6';
-    expect(() => validateRegions(d)).toThrow(/drakeseye.*Gold Deposit.*minRank "6"/);
+    d.regions[0].ore[0].minRank = '9';
+    expect(() => validateRegions(d)).toThrow(/drakeseye.*Gold Deposit.*minRank "9"/);
   });
 
   it('rejects a numeric minRank', () => {
@@ -87,6 +87,58 @@ describe('validateRegions', () => {
     const d = clone();
     d.image[k] = v;
     expect(() => validateRegions(d)).toThrow(new RegExp(`image\\.${k}`));
+  });
+
+  it('has a boss category on every region', () => {
+    for (const r of raw.regions) expect(Array.isArray(r.boss), r.id).toBe(true);
+  });
+
+  it('rejects an unknown confidence', () => {
+    const d = clone();
+    d.regions[0].ore[0].confidence = 'probably';
+    expect(() => validateRegions(d)).toThrow(/confidence "probably"/);
+  });
+
+  it('rejects a source key that is not defined', () => {
+    const d = clone();
+    d.regions[0].ore[0].sources = ['nowhere'];
+    expect(() => validateRegions(d)).toThrow(/source "nowhere"/);
+  });
+
+  it('rejects an unknown tag', () => {
+    const d = clone();
+    d.regions[0].ore[0].tags = ['shiny'];
+    expect(() => validateRegions(d)).toThrow(/tag "shiny"/);
+  });
+
+  it('rejects a drop without an English name or official flag', () => {
+    const d = clone();
+    const e = d.regions.flatMap((r) => d.categories.flatMap((c) => r[c])).find((x) => x.drops);
+    e.drops[0] = { ja: '石' };
+    expect(() => validateRegions(d)).toThrow(/drop/);
+  });
+
+  it('rejects duplicate entry names within a region', () => {
+    const d = clone();
+    d.regions[0].ore.push({ ...d.regions[0].ore[0] });
+    expect(() => validateRegions(d)).toThrow(/duplicate entry/i);
+  });
+
+  it('accepts rank 6', () => {
+    const d = clone();
+    d.regions[0].ore[0].minRank = '6';
+    expect(() => validateRegions(d)).not.toThrow();
+  });
+
+  it('keeps Japanese text only in nameJa and drop ja fields', () => {
+    const JP = /[\u3040-\u30ff\u4e00-\u9fff]/;
+    const bad = [];
+    const walk = (o, path) => {
+      if (typeof o === 'string') { if (JP.test(o) && !/\.(nameJa|ja)$/.test(path)) bad.push(path); }
+      else if (o && typeof o === 'object') for (const k in o) walk(o[k], `${path}.${k}`);
+    };
+    walk(raw, '');
+    expect(bad).toEqual([]);
   });
 
   it('returns the data object from loadRegions', () => {

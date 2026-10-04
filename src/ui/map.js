@@ -9,7 +9,7 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
     h('img', { src: imageSrc, alt: imageAlt, width, height, decoding: 'async', draggable: 'false' }));
 
   for (const r of regions) {
-    const select = () => store.set({ selectedId: r.id, fromResults: false });
+    const select = () => store.get().selectedId !== r.id && store.set({ selectedId: r.id, fromResults: false, openKey: null });
     const pin = h('button', {
       class: 'pin', type: 'button', 'aria-label': r.name, 'aria-pressed': 'false', dataset: { id: r.id },
       style: `left:${+(r.pin.x * 100).toFixed(3)}%;top:${+(r.pin.y * 100).toFixed(3)}%`,

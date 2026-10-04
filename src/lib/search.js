@@ -1,6 +1,6 @@
 import { rankOrder } from './rank.js';
 
-const SEARCHABLE = { all: ['ore', 'trees', 'fish', 'other'], ore: ['ore'], trees: ['trees'], fish: ['fish'] };
+const SEARCHABLE = { all: ['ore', 'trees', 'fish', 'boss', 'other'], ore: ['ore'], trees: ['trees'], fish: ['fish'], boss: ['boss'] };
 
 const cats = (category) => SEARCHABLE[category] ?? [category];
 
@@ -11,8 +11,14 @@ export function search(regions, query, category, type = null) {
   for (const region of regions)
     for (const c of cats(category))
       for (const entry of region[c] ?? [])
-        if ((!type || entry.type === type) && (!q || entry.name.toLowerCase().includes(q)))
-          out.push({ regionId: region.id, category: c, entry });
+        if (!type || entry.type === type) {
+          if (!q || entry.name.toLowerCase().includes(q) || entry.nameJa?.includes(q)) out.push({ regionId: region.id, category: c, entry });
+          else {
+            const drops = entry.drops ?? [];
+            const drop = drops.find((d) => d.name.toLowerCase() === q) ?? drops.find((d) => d.name.toLowerCase().includes(q) || d.ja?.includes(q));
+            if (drop) out.push({ regionId: region.id, category: c, entry, drop });
+          }
+        }
   return out;
 }
 
@@ -44,3 +50,5 @@ export function typesFor(regions, category, order = []) {
       return (ia < 0) - (ib < 0) || ia - ib || a.type.localeCompare(b.type);
     });
 }
+
+export const entryKey = (entry) => entry.name.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

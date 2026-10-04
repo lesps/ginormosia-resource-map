@@ -1,6 +1,8 @@
 import { RANKS } from './rank.js';
 
-export const CATEGORIES = ['ore', 'trees', 'fish', 'other'];
+export const CATEGORIES = ['ore', 'trees', 'fish', 'boss', 'other'];
+export const TAGS = ['gold-crown', 'silver-crown', 'legendary', 'event', 'night', 'day', 'cave'];
+export const CONFIDENCE = ['confirmed', 'single-source', 'disputed'];
 
 export function validateRegions(data) {
   for (const k of ['width', 'height']) {
@@ -16,6 +18,7 @@ export function validateRegions(data) {
       if (typeof v !== 'number' || v < 0 || v > 1)
         throw new Error(`Region "${r.id}": pin.${axis} must be a number in [0,1], got ${JSON.stringify(v)}`);
     }
+    const names = new Set();
     for (const cat of CATEGORIES) {
       if (!Array.isArray(r[cat])) throw new Error(`Region "${r.id}": category "${cat}" must be an array`);
       r[cat].forEach((e, i) => {
@@ -25,6 +28,9 @@ export function validateRegions(data) {
           throw new Error(`Region "${r.id}": "${e.name}" is missing a type`);
         if (typeof e.minRank !== 'string' || !RANKS.includes(e.minRank))
           throw new Error(`Region "${r.id}": "${e.name}" has invalid minRank "${e.minRank}"`);
+        validateDetails(data, r, e);
+        if (names.has(e.name)) throw new Error(`Region "${r.id}": duplicate entry "${e.name}"`);
+        names.add(e.name);
       });
     }
   }
@@ -36,6 +42,17 @@ export function validateRegions(data) {
     for (const t of order) if (!used.has(t)) throw new Error(`typeOrder.${cat} lists "${t}", which no entry uses`);
   }
   return data;
+}
+
+function validateDetails(data, r, e) {
+  const where = `Region "${r.id}": "${e.name}"`;
+  if (e.confidence !== undefined && !CONFIDENCE.includes(e.confidence)) throw new Error(`${where} has invalid confidence "${e.confidence}"`);
+  for (const src of e.sources ?? []) if (!data.sources?.[src]) throw new Error(`${where} cites undefined source "${src}"`);
+  for (const t of e.tags ?? []) if (!TAGS.includes(t)) throw new Error(`${where} has unknown tag "${t}"`);
+  for (const d of e.drops ?? []) {
+    if (typeof d?.name !== 'string' || !d.name || typeof d.official !== 'boolean')
+      throw new Error(`${where} has a drop without an English name and official flag`);
+  }
 }
 
 export const loadRegions = (json) => validateRegions(json);

@@ -1,24 +1,25 @@
 {
-  "version": 2,
+  "version": 3,
   "image": {
     "file": "assets/ginormosia-map.jpg",
     "width": 1024,
     "height": 1012,
-    "coordSpace": "normalized 0-1, origin top-left; pins sit just above each region's number label"
+    "coordSpace": "normalized 0-1, origin top-left; pins sit on each region's tower (located from an in-game map screenshot)"
   },
   "categories": [
     "ore",
     "trees",
     "fish",
+    "boss",
     "other"
   ],
   "rankLegend": {
-    "1-5": "minimum Area Rank",
     "any": "spawns at every rank",
     "top": "top-rank event",
     "3+": "rank 3 or higher",
     "-": "rank not recorded",
-    "1 or 5": "sources disagree"
+    "1 or 5": "sources disagree",
+    "1-6": "minimum Area Rank (earliest seen; tiers roll at random)"
   },
   "typeOrder": {
     "ore": [
@@ -61,67 +62,178 @@
     ],
     "fish": [
       "Tuna",
+      "Sneakfish",
+      "Faraway Sweetfish",
+      "Lulab Trout",
+      "Redgill",
       "Flying Fish",
       "Bream",
+      "Blackgill",
+      "Cactus Fish",
+      "Lavashrimp",
+      "Sand Fish",
+      "Skeleton Fish",
+      "Evil Carp",
       "Eel",
+      "Crystalline Bass",
       "Swordfish",
       "Rocket Fish",
+      "Godfish",
       "Lordfish"
     ],
     "other": [
       "Crops",
       "King Spud",
-      "Monster"
+      "Recipe"
+    ],
+    "boss": [
+      "Silver-crown",
+      "Field boss",
+      "Dungeon",
+      "Challenge",
+      "Legendary"
     ]
   },
   "regions": [
     {
       "id": "drakeseye",
       "name": "Drakeseye Valley",
+      "nameJa": "リューノメ山地",
       "where": "West coast, central lake with four rivers",
       "pin": {
-        "x": 0.159,
-        "y": 0.343
+        "x": 0.127,
+        "y": 0.422
       },
+      "tower": "Googlonardo's Tower",
+      "landmarks": [
+        "central lake feeding four rivers",
+        "Bit'ah Shrine",
+        "Happi Shrine",
+        "northern peninsula's west coast"
+      ],
+      "summary": "JP players rate it the top Rank 5 region (★★★): Water Starcrystal, Giant's Tree and Swordfish close together.",
       "ore": [
         {
           "name": "Gold Deposit",
           "type": "Gold",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "金鉱床",
+          "where": "4 ESE of Googlonardo's Tower; 4 on the west coast of the northern peninsula between the tower and Bit'ah Shrine; a pair SSW of Bit'ah; 2 S of Bit'ah",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db"
+          ]
         },
         {
           "name": "Superior Gold Deposit",
           "type": "Gold",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "上金鉱床",
+          "where": "5 along the northern edge of a mountain on the region's eastern edge",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "bearblog"
+          ]
         },
         {
           "name": "Great Gold Deposit",
           "type": "Gold",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Gold Deposit",
           "type": "Gold",
-          "minRank": "5"
+          "minRank": "5",
+          "note": "GG lists Amazing Gold only in Depths B2",
+          "confidence": "disputed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Water Starcrystal",
           "type": "Starcrystal",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "水のスタークリスタル",
+          "where": "Close to the arrival point after fast-travelling in",
+          "conditions": "gold-crown",
+          "tags": [
+            "gold-crown"
+          ],
+          "drops": [
+            {
+              "name": "Amethyst",
+              "ja": "アメジスト",
+              "official": true
+            },
+            {
+              "name": "Water Shard",
+              "ja": "ウォータのカケラ",
+              "official": false
+            },
+            {
+              "name": "Deep Sea Ore",
+              "ja": "深海鉱",
+              "official": false
+            },
+            {
+              "name": "Superior Mysteria Stone",
+              "ja": "上ミステニア石材",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu",
+            "gamewith",
+            "jp_routes"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Oak Tree",
           "type": "Oak",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Giant's Tree",
           "type": "Giant's Tree",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "ジャイアントツリー",
+          "where": "A short walk from the Water Starcrystal",
+          "conditions": "gold-crown; ~1.25M Woodcutter XP",
+          "tags": [
+            "gold-crown"
+          ],
+          "drops": [
+            {
+              "name": "Giant Tree Bark",
+              "ja": "巨大樹の樹皮",
+              "official": false
+            },
+            {
+              "name": "Giant Tree Fruit",
+              "ja": "巨大樹の実",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu",
+            "jp_routes"
+          ]
         }
       ],
       "fish": [
@@ -129,60 +241,179 @@
           "name": "Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "where": "Coast",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Flying Fish",
           "type": "Flying Fish",
           "minRank": "1",
-          "note": "coast"
+          "where": "Coast",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Swordfish",
           "type": "Swordfish",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "カジキマグロ",
+          "where": "Off the coast",
+          "conditions": "Lv80",
+          "level": 80,
+          "drops": [
+            {
+              "name": "Swordfish Fin",
+              "ja": "カジキヒレ",
+              "official": true
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Legendary Don Woolie",
+          "type": "Legendary",
+          "minRank": "3+",
+          "nameJa": "伝説ドン・バハ・ハ",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "drakesnout",
       "name": "Drakesnout Range",
+      "nameJa": "ノーズン山地",
       "where": "Westernmost region, south of Drakeseye",
       "pin": {
-        "x": 0.133,
-        "y": 0.51
+        "x": 0.092,
+        "y": 0.517
       },
+      "tower": "Googlizabeth's Tower",
+      "landmarks": [
+        "mountain range highest to the south",
+        "Nostruul Cave, SW of the tower – needs Mining to clear rocks",
+        "Legendary Feast recipe in Nostruul Cave"
+      ],
+      "summary": "Gold, plus the best Miner XP node in the game (Graphite, Rank 5).",
       "ore": [
         {
           "name": "Gold Deposit",
           "type": "Gold",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "金鉱床",
+          "where": "On the mountain W of the path; 4 near the top of the mountain SW of the tower; 7 on top of the mountain; 3 on its southern tip; 3 on another summit. Also: Nostruul Cave",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "gamewith"
+          ],
+          "tags": [
+            "cave"
+          ]
         },
         {
           "name": "Great Gold Deposit",
           "type": "Gold",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "gg_ore"
+          ]
         },
         {
           "name": "Graphite Deposit",
           "type": "Graphite",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "グラスファイト鉱床",
+          "conditions": "gold-crown; Lv90; ~1.25M Miner XP",
+          "tags": [
+            "gold-crown"
+          ],
+          "level": 90,
+          "drops": [
+            {
+              "name": "Black Onyx",
+              "ja": "ブラックオニキス",
+              "official": true
+            },
+            {
+              "name": "Ancient Orb",
+              "ja": "古代のオーブ",
+              "official": false
+            },
+            {
+              "name": "Dark Stone",
+              "ja": "ダークストーン",
+              "official": false
+            },
+            {
+              "name": "Ancient Emerald",
+              "ja": "古代エメラルド",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_ore",
+            "gg_boss",
+            "kokorogu",
+            "jp_routes"
+          ]
         },
         {
           "name": "Amazing Gold Deposit",
           "type": "Gold",
           "minRank": "5",
-          "note": "Mountain's Treasure event"
+          "conditions": "'Mountain's Treasure' event",
+          "tags": [
+            "event"
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
+        },
+        {
+          "name": "Superior Gold Deposit",
+          "type": "Gold",
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "gg_ore"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Cherry Fruit Tree",
           "type": "Fruit Tree",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         }
       ],
       "fish": [
@@ -190,72 +421,220 @@
           "name": "Flying Fish",
           "type": "Flying Fish",
           "minRank": "1",
-          "note": "coast"
+          "note": "coast",
+          "confidence": "single-source",
+          "sources": [
+            "earlier"
+          ]
         },
         {
           "name": "Coldwater Tuna",
           "type": "Tuna",
-          "minRank": "any",
-          "note": "boss"
+          "minRank": "5",
+          "nameJa": "レイトウマグロ",
+          "where": "Off the shore",
+          "conditions": "Lv80",
+          "level": 80,
+          "drops": [
+            {
+              "name": "Frozen Scale",
+              "ja": "レイトウウロコ",
+              "official": false
+            }
+          ],
+          "note": "Earlier data said 'any rank' – superseded",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Legendary Don Woolie",
+          "type": "Legendary",
+          "minRank": "3+",
+          "nameJa": "伝説ドン・バハ・ハ",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Black Box",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "nameJa": "ブラックボックス",
+          "where": "Nostruul Cave",
+          "tags": [
+            "silver-crown",
+            "cave"
+          ],
+          "drops": [
+            {
+              "name": "Treasure Bag",
+              "ja": "秘宝袋",
+              "official": false
+            },
+            {
+              "name": "Gold Coin Bag",
+              "ja": "金貨袋",
+              "official": false
+            },
+            {
+              "name": "Silver Coin Bag",
+              "ja": "銀貨袋",
+              "official": false
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "fangshore",
       "name": "Fangshore Isles",
+      "nameJa": "キーバ諸島",
       "where": "Island cluster west of the Greatgut Plains",
       "pin": {
-        "x": 0.286,
-        "y": 0.457
+        "x": 0.275,
+        "y": 0.512
       },
+      "tower": "Googleph's Tower",
+      "landmarks": [
+        "Wyrm Maw Cave (ore cave; recipe near its end)",
+        "west coast",
+        "waters to the north, between the isles and Crickneck Canyon"
+      ],
+      "summary": "Silver/Marine ore in Wyrm Maw Cave; rare challenge can spawn Godfish and Poseidon Swordfish.",
       "ore": [
         {
           "name": "Silver Deposit",
           "type": "Silver",
           "minRank": "1",
-          "note": "Wyrm Maw Cave"
+          "nameJa": "銀鉱床",
+          "where": "Wyrm Maw Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Superior Marine Ore Deposit",
           "type": "Marine Ore",
           "minRank": "2",
-          "note": "Wyrm Maw Cave"
+          "where": "Wyrm Maw Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Silver Deposit",
           "type": "Silver",
           "minRank": "3",
-          "note": "Wyrm Maw Cave"
+          "nameJa": "大銀鉱床",
+          "where": "Wyrm Maw Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Marine Ore Deposit",
           "type": "Marine Ore",
           "minRank": "4",
-          "note": "Wyrm Maw Cave"
+          "where": "Wyrm Maw Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Sugar Tree",
           "type": "Sugar",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Pear Tree",
           "type": "Pear",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Sugar Tree",
           "type": "Sugar",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Water Angeltree",
           "type": "Angeltree",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "水のエンジェルツリー",
+          "conditions": "gold-crown; Lv80",
+          "tags": [
+            "gold-crown"
+          ],
+          "level": 80,
+          "drops": [
+            {
+              "name": "Water Log",
+              "ja": "ウォータ原木",
+              "official": false
+            },
+            {
+              "name": "Elder Water Log",
+              "ja": "ウォータ古木",
+              "official": false
+            },
+            {
+              "name": "Water Mana",
+              "ja": "水のマナ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "gg_tree",
+            "kokorogu"
+          ]
         }
       ],
       "fish": [
@@ -263,107 +642,449 @@
           "name": "Tropica Bream",
           "type": "Bream",
           "minRank": "1",
-          "note": "west coast"
+          "where": "West coast",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "gg_fish"
+          ]
         },
         {
           "name": "Legendary Rocket Fish",
           "type": "Rocket Fish",
-          "minRank": "3",
-          "note": "legendary event"
+          "minRank": "3+",
+          "nameJa": "伝説ブットビウオ",
+          "where": "Waters north of the isles / south of Crickneck Canyon",
+          "conditions": "legendary challenge; Lv90; Fishing 400+ and two angler buddies recommended",
+          "tags": [
+            "legendary"
+          ],
+          "level": 90,
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
         },
         {
           "name": "Poseidon Swordfish",
           "type": "Swordfish",
-          "minRank": "top",
-          "note": "Lordly Shark event"
+          "minRank": "5",
+          "nameJa": "ポセイドンカジキ",
+          "conditions": "rare area challenge (Japanese name roughly 'Lord of the Gods?'); also spawns a big shark",
+          "tags": [
+            "event"
+          ],
+          "note": "GG lists both as Treasure-Grove-only; JP source shows this rare Ginormosia challenge",
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Godfish",
+          "type": "Godfish",
+          "minRank": "5",
+          "nameJa": "神のヌシ",
+          "conditions": "rare area challenge (Japanese name roughly 'Lord of the Gods?'); also spawns a big shark",
+          "tags": [
+            "event"
+          ],
+          "note": "GG lists both as Treasure-Grove-only; JP source shows this rare Ginormosia challenge",
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Sneakfish",
+          "type": "Sneakfish",
+          "minRank": "1",
+          "where": "Wyrm Maw Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Steel Tortortoise",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "こうてつトーストス",
+          "drops": [
+            {
+              "name": "Steel Shell",
+              "ja": "こうてつのこうら",
+              "official": false
+            },
+            {
+              "name": "Dark Orb",
+              "ja": "闇の玉",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Crystal Golem",
+          "type": "Field boss",
+          "minRank": "6",
+          "nameJa": "クリスタルゴーレム",
+          "drops": [
+            {
+              "name": "Frozen Crystal",
+              "ja": "氷結クリスタル",
+              "official": false
+            },
+            {
+              "name": "Star Shard",
+              "ja": "星のカケラ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "kokorogu",
+            "jp_routes"
+          ]
+        },
+        {
+          "name": "Black Box",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "nameJa": "ブラックボックス",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Treasure Bag",
+              "ja": "秘宝袋",
+              "official": false
+            },
+            {
+              "name": "Gold Coin Bag",
+              "ja": "金貨袋",
+              "official": false
+            },
+            {
+              "name": "Silver Coin Bag",
+              "ja": "銀貨袋",
+              "official": false
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "crickneck",
       "name": "Crickneck Canyon",
+      "nameJa": "クネック山岳",
       "where": "Mountains northwest of the Greatgut Plains",
       "pin": {
-        "x": 0.384,
-        "y": 0.281
+        "x": 0.377,
+        "y": 0.323
       },
+      "tower": "Googlenette's Tower",
+      "landmarks": [
+        "tower on the highest, NE-most edge",
+        "Faan Shrine (mining challenge)",
+        "westernmost mountain",
+        "Korogashi village (item shop sells Faraway Iron)"
+      ],
+      "summary": "Gold hub.",
       "ore": [
         {
           "name": "Gold Deposit",
           "type": "Gold",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "金鉱床",
+          "where": "7 along the westernmost mountain; 3 NW of Googlenette's Tower; 4 (+ a pair) in low ground S of the tower; 5 in barren mountains NE of Faan Shrine; 3 on a mountain between Faan Shrine and the tower",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db"
+          ]
         },
         {
           "name": "Superior Gold Deposit",
           "type": "Gold",
-          "minRank": "2"
+          "minRank": "2",
+          "nameJa": "上金鉱床",
+          "where": "Same clusters (tier roll)",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_ore",
+            "gg_db"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Oak Tree",
           "type": "Oak",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         }
       ],
       "fish": [],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Rock Ghost / Bouldergeist",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "ロックゴースト",
+          "drops": [
+            {
+              "name": "Ghost Essence",
+              "ja": "幽体のもと",
+              "official": false
+            },
+            {
+              "name": "Dark Orb",
+              "ja": "闇の玉",
+              "official": false
+            },
+            {
+              "name": "Life Shard",
+              "ja": "命のカケラ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu",
+            "jp_routes"
+          ]
+        },
+        {
+          "name": "Legendary Don Woolie",
+          "type": "Legendary",
+          "minRank": "3+",
+          "nameJa": "伝説ドン・バハ・ハ",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "drops": [
+            {
+              "name": "Legendary Don Horn",
+              "ja": "伝説ドンホーン",
+              "official": true
+            },
+            {
+              "name": "Legendary Don Meat",
+              "ja": "伝説ドンミート",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "scorchrock",
       "name": "Scorchrock Mountain",
+      "nameJa": "セキネツ山地",
       "where": "West half of the volcano plus a grassy peninsula",
       "pin": {
-        "x": 0.455,
-        "y": 0.16
+        "x": 0.463,
+        "y": 0.202
       },
+      "tower": "Googlolly's Tower",
+      "landmarks": [
+        "dormant west half of the volcano + grassy western peninsula",
+        "lake at the summit (Hot Spring Bream)",
+        "Lun'li Shrine",
+        "Agekara Cave (west half)",
+        "campfire road ENE of the tower"
+      ],
+      "summary": "Platinum, Dragon's Claw, Earth Angeltree. No legendary challenges spawn here.",
       "ore": [
         {
           "name": "Platinum Deposit",
           "type": "Platinum",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "白金鉱床",
+          "where": "Lone deposits SW, S and W of a lake on the NE edge (Game8: 'Scorchrock Mountain East')",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "game8"
+          ]
         },
         {
           "name": "Superior Red Ore Deposit",
           "type": "Red Ore",
-          "minRank": "2"
+          "minRank": "2",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Platinum Deposit",
           "type": "Platinum",
-          "minRank": "3"
+          "minRank": "3",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Red Ore Deposit",
           "type": "Red Ore",
           "minRank": "4",
-          "note": "Agekara Cave West"
+          "where": "Amazing Red in Agekara Cave West",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Dragon's Claw",
           "type": "Dragon's Claw",
           "minRank": "5",
-          "note": "Agekara Cave / Dragon Dare"
+          "nameJa": "竜の鉤爪",
+          "where": "Agekara Cave, or the 'Dragon Dare' challenge",
+          "conditions": "gold-crown; Lv80",
+          "tags": [
+            "gold-crown",
+            "cave"
+          ],
+          "level": 80,
+          "drops": [
+            {
+              "name": "Flame Ruby",
+              "ja": "フレイムルビー",
+              "official": false
+            },
+            {
+              "name": "Lava Dragon King Stone",
+              "ja": "溶岩の竜王石",
+              "official": false
+            },
+            {
+              "name": "Magma Ore",
+              "ja": "灼熱鉱",
+              "official": true
+            },
+            {
+              "name": "Ancient Emerald",
+              "ja": "古代エメラルド",
+              "official": false
+            },
+            {
+              "name": "Ruby",
+              "ja": "ルビー",
+              "official": true
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_ore",
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Starry Tree",
           "type": "Starry",
-          "minRank": "-"
+          "minRank": "1",
+          "where": "A line of four N of Googlolly's Tower; a triangle E of the tower; a pair ENE along the road to the campfire",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "gg_tree"
+          ]
         },
         {
           "name": "Earth Angeltree",
           "type": "Angeltree",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "地のエンジェルツリー",
+          "conditions": "gold-crown",
+          "tags": [
+            "gold-crown"
+          ],
+          "drops": [
+            {
+              "name": "Elder Earth Log",
+              "ja": "アース古木",
+              "official": false
+            },
+            {
+              "name": "Earth Log",
+              "ja": "アース原木",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         },
         {
           "name": "Great Dragontree",
           "type": "Dragontree",
-          "minRank": "top",
-          "note": "Dragon Dare event only"
+          "minRank": "5",
+          "nameJa": "竜の大樹",
+          "conditions": "area challenge only ('Dragon Dare')",
+          "tags": [
+            "event"
+          ],
+          "drops": [
+            {
+              "name": "Dragontree Horn",
+              "ja": "竜樹の角",
+              "official": false
+            },
+            {
+              "name": "Dragontree Wing",
+              "ja": "竜樹の翼",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "kokorogu"
+          ]
         }
       ],
       "fish": [
@@ -371,65 +1092,223 @@
           "name": "Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "note": "coast",
+          "confidence": "single-source",
+          "sources": [
+            "earlier"
+          ]
         },
         {
           "name": "Flying Fish",
           "type": "Flying Fish",
           "minRank": "1",
-          "note": "coast"
+          "note": "coast",
+          "confidence": "single-source",
+          "sources": [
+            "earlier"
+          ]
         },
         {
           "name": "Hot Spring Bream",
           "type": "Bream",
           "minRank": "1 or 5",
-          "note": "inland lake; sources disagree"
+          "where": "Lake at the top of Scorchrock Mountain; big shadows only",
+          "confidence": "disputed",
+          "sources": [
+            "gg_fish",
+            "bearblog"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Pyro Panther",
+          "type": "Dungeon",
+          "minRank": "5",
+          "nameJa": "ガンモエパンサー",
+          "where": "Agekara Cave",
+          "conditions": "night",
+          "tags": [
+            "night",
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Napdragon / Prairie Dragon",
+          "type": "Challenge",
+          "minRank": "5",
+          "nameJa": "イネムリドラゴン",
+          "conditions": "area challenge",
+          "tags": [
+            "event"
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "moltana",
       "name": "Moltana Wastes",
+      "nameJa": "ドラドロ溶岩地帯",
       "where": "East half of the volcano; lava in the north",
       "pin": {
-        "x": 0.635,
-        "y": 0.198
+        "x": 0.647,
+        "y": 0.23
       },
+      "tower": "Googlisha's Tower",
+      "landmarks": [
+        "volcanic northern half with lava flows",
+        "Panther Preserve town",
+        "Wav'yu Shrine",
+        "Agekara Cave (east half; west half counts as Scorchrock)"
+      ],
+      "summary": "Red Ore / Magma Ore hub. No legendary challenges spawn here.",
       "ore": [
         {
           "name": "Platinum Deposit",
           "type": "Platinum",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "白金鉱床",
+          "where": "A trio along the NE edge of the region. Also: Agekara Cave. Platinum + Red; nodes respawn when you leave and re-enter the cave. GameWith calls it the best Platinum farm",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "bearblog"
+          ],
+          "tags": [
+            "cave"
+          ]
         },
         {
           "name": "Superior Red Ore Deposit",
           "type": "Red Ore",
           "minRank": "1",
-          "note": "drops Magma Ore"
+          "nameJa": "上赤鉱床",
+          "where": "A trio NNE of Panther Preserve; an isolated one in the volcanic north. Also: Agekara Cave. Platinum + Red; nodes respawn when you leave and re-enter the cave. GameWith calls it the best Platinum farm",
+          "conditions": "Lv30+ even at Rank 1; drops Magma Ore",
+          "level": 30,
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "gg_misc",
+            "gamewith"
+          ],
+          "tags": [
+            "cave"
+          ]
         },
         {
           "name": "Great Platinum Deposit",
           "type": "Platinum",
-          "minRank": "3"
+          "minRank": "3",
+          "nameJa": "大白金鉱床",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "wikiwiki"
+          ]
         },
         {
           "name": "Amazing Red Ore Deposit",
           "type": "Red Ore",
           "minRank": "3",
-          "note": "drops Magma Ore"
+          "nameJa": "大赤鉱床",
+          "note": "drops Magma Ore",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "wikiwiki"
+          ]
         },
         {
           "name": "Golemstone",
           "type": "Golemstone",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "ゴーレムストーン",
+          "conditions": "gold-crown; Lv90",
+          "tags": [
+            "gold-crown"
+          ],
+          "level": 90,
+          "drops": [
+            {
+              "name": "Ruby",
+              "ja": "ルビー",
+              "official": true
+            },
+            {
+              "name": "Magma Ore",
+              "ja": "灼熱鉱",
+              "official": true
+            },
+            {
+              "name": "Golem Shard",
+              "ja": "ゴーレムのカケラ",
+              "official": false
+            },
+            {
+              "name": "Superior Mint Ore",
+              "ja": "上ハッカ鉱",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         },
         {
           "name": "Heart of Darkness",
           "type": "Heart of Darkness",
           "minRank": "5",
-          "note": "Evil Primeval event"
+          "nameJa": "魔王の心臓",
+          "conditions": "area challenge 'Evil Primeval'",
+          "tags": [
+            "event"
+          ],
+          "drops": [
+            {
+              "name": "Black Onyx",
+              "ja": "ブラックオニキス",
+              "official": true
+            },
+            {
+              "name": "Demon King Stone",
+              "ja": "マオーストーン",
+              "official": false
+            },
+            {
+              "name": "Demon King Heart",
+              "ja": "マオーハート",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "kokorogu",
+            "bearblog"
+          ]
+        },
+        {
+          "name": "Gold Deposit",
+          "type": "Gold",
+          "minRank": "1",
+          "nameJa": "金鉱床",
+          "note": "Listed by GameWith only",
+          "confidence": "single-source",
+          "sources": [
+            "gamewith"
+          ]
         }
       ],
       "trees": [],
@@ -438,148 +1317,517 @@
           "name": "Eruptuna",
           "type": "Tuna",
           "minRank": "5",
-          "note": "lava pools"
+          "nameJa": "マグマグロ",
+          "where": "Lava in the northern reaches",
+          "conditions": "Lv80",
+          "level": 80,
+          "drops": [
+            {
+              "name": "Magma Fin",
+              "ja": "マグマヒレ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Redgill",
+          "type": "Redgill",
+          "minRank": "1",
+          "where": "Lava flows in the northern half",
+          "note": "Ginormosia-exclusive lava catches",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
+        },
+        {
+          "name": "Lavashrimp",
+          "type": "Lavashrimp",
+          "minRank": "1",
+          "where": "Lava flows in the northern half",
+          "note": "Ginormosia-exclusive lava catches",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Mohawkasaurus",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "モヒカンザウルス",
+          "conditions": "day only",
+          "tags": [
+            "day"
+          ],
+          "drops": [
+            {
+              "name": "Burning Mohawk",
+              "ja": "燃えるモヒカン",
+              "official": false
+            },
+            {
+              "name": "Dinosaur Meat",
+              "ja": "きょうりゅう肉",
+              "official": false
+            },
+            {
+              "name": "Fire Mana",
+              "ja": "炎のマナ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Pyro Panther",
+          "type": "Challenge",
+          "minRank": "5",
+          "nameJa": "ガンモエパンサー",
+          "conditions": "night; also 'Fired Up' event",
+          "tags": [
+            "event",
+            "night"
+          ],
+          "drops": [
+            {
+              "name": "Smoldering Claw",
+              "ja": "炎獣のツメ",
+              "official": true
+            },
+            {
+              "name": "Smoldering Fang",
+              "ja": "炎獣のキバ",
+              "official": true
+            },
+            {
+              "name": "Fire Mana",
+              "ja": "炎のマナ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Fortoise",
+          "type": "Field boss",
+          "minRank": "3",
+          "where": "Volcanic north",
+          "drops": [
+            {
+              "name": "Magma Ore",
+              "official": true
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_misc"
+          ]
+        }
+      ]
     },
     {
       "id": "wingtip",
       "name": "Wingtip Valley",
+      "nameJa": "ツバサキ谷",
       "where": "Northernmost of the three northeast peninsulas",
       "pin": {
-        "x": 0.787,
-        "y": 0.115
+        "x": 0.769,
+        "y": 0.161
       },
+      "tower": "Googloria's Tower",
+      "landmarks": [
+        "Ree'lif Shrine (north edge)",
+        "Gela'shi Shrine",
+        "Saw of Time recipe just north of the tower"
+      ],
+      "summary": "Northernmost peninsula. Iron/Blue ore, Starry trees, Wind Starcrystal.",
       "ore": [
         {
           "name": "Iron Deposit",
           "type": "Iron",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "鉄鉱床",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "gamewith"
+          ]
         },
         {
           "name": "Superior Blue Ore Deposit",
           "type": "Blue Ore",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "上青鉱床",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "gamewith"
+          ]
         },
         {
           "name": "Great Iron Deposit",
           "type": "Iron",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Blue Ore Deposit",
           "type": "Blue Ore",
-          "minRank": "4"
+          "minRank": "4",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Wind Starcrystal",
           "type": "Starcrystal",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "風のスタークリスタル",
+          "conditions": "gold-crown",
+          "tags": [
+            "gold-crown"
+          ],
+          "drops": [
+            {
+              "name": "Wind Mana",
+              "ja": "風のマナ",
+              "official": false
+            },
+            {
+              "name": "Aquamarine",
+              "ja": "アクアマリン",
+              "official": true
+            },
+            {
+              "name": "Faraway Iron",
+              "ja": "ハルカーナ鉄",
+              "official": true
+            },
+            {
+              "name": "Wind Shard",
+              "ja": "ウィンドのカケラ",
+              "official": false
+            },
+            {
+              "name": "Superior Mysteria Stone",
+              "ja": "上ミステニア石材",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu",
+            "jp_routes"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Starry Tree",
           "type": "Starry",
-          "minRank": "-"
+          "minRank": "1",
+          "conditions": "Ginormosia Lv ~22–35",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_tree",
+            "bearblog"
+          ]
         },
         {
           "name": "Great Starry Tree",
           "type": "Starry",
-          "minRank": "-"
+          "minRank": "1",
+          "conditions": "Ginormosia Lv ~22–35",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_tree",
+            "bearblog"
+          ]
         },
         {
           "name": "Oak / Great Oak Tree",
           "type": "Oak",
           "minRank": "3",
-          "note": "Watch Out for Fakes event"
+          "conditions": "'Watch Out for Fakes' event",
+          "tags": [
+            "event"
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Legendary God Tree",
           "type": "God Tree",
           "minRank": "3+",
-          "note": "legendary event"
+          "nameJa": "伝説ゴッドツリー",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
       "fish": [],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Big Beak / Marumaru",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "マルマル",
+          "drops": [
+            {
+              "name": "Rainbow Feather",
+              "ja": "虹鳥の羽毛",
+              "official": true
+            },
+            {
+              "name": "Wind Mana",
+              "ja": "風のマナ",
+              "official": false
+            },
+            {
+              "name": "Marumaru Egg",
+              "ja": "マルマルエッグ",
+              "official": false
+            },
+            {
+              "name": "Light Orb",
+              "ja": "光の玉",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Iron Golem",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "nameJa": "アイアンゴーレム",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Faraway Iron",
+              "ja": "ハルカーナ鉄",
+              "official": true
+            },
+            {
+              "name": "Aquamarine",
+              "ja": "アクアマリン",
+              "official": true
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "shroomhaven",
       "name": "Shroomhaven",
+      "nameJa": "キノココ秘境",
       "where": "Middle northeast peninsula",
       "pin": {
-        "x": 0.809,
-        "y": 0.221
+        "x": 0.838,
+        "y": 0.261
       },
+      "tower": "Googlithy's Tower",
+      "landmarks": [
+        "dense forest on the west half, rocky raised east edge",
+        "north-center (Wind Angeltree / God Tree spot)",
+        "monkey village"
+      ],
+      "summary": "Most tree variety in Ginormosia: Pine, Palm Fruit, Skytree, Darkwood.",
       "ore": [
         {
           "name": "Superior Blue Ore Deposit",
           "type": "Blue Ore",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Iron Deposit",
           "type": "Iron",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Blue Ore Deposit",
           "type": "Blue Ore",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Pine Tree",
           "type": "Pine",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Pine Tree",
           "type": "Pine",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Palm Fruit Tree",
           "type": "Fruit Tree",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Skytree",
           "type": "Skytree",
-          "minRank": "2"
+          "minRank": "2",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Skytree",
           "type": "Skytree",
           "minRank": "3",
-          "note": "R1 via Monkey Business event"
+          "conditions": "or Rank 1 via the 'Monkey Business' event",
+          "tags": [
+            "event"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Darkwood Tree",
           "type": "Darkwood",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Darkness Tree",
           "type": "Darkness Tree",
           "minRank": "5",
-          "note": "event"
+          "conditions": "event",
+          "tags": [
+            "event"
+          ],
+          "note": "May be the Great Darkwood Tree under another name – unconfirmed",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Wind Angeltree",
           "type": "Angeltree",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "風のエンジェルツリー",
+          "where": "North-center of the region",
+          "conditions": "gold-crown; Lv70",
+          "tags": [
+            "gold-crown"
+          ],
+          "level": 70,
+          "drops": [
+            {
+              "name": "Wind Log",
+              "ja": "ウィンド原木",
+              "official": false
+            },
+            {
+              "name": "Elder Wind Log",
+              "ja": "ウィンド古木",
+              "official": false
+            },
+            {
+              "name": "Wind Mana",
+              "ja": "風のマナ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "gg_tree",
+            "kokorogu",
+            "gg_db"
+          ]
         },
         {
           "name": "Legendary God Tree",
           "type": "God Tree",
           "minRank": "3+",
-          "note": "legendary event"
+          "nameJa": "伝説ゴッドツリー",
+          "where": "North-center, near the Wind Angeltree spawn",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "kokorogu"
+          ]
         }
       ],
       "fish": [
@@ -587,79 +1835,261 @@
           "name": "Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "note": "coast",
+          "confidence": "single-source",
+          "sources": [
+            "earlier"
+          ]
         },
         {
           "name": "Forest Lordfish",
           "type": "Lordfish",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "森のヌシ",
+          "conditions": "Lv70",
+          "level": 70,
+          "drops": [
+            {
+              "name": "Forest Lordfish Moss",
+              "ja": "森のヌシコケ",
+              "official": true
+            }
+          ],
+          "note": "JP routes farm it at the monkey village together with the God Tree",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Tunoco Quetzal",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "怪鳥ナツココ",
+          "drops": [
+            {
+              "name": "Vivid Plumage",
+              "ja": "極彩色の羽毛",
+              "official": false
+            },
+            {
+              "name": "Monster Bird's Treasure",
+              "ja": "怪鳥のオタカラ",
+              "official": false
+            },
+            {
+              "name": "Monster Bird Egg",
+              "ja": "怪鳥エッグ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Silver-crown monsters",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Kingdom Apple",
+              "ja": "王国アップル",
+              "official": false,
+              "from": "Big Apple Monkey"
+            },
+            {
+              "name": "Star Apple",
+              "ja": "スターアップル",
+              "official": false,
+              "from": "Fang Monkey"
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "pettlewing",
       "name": "Pettlewing Woods",
+      "nameJa": "ハネビラの森",
       "where": "Southernmost northeast peninsula",
       "pin": {
-        "x": 0.724,
-        "y": 0.329
+        "x": 0.723,
+        "y": 0.36
       },
+      "tower": "Googlancia's Tower",
+      "landmarks": [
+        "tower at the root of the peninsula, SE of impassable woods",
+        "Pettlewing Forest dungeon, north of the tower",
+        "Glehd Shrine (inside the dungeon)",
+        "spiral-ramp island on the SE edge"
+      ],
+      "summary": "Iron/Blue ore and cherry trees. Recommended JP spot for Faraway Iron.",
       "ore": [
         {
           "name": "Iron Deposit",
           "type": "Iron",
-          "minRank": "1"
+          "minRank": "1",
+          "where": "South of Googlancia's Tower",
+          "note": "Superior Blue R2, Great Iron R3, Amazing Blue R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gamewith",
+            "bearblog"
+          ]
         },
         {
           "name": "Superior Blue Ore Deposit",
           "type": "Blue Ore",
-          "minRank": "2"
+          "minRank": "2",
+          "where": "South of Googlancia's Tower",
+          "note": "Superior Blue R2, Great Iron R3, Amazing Blue R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gamewith",
+            "bearblog"
+          ]
         },
         {
           "name": "Great Iron Deposit",
           "type": "Iron",
-          "minRank": "3"
+          "minRank": "3",
+          "where": "South of Googlancia's Tower",
+          "note": "Superior Blue R2, Great Iron R3, Amazing Blue R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gamewith",
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Blue Ore Deposit",
           "type": "Blue Ore",
-          "minRank": "4"
+          "minRank": "4",
+          "where": "South of Googlancia's Tower",
+          "note": "Superior Blue R2, Great Iron R3, Amazing Blue R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gamewith",
+            "bearblog"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Oak Tree",
           "type": "Oak",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Cherry Tree",
           "type": "Cherry",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Pine Tree",
           "type": "Pine",
-          "minRank": "2"
+          "minRank": "2",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Cherry Tree",
           "type": "Cherry",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Recluse Cherry Tree",
           "type": "Cherry",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "仙人桜",
+          "conditions": "gold-crown",
+          "tags": [
+            "gold-crown"
+          ],
+          "drops": [
+            {
+              "name": "Anpara Berry",
+              "ja": "アンパラベリー",
+              "official": false
+            },
+            {
+              "name": "Cherry Log",
+              "ja": "サクラ原木",
+              "official": false
+            },
+            {
+              "name": "Elder Cherry Log",
+              "ja": "サクラ古木",
+              "official": false
+            },
+            {
+              "name": "Cherry Nectar",
+              "ja": "サクラの蜜",
+              "official": false
+            },
+            {
+              "name": "Cherry Cutting",
+              "ja": "サクラの切り枝",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         },
         {
           "name": "Legendary God Tree",
           "type": "God Tree",
           "minRank": "3+",
-          "note": "legendary event"
+          "nameJa": "伝説ゴッドツリー",
+          "where": "SE edge of the region, on an island with a spiral ramp",
+          "conditions": "legendary challenge (random)",
+          "tags": [
+            "legendary"
+          ],
+          "drops": [
+            {
+              "name": "Legendary Divine Log",
+              "ja": "伝説の神原木",
+              "official": true
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "kokorogu"
+          ]
         }
       ],
       "fish": [
@@ -667,223 +2097,879 @@
           "name": "Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "note": "coast",
+          "confidence": "single-source",
+          "sources": [
+            "earlier"
+          ]
         },
         {
           "name": "Cherry Lordfish",
           "type": "Lordfish",
           "minRank": "5",
-          "note": "inside Pettlewing Forest"
+          "nameJa": "桜花のヌシ",
+          "where": "Pettlewing Forest dungeon",
+          "conditions": "Lv80",
+          "level": 80,
+          "drops": [
+            {
+              "name": "Flower Lordfish Moss",
+              "ja": "花のヌシコケ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Faraway Sweetfish",
+          "type": "Faraway Sweetfish",
+          "minRank": "1",
+          "where": "Pettlewing Forest dungeon; small shadows",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
+        },
+        {
+          "name": "Lulab Trout",
+          "type": "Lulab Trout",
+          "minRank": "1",
+          "where": "Pettlewing Forest dungeon; small shadows",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
         }
       ],
-      "other": []
+      "other": [
+        {
+          "name": "Axe of Time recipe",
+          "type": "Recipe",
+          "minRank": "-",
+          "where": "Pettlewing Forest dungeon (NE end of the region)",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_misc"
+          ]
+        }
+      ],
+      "boss": [
+        {
+          "name": "Prairie Dragon / Goldmeer",
+          "type": "Dungeon",
+          "minRank": "5",
+          "nameJa": "そうげんドラゴン",
+          "where": "Pettlewing Forest dungeon",
+          "drops": [
+            {
+              "name": "Prairie Tear",
+              "ja": "大草原の涙",
+              "official": false
+            },
+            {
+              "name": "Golden Goat Hair",
+              "ja": "きんいろやぎ毛",
+              "official": false
+            },
+            {
+              "name": "Noble Goat Hair",
+              "ja": "高貴なやぎ毛",
+              "official": false
+            },
+            {
+              "name": "Light Orb",
+              "ja": "光の玉",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "wgg",
       "name": "West Greatgut Plains",
+      "nameJa": "グランベリー大平原西",
       "where": "Central plains with the barrier castle",
       "pin": {
-        "x": 0.437,
-        "y": 0.415
+        "x": 0.439,
+        "y": 0.482
       },
+      "tower": "Googlelot's Tower",
+      "landmarks": [
+        "Fort Gardhart (barrier castle)",
+        "tower just SE of the castle",
+        "western shoreline"
+      ],
+      "summary": "Castle region. Fort Gardhart is the Dark Fire farm; Fire Angeltree at Rank 5.",
       "ore": [],
       "trees": [
         {
           "name": "Oak Tree",
           "type": "Oak",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Apple Tree",
           "type": "Apple",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Oak Tree",
           "type": "Oak",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Fire Angeltree",
           "type": "Angeltree",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "炎のエンジェルツリー",
+          "conditions": "gold-crown",
+          "tags": [
+            "gold-crown"
+          ],
+          "drops": [
+            {
+              "name": "Elder Fire Log",
+              "ja": "ファイア古木",
+              "official": false
+            },
+            {
+              "name": "Fire Log",
+              "ja": "ファイア原木",
+              "official": false
+            },
+            {
+              "name": "Fire Mana",
+              "ja": "炎のマナ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
-      "fish": [],
+      "fish": [
+        {
+          "name": "Evil Carp",
+          "type": "Evil Carp",
+          "minRank": "1",
+          "where": "Moat around Fort Gardhart; small shadows",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
+        }
+      ],
       "other": [
         {
           "name": "Legendary King Spud",
           "type": "King Spud",
           "minRank": "3+",
-          "note": "legendary event"
-        },
+          "nameJa": "伝説ジャガキング",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        }
+      ],
+      "boss": [
         {
           "name": "King Woolie",
-          "type": "Monster",
+          "type": "Field boss",
           "minRank": "5",
-          "note": "boss monster"
+          "nameJa": "キングバハ・ハ",
+          "conditions": "also via 'Head of the Flock' challenge earlier",
+          "tags": [
+            "event"
+          ],
+          "drops": [
+            {
+              "name": "Sheep King's Fleece",
+              "ja": "王様羊毛",
+              "official": true
+            },
+            {
+              "name": "Wild Antlers",
+              "ja": "ワイルドなツノ",
+              "official": true
+            },
+            {
+              "name": "Wool",
+              "ja": "羊毛",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Napdragon",
+          "type": "Field boss",
+          "minRank": "6",
+          "nameJa": "イネムリドラゴン",
+          "drops": [
+            {
+              "name": "Napdragon Tear",
+              "ja": "イネムリの涙",
+              "official": false
+            },
+            {
+              "name": "Napdragon Scale",
+              "ja": "イネムリのウロコ",
+              "official": false
+            },
+            {
+              "name": "Light Orb",
+              "ja": "光の玉",
+              "official": false
+            },
+            {
+              "name": "Dragon Meat",
+              "ja": "ドラゴン肉",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Fort Gardhart dark bosses",
+          "type": "Dungeon",
+          "minRank": "5",
+          "where": "Inside Fort Gardhart",
+          "drops": [
+            {
+              "name": "Dark Fire",
+              "ja": "闇の炎",
+              "official": true,
+              "from": "Dark Toastos"
+            },
+            {
+              "name": "Dark Carrot",
+              "ja": "闇色ニンジン",
+              "official": false,
+              "from": "Dark Decarrotte"
+            },
+            {
+              "name": "Mysterious Slate",
+              "ja": "謎の石板",
+              "official": true,
+              "from": "Dark Panther"
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "kokorogu",
+            "gg_misc"
+          ]
+        },
+        {
+          "name": "Silver-crown monsters",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Extra-Rich Milk",
+              "ja": "特濃ミルク",
+              "official": false,
+              "from": "Tauros"
+            },
+            {
+              "name": "Fierce Bull Horn",
+              "ja": "もうぎゅうのツノ",
+              "official": false,
+              "from": "Tauros"
+            },
+            {
+              "name": "Corn",
+              "ja": "とうもろこし",
+              "official": false,
+              "from": "Giant Corn"
+            },
+            {
+              "name": "Gunpowder Base",
+              "ja": "火薬のもと",
+              "official": false,
+              "from": "Giant Corn"
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
         }
       ]
     },
     {
       "id": "egg",
       "name": "East Greatgut Plains",
+      "nameJa": "グランベリー大平原東",
       "where": "Grassland with an island-filled lake",
       "pin": {
-        "x": 0.649,
-        "y": 0.445
+        "x": 0.615,
+        "y": 0.441
       },
+      "tower": "Googlius's Tower",
+      "landmarks": [
+        "island-filled lake mid-region",
+        "shallow water just SE of the tower",
+        "Besh'gal Shrine (region unconfirmed)"
+      ],
+      "summary": "Electric Eel is exclusive here.",
       "ore": [
         {
           "name": "Copper Deposit",
           "type": "Copper",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "銅鉱床",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ],
+          "attached": {
+            "where": "East and southeast of Besh'gal Shrine, in a rocky area",
+            "note": "Region inferred from map coordinates; verify in game",
+            "confidence": "single-source",
+            "sources": [
+              "gg_db"
+            ]
+          }
         },
         {
           "name": "Superior Copper Deposit",
           "type": "Copper",
-          "minRank": "2"
+          "minRank": "2",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ],
+          "attached": {
+            "where": "East and southeast of Besh'gal Shrine, in a rocky area",
+            "note": "Region inferred from map coordinates; verify in game",
+            "confidence": "single-source",
+            "sources": [
+              "gg_db"
+            ]
+          }
         }
       ],
       "trees": [
         {
           "name": "Oak Tree",
           "type": "Oak",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Oak Tree",
           "type": "Oak",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         }
       ],
       "fish": [
         {
           "name": "Electric Eel",
           "type": "Eel",
-          "minRank": "-",
-          "note": "shallows mid-region"
+          "minRank": "1",
+          "where": "Shallow water in the middle of the region, just SE of Googlius's Tower; big shadows",
+          "note": "Ginormosia-exclusive",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
         }
       ],
-      "other": []
+      "other": [
+        {
+          "name": "Legendary King Spud",
+          "type": "King Spud",
+          "minRank": "3+",
+          "nameJa": "伝説ジャガキング",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        }
+      ],
+      "boss": [
+        {
+          "name": "Silver-crown monsters",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Giant Thorn",
+              "ja": "巨大なトゲ",
+              "official": true,
+              "from": "Worker Bee Leader"
+            },
+            {
+              "name": "Meadow Honey",
+              "ja": "草原はちみつ",
+              "official": false,
+              "from": "Worker Bee Leader"
+            },
+            {
+              "name": "Rampaging Radish",
+              "ja": "あばれダイコン",
+              "official": false,
+              "from": "Giant Turnip"
+            },
+            {
+              "name": "Monster Hide",
+              "ja": "まじゅうの皮",
+              "official": false,
+              "from": "Black Panther",
+              "when": "night"
+            },
+            {
+              "name": "Thick Fang",
+              "ja": "ぶっといキバ",
+              "official": false,
+              "from": "Black Panther",
+              "when": "night"
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu",
+            "gg_misc"
+          ]
+        }
+      ]
     },
     {
       "id": "sgg",
       "name": "South Greatgut Plains",
+      "nameJa": "グランベリー大平原南",
       "where": "River to the north, mountains to the south",
       "pin": {
-        "x": 0.43,
-        "y": 0.577
+        "x": 0.441,
+        "y": 0.611
       },
+      "tower": "Googlierre's Tower",
+      "landmarks": [
+        "Great Nayvel Cave (SW coast, SW of the tower)",
+        "Fan'ni Shrine",
+        "Ba'reng Shrine (SW edge)",
+        "river on the north border"
+      ],
+      "summary": "Platinum outside the volcano; Great Nayvel Cave holds the Fire Starcrystal and two boss fish.",
       "ore": [
         {
           "name": "Superior Copper Deposit",
           "type": "Copper",
-          "minRank": "1"
+          "minRank": "1",
+          "where": "Eastern edge of the region, east-northeast of Fan'ni Shrine",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "gamewith"
+          ]
         },
         {
           "name": "Platinum Deposit",
           "type": "Platinum",
-          "minRank": "2"
+          "minRank": "2",
+          "nameJa": "白金鉱床",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Copper Deposit",
           "type": "Copper",
-          "minRank": "3"
+          "minRank": "3",
+          "where": "Eastern edge of the region, east-northeast of Fan'ni Shrine",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "gamewith"
+          ]
         },
         {
           "name": "Great Platinum Deposit",
           "type": "Platinum",
-          "minRank": "4"
+          "minRank": "4",
+          "nameJa": "大白金鉱床",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Fire Starcrystal",
           "type": "Starcrystal",
           "minRank": "5",
-          "note": "Great Nayvel Cave"
+          "nameJa": "炎のスタークリスタル",
+          "where": "Great Nayvel Cave",
+          "conditions": "gold-crown",
+          "tags": [
+            "gold-crown",
+            "cave"
+          ],
+          "drops": [
+            {
+              "name": "Fire Mana",
+              "ja": "炎のマナ",
+              "official": false
+            },
+            {
+              "name": "Fire Shard",
+              "ja": "ファイアのカケラ",
+              "official": false
+            },
+            {
+              "name": "Topaz",
+              "ja": "トパーズ",
+              "official": true
+            },
+            {
+              "name": "Mysteria Copper",
+              "ja": "ミステニア銅",
+              "official": true
+            },
+            {
+              "name": "Superior Mysteria Stone",
+              "ja": "上ミステニア石材",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Oak Tree",
           "type": "Oak",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Apple Tree",
           "type": "Apple",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         }
       ],
       "fish": [
         {
-          "name": "Rainbow Flying Fish",
-          "type": "Flying Fish",
-          "minRank": "5",
-          "note": "boss"
-        },
-        {
-          "name": "Deepsea Lordfish",
+          "name": "Deep Sea Lordfish",
           "type": "Lordfish",
           "minRank": "5",
-          "note": "Great Nayvel Cave"
+          "nameJa": "深海魚",
+          "where": "Great Nayvel Cave",
+          "conditions": "night only; Lv60",
+          "tags": [
+            "night",
+            "cave"
+          ],
+          "level": 60,
+          "drops": [
+            {
+              "name": "Antenna Lantern",
+              "official": true
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Crystalline Bass",
+          "type": "Crystalline Bass",
+          "minRank": "5",
+          "nameJa": "クリスタルバス",
+          "where": "Great Nayvel Cave (same spot as Deep Sea Lordfish, daytime)",
+          "tags": [
+            "cave"
+          ],
+          "note": "GG lists it only in Depths B3; JP source lists it here",
+          "confidence": "disputed",
+          "sources": [
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Blackgill",
+          "type": "Blackgill",
+          "minRank": "1",
+          "where": "Great Nayvel Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
+        },
+        {
+          "name": "Sneakfish",
+          "type": "Sneakfish",
+          "minRank": "1",
+          "where": "Great Nayvel Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
+        },
+        {
+          "name": "Sneaky Tuna",
+          "type": "Tuna",
+          "minRank": "1",
+          "where": "Great Nayvel Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
         }
       ],
-      "other": []
+      "other": [
+        {
+          "name": "Legendary King Spud",
+          "type": "King Spud",
+          "minRank": "3+",
+          "nameJa": "伝説ジャガキング",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Pickaxe of Time recipe",
+          "type": "Recipe",
+          "minRank": "-",
+          "where": "Great Nayvel Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_misc"
+          ]
+        }
+      ],
+      "boss": [
+        {
+          "name": "Great Chimera",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "グランキマイラ",
+          "drops": [
+            {
+              "name": "Wind Mana",
+              "ja": "風のマナ",
+              "official": false
+            },
+            {
+              "name": "Mythic Beast Meat",
+              "ja": "幻獣肉",
+              "official": false
+            },
+            {
+              "name": "Giant Tail",
+              "ja": "巨大なしっぽ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "viridia",
       "name": "Viridia Plateau",
+      "nameJa": "ミドリーナ台地",
       "where": "Grassland with arid mountains to the east",
       "pin": {
-        "x": 0.693,
-        "y": 0.559
+        "x": 0.688,
+        "y": 0.605
       },
+      "tower": "Googlilock's Tower",
+      "landmarks": [
+        "Sker'ri Shrine",
+        "Angar Shrine (mountains on the far east edge)",
+        "mountain region in the south"
+      ],
+      "summary": "Only region with harvestable crops. Copper hub. Best Magic Ore farm (Sker'ri Shrine).",
       "ore": [
         {
           "name": "Copper Deposit",
           "type": "Copper",
-          "minRank": "1"
+          "minRank": "1",
+          "where": "Mountain region: 3 on a cliff edge in its north; 6 in its southeast; 6 in its southwest",
+          "note": "Superior R2, Great R3, Amazing R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "bearblog"
+          ]
         },
         {
           "name": "Superior Copper Deposit",
           "type": "Copper",
-          "minRank": "2"
+          "minRank": "2",
+          "where": "Mountain region: 3 on a cliff edge in its north; 6 in its southeast; 6 in its southwest",
+          "note": "Superior R2, Great R3, Amazing R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "bearblog"
+          ]
         },
         {
           "name": "Great Copper Deposit",
           "type": "Copper",
-          "minRank": "3"
+          "minRank": "3",
+          "where": "Mountain region: 3 on a cliff edge in its north; 6 in its southeast; 6 in its southwest",
+          "note": "Superior R2, Great R3, Amazing R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "bearblog"
+          ]
         },
         {
           "name": "Amazing Copper Deposit",
           "type": "Copper",
-          "minRank": "4"
+          "minRank": "4",
+          "where": "Mountain region: 3 on a cliff edge in its north; 6 in its southeast; 6 in its southwest",
+          "note": "Superior R2, Great R3, Amazing R4 (random tier rolls)",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db",
+            "bearblog"
+          ]
         },
         {
-          "name": "Magic Ore Deposit",
+          "name": "Great Magic Ore Deposit",
           "type": "Magic Ore",
           "minRank": "-",
-          "note": "Sker'ri Shrine, round 2"
+          "nameJa": "大魔鉱床",
+          "where": "Sker'ri Shrine, round 2",
+          "conditions": "Lv32; break it, then reset to respawn – fastest Magic Ore farm",
+          "level": 32,
+          "confidence": "confirmed",
+          "sources": [
+            "gg_misc"
+          ]
         },
         {
           "name": "Golemstone",
           "type": "Golemstone",
           "minRank": "-",
-          "note": "Sker'ri Shrine, round 3"
+          "nameJa": "ゴーレムストーン",
+          "where": "Sker'ri Shrine, round 3",
+          "conditions": "Lv35",
+          "level": 35,
+          "confidence": "confirmed",
+          "sources": [
+            "gg_ore",
+            "gg_misc"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Oak Tree",
           "type": "Oak",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Oak Tree",
           "type": "Oak",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         }
       ],
       "fish": [
@@ -891,75 +2977,240 @@
           "name": "Plains Lordfish",
           "type": "Lordfish",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "平原のヌシ",
+          "where": "Off the coast",
+          "conditions": "gold-crown; Lv70",
+          "tags": [
+            "gold-crown"
+          ],
+          "level": 70,
+          "drops": [
+            {
+              "name": "Plains Lordfish Moss",
+              "ja": "平原のヌシコケ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
       "other": [
         {
           "name": "Crops",
           "type": "Crops",
-          "minRank": "any",
-          "note": "only region with farm plots"
+          "minRank": "1",
+          "where": "Fields; 3–5 crops per field",
+          "note": "Good Area Point farm at Rank 4+",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss"
+          ]
+        },
+        {
+          "name": "Legendary King Spud",
+          "type": "King Spud",
+          "minRank": "3+",
+          "nameJa": "伝説ジャガキング",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        }
+      ],
+      "boss": [
+        {
+          "name": "Decarrotte",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "nameJa": "デキャロッテ",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Carrot",
+              "ja": "ニンジン",
+              "official": false
+            },
+            {
+              "name": "Crimson Carrot",
+              "ja": "まっかニンジン",
+              "official": false
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
         }
       ]
     },
     {
       "id": "wdd",
       "name": "West Dryridge Desert",
+      "nameJa": "カラット砂漠西",
       "where": "Southern desert; where you arrive",
       "pin": {
-        "x": 0.438,
-        "y": 0.765
+        "x": 0.43,
+        "y": 0.812
       },
+      "tower": "Googlina's Tower",
+      "landmarks": [
+        "Jo'ee Shrine (story)",
+        "fresh-water ponds in the SE corner",
+        "coast"
+      ],
+      "summary": "Starting region. Walking on sand deals continuous damage early on – ride a mount.",
       "ore": [
         {
           "name": "Haniwa Stone",
           "type": "Haniwa Stone",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "ハニワストーン",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Ancient Fossil",
           "type": "Fossil",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "太古の化石",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Haniwa Stone",
           "type": "Haniwa Stone",
-          "minRank": "3"
+          "minRank": "3",
+          "nameJa": "大ハニワストーン",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Legendary Shiny Geode",
           "type": "Geode",
-          "minRank": "3",
-          "note": "legendary event"
+          "minRank": "3+",
+          "nameJa": "伝説ギンギラスタル",
+          "conditions": "legendary challenge; random, solo from Area Rank 3",
+          "tags": [
+            "legendary"
+          ],
+          "drops": [
+            {
+              "name": "Legendary Shiny Diamond",
+              "ja": "伝説ギンギラダイヤ",
+              "official": true
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         },
         {
           "name": "Earth Starcrystal",
           "type": "Starcrystal",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "地のスタークリスタル",
+          "conditions": "gold-crown boss node; 5-min respawn",
+          "tags": [
+            "gold-crown"
+          ],
+          "drops": [
+            {
+              "name": "Earth Shard",
+              "ja": "アースのカケラ",
+              "official": false
+            },
+            {
+              "name": "Earth Mana",
+              "ja": "土のマナ",
+              "official": false
+            },
+            {
+              "name": "Emerald",
+              "ja": "エメラルド",
+              "official": true
+            },
+            {
+              "name": "Diamond",
+              "ja": "ダイヤモンド",
+              "official": true
+            },
+            {
+              "name": "Superior Mint Ore",
+              "ja": "上ハッカ鉱",
+              "official": false
+            },
+            {
+              "name": "Superior Mysteria Stone",
+              "ja": "上ミステニア石材",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
       "trees": [
         {
           "name": "Palm Tree",
           "type": "Palm",
-          "minRank": "1"
+          "minRank": "1",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Desert Tree",
           "type": "Desert",
-          "minRank": "1"
+          "minRank": "1",
+          "where": "Several clusters across the desert; one lone tree just west of Googlina's Tower",
+          "note": "Great/Superior/Amazing tier rolls are random and improve with Area Rank (GG)",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_db"
+          ]
         },
         {
           "name": "Great Palm Tree",
           "type": "Palm",
-          "minRank": "2"
+          "minRank": "2",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Desert Tree",
           "type": "Desert",
-          "minRank": "3"
+          "minRank": "3",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog",
+            "gg_tree"
+          ]
         }
       ],
       "fish": [
@@ -967,90 +3218,373 @@
           "name": "Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "where": "Coast",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Dunefin Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "where": "Coast",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Flying Fish",
           "type": "Flying Fish",
           "minRank": "1",
-          "note": "coast"
-        },
-        {
-          "name": "Rainbow Flying Fish",
-          "type": "Flying Fish",
-          "minRank": "-",
-          "note": "freshwater"
+          "where": "Coast",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Golden Swordfish",
           "type": "Swordfish",
           "minRank": "5",
-          "note": "boss"
+          "nameJa": "ゴールデンカジキ",
+          "where": "Off the coast",
+          "conditions": "gold-crown; Lv60",
+          "tags": [
+            "gold-crown"
+          ],
+          "level": 60,
+          "drops": [
+            {
+              "name": "Golden Fin",
+              "ja": "ゴールデンヒレ",
+              "official": true
+            },
+            {
+              "name": "Fish Scale",
+              "ja": "さかなのウロコ",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Sand Fish",
+          "type": "Sand Fish",
+          "minRank": "1",
+          "where": "Two fresh-water fishing spots on the SE edge of the region; small shadows",
+          "note": "Only known Ginormosia spawn",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
+        },
+        {
+          "name": "Cactus Fish",
+          "type": "Cactus Fish",
+          "minRank": "1",
+          "where": "Same SE desert ponds; small shadows",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Stone Golem",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "石工のゴーレム",
+          "drops": [
+            {
+              "name": "Sun Shard",
+              "ja": "太陽のカケラ",
+              "official": false
+            },
+            {
+              "name": "Ancient Core",
+              "ja": "太古の核",
+              "official": false
+            },
+            {
+              "name": "True Ancient Core",
+              "ja": "太古の真核",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Silver-crown monsters",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "conditions": "no cooldown; respawn on rank switch or Anywhere Gate",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Silk Thread",
+              "ja": "絹糸",
+              "official": false,
+              "from": "Giant Sand Spider"
+            },
+            {
+              "name": "Pink Silk Thread",
+              "ja": "ピンク絹糸",
+              "official": false,
+              "from": "Giant Sand Spider"
+            },
+            {
+              "name": "Beast Hide",
+              "ja": "やじゅうの皮",
+              "official": false,
+              "from": "Giant Sand Lizard"
+            },
+            {
+              "name": "Spirit Powder",
+              "ja": "精霊の粉",
+              "official": false,
+              "from": "Big Ghost",
+              "when": "night"
+            },
+            {
+              "name": "Magic Powder",
+              "ja": "魔法の粉",
+              "official": false,
+              "from": "Big Ghost",
+              "when": "night"
+            },
+            {
+              "name": "Sun Shard",
+              "ja": "太陽のカケラ",
+              "official": false,
+              "from": "Sand Golem",
+              "when": "day"
+            },
+            {
+              "name": "Sandstone",
+              "ja": "砂岩",
+              "official": false,
+              "from": "Sand Golem",
+              "when": "day"
+            },
+            {
+              "name": "Topaz",
+              "ja": "トパーズ",
+              "official": true,
+              "from": "Sand Golem",
+              "when": "day"
+            },
+            {
+              "name": "Haniwa Stone",
+              "ja": "ハニワストーン",
+              "official": true,
+              "from": "Haniwa Chief"
+            },
+            {
+              "name": "Swolean Gold",
+              "ja": "キントレー金",
+              "official": true,
+              "from": "Haniwa Chief"
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        }
+      ]
     },
     {
       "id": "edd",
       "name": "East Dryridge Desert",
+      "nameJa": "カラット砂漠東",
       "where": "Southern desert, east of the start",
       "pin": {
-        "x": 0.621,
-        "y": 0.69
+        "x": 0.624,
+        "y": 0.729
       },
+      "tower": "Googlbert's Tower",
+      "landmarks": [
+        "Wyrmtail Cave",
+        "Haniwa Land town (item shop)",
+        "SE coast"
+      ],
+      "summary": "Copper line, Haniwa, fossils; Rainbow Flying Fish lives here (not West Dryridge).",
       "ore": [
         {
           "name": "Copper Deposit",
           "type": "Copper",
-          "minRank": "1"
+          "minRank": "1",
+          "where": "Likely the northern mountains: a group atop the largest plateau and a series just outside a nearby cave (region inferred from GG map coordinates)",
+          "tags": [
+            "cave"
+          ],
+          "note": "Amazing tier first seen at Rank 4; tiers are random rolls",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog",
+            "gamewith",
+            "gg_db"
+          ]
         },
         {
           "name": "Great Copper Deposit",
           "type": "Copper",
-          "minRank": "1"
+          "minRank": "1",
+          "where": "Likely the northern mountains: a group atop the largest plateau and a series just outside a nearby cave (region inferred from GG map coordinates)",
+          "tags": [
+            "cave"
+          ],
+          "note": "Amazing tier first seen at Rank 4; tiers are random rolls",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog",
+            "gamewith",
+            "gg_db"
+          ]
         },
         {
           "name": "Superior Copper Deposit",
           "type": "Copper",
-          "minRank": "1"
+          "minRank": "1",
+          "where": "Likely the northern mountains: a group atop the largest plateau and a series just outside a nearby cave (region inferred from GG map coordinates)",
+          "tags": [
+            "cave"
+          ],
+          "note": "Amazing tier first seen at Rank 4; tiers are random rolls",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog",
+            "gamewith",
+            "gg_db"
+          ]
         },
         {
           "name": "Haniwa Stone",
           "type": "Haniwa Stone",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "ハニワストーン",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Ancient Fossil",
           "type": "Fossil",
-          "minRank": "1"
+          "minRank": "1",
+          "nameJa": "太古の化石",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Great Haniwa Stone",
           "type": "Haniwa Stone",
-          "minRank": "2"
+          "minRank": "2",
+          "nameJa": "大ハニワストーン",
+          "confidence": "confirmed",
+          "sources": [
+            "bearblog"
+          ]
         },
         {
           "name": "Legendary Shiny Geode",
           "type": "Geode",
-          "minRank": "3",
-          "note": "legendary event"
+          "minRank": "3+",
+          "nameJa": "伝説ギンギラスタル",
+          "conditions": "legendary challenge",
+          "tags": [
+            "legendary"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         },
         {
           "name": "Amazing Copper Deposit",
           "type": "Copper",
-          "minRank": "4"
+          "minRank": "4",
+          "where": "Likely the northern mountains: a group atop the largest plateau and a series just outside a nearby cave (region inferred from GG map coordinates)",
+          "tags": [
+            "cave"
+          ],
+          "note": "Amazing tier first seen at Rank 4; tiers are random rolls",
+          "confidence": "single-source",
+          "sources": [
+            "bearblog",
+            "gamewith",
+            "gg_db"
+          ]
         },
         {
           "name": "Giant Ancient Fossil",
           "type": "Fossil",
           "minRank": "5",
-          "note": "Living Fossil event"
+          "nameJa": "太古の巨大化石",
+          "conditions": "area challenge 'The Living Fossil'",
+          "tags": [
+            "event"
+          ],
+          "drops": [
+            {
+              "name": "Napdragon Leg Fossil",
+              "ja": "イネムリレッグ化石",
+              "official": false
+            },
+            {
+              "name": "Napdragon Body Fossil",
+              "ja": "イネムリボディ化石",
+              "official": false
+            },
+            {
+              "name": "Napdragon Head Fossil",
+              "ja": "イネムリヘッド化石",
+              "official": false
+            },
+            {
+              "name": "Ancient Emerald",
+              "ja": "古代エメラルド",
+              "official": false
+            },
+            {
+              "name": "Fossil Shard",
+              "ja": "化石のカケラ",
+              "official": false
+            },
+            {
+              "name": "Mint Ore",
+              "ja": "ハッカ鉱",
+              "official": false
+            },
+            {
+              "name": "Superior Mysteria Stone",
+              "ja": "上ミステニア石材",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
         }
       ],
       "trees": [],
@@ -1059,52 +3593,216 @@
           "name": "Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "note": "coast",
+          "confidence": "single-source",
+          "sources": [
+            "earlier"
+          ]
         },
         {
           "name": "Dunefin Tuna",
           "type": "Tuna",
           "minRank": "1",
-          "note": "coast"
+          "note": "coast",
+          "confidence": "single-source",
+          "sources": [
+            "earlier"
+          ]
         },
         {
           "name": "Bluescale Lordfish",
           "type": "Lordfish",
           "minRank": "5",
-          "note": "Wyrmtail Cave"
+          "nameJa": "地底魚",
+          "where": "Inside Wyrmtail Cave",
+          "conditions": "gold-crown; Lv60",
+          "tags": [
+            "gold-crown",
+            "cave"
+          ],
+          "level": 60,
+          "note": "The Japanese sources list an 'underground fish' boss in Wyrmtail Cave; treated as the same boss",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Rainbow Flying Fish",
+          "type": "Flying Fish",
+          "minRank": "5",
+          "nameJa": "虹のトビウオ",
+          "where": "Off the SE coast",
+          "conditions": "gold-crown; Lv60",
+          "tags": [
+            "gold-crown"
+          ],
+          "level": 60,
+          "drops": [
+            {
+              "name": "Rainbow Fin",
+              "ja": "虹色ヒレ",
+              "official": false
+            },
+            {
+              "name": "Fish Scale",
+              "ja": "さかなのウロコ",
+              "official": false
+            }
+          ],
+          "note": "Earlier versions of this data put it in West Dryridge/South Greatgut – superseded",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Skeleton Fish",
+          "type": "Skeleton Fish",
+          "minRank": "1",
+          "where": "Wyrmtail Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
+        },
+        {
+          "name": "Sneakfish",
+          "type": "Sneakfish",
+          "minRank": "1",
+          "where": "Wyrmtail Cave",
+          "tags": [
+            "cave"
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_fish"
+          ]
         }
       ],
-      "other": []
+      "other": [],
+      "boss": [
+        {
+          "name": "Lord of Curses",
+          "type": "Field boss",
+          "minRank": "5",
+          "nameJa": "ロードオブカース",
+          "drops": [
+            {
+              "name": "Dragon Bone Horn",
+              "ja": "竜骨のツノ",
+              "official": false
+            },
+            {
+              "name": "Fossil Shard",
+              "ja": "化石のカケラ",
+              "official": false
+            },
+            {
+              "name": "Dark Orb",
+              "ja": "闇の玉",
+              "official": false
+            }
+          ],
+          "confidence": "confirmed",
+          "sources": [
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "name": "Iron Golem",
+          "type": "Silver-crown",
+          "minRank": "1",
+          "nameJa": "アイアンゴーレム",
+          "tags": [
+            "silver-crown"
+          ],
+          "drops": [
+            {
+              "name": "Aquamarine",
+              "ja": "アクアマリン",
+              "official": true
+            },
+            {
+              "name": "Life Shard",
+              "ja": "命のカケラ",
+              "official": false
+            },
+            {
+              "name": "Faraway Iron",
+              "ja": "ハルカーナ鉄",
+              "official": true
+            }
+          ],
+          "confidence": "single-source",
+          "sources": [
+            "kokorogu"
+          ]
+        }
+      ]
     }
   ],
   "notInGinormosia": [
     {
-      "name": "Luminous Magic Ore",
-      "foundAt": "Sealed areas in Cave of Trials B1 and Warren Willow Hollow B1"
+      "name": "Luminous Magic Ore Deposit",
+      "foundAt": "Sealed areas in Cave of Trials B1 and Warren Willow Hollow B1 (post-game, needs Dark Fire)"
     },
     {
       "name": "Luminous Darkwood Tree",
       "foundAt": "Warren Willow Hollow B1, Lulab Forest"
     },
     {
-      "name": "Beelzebub Tuna",
-      "foundAt": "Treasure Grove only"
+      "name": "Magic Ore Deposit (field node)",
+      "foundAt": "Only via Sker'ri Shrine round 2 in Ginormosia; otherwise Treasure Groves or Marco's shop (Guild Lv 9)"
     },
     {
-      "name": "Great Lucky Bream",
-      "foundAt": "Treasure Grove only"
-    },
-    {
-      "name": "High Flying Fish",
-      "foundAt": "Treasure Grove only"
+      "name": "Beelzebub Tuna, High-Flying Fish",
+      "foundAt": "Treasure Grove bosses only"
     },
     {
       "name": "Darkfish",
-      "foundAt": "Treasure Grove only"
+      "foundAt": "Not found in any Ginormosia source"
     },
     {
       "name": "Great Darkwood Tree",
-      "foundAt": "Depths B3; unconfirmed whether Shroomhaven Great Darkness Tree event is the same tree"
+      "foundAt": "Depths B3; Shroomhaven's 'Great Darkness Tree' event may be the same – unconfirmed"
     }
-  ]
+  ],
+  "mechanics": [
+    "Tier rolls: a deposit or tree spot rolls its Great/Superior/Amazing tier at random, and higher Area Rank raises the odds. A 'min_rank' is the earliest rank a tier has been seen, not a guaranteed spawn (GG).",
+    "Gold-crown bosses and nodes appear from Area Rank 5 and have a 5-minute respawn after you defeat or gather them (kokorogu, GG).",
+    "Silver-crown monsters have no cooldown; switching any tower's Area Rank or using the Anywhere Gate respawns them instantly (kokorogu).",
+    "Legendary challenges: solo they appear at random from Area Rank 3; in multiplayer when the challenge gauge fills. Changing any tower's rank rerolls them map-wide. Legendary gathering targets give 1,000 Area Points (GG, kokorogu).",
+    "Moltana Wastes and Scorchrock Mountain never spawn legendary challenges (kokorogu).",
+    "Cave nodes (e.g. Agekara Cave Platinum) respawn when you leave and re-enter the cave (GameWith, Game8).",
+    "Area Points needed per rank: 2=200, 3=1,000, 4=3,000, 5=8,000, 6=20,000, 7=150,000 (GG)."
+  ],
+  "sources": {
+    "gg_db": "Gamer Guides database / interactive-map node notes (gamerguides.com/fantasy-life-i-the-girl-who-steals-time/database)",
+    "gg_fish": "Gamer Guides – All Fish Locations",
+    "gg_boss": "Gamer Guides – All Ginormosia Boss & Legendary Spawns",
+    "gg_ore": "Gamer Guides – All Ore Locations / Materials hub",
+    "gg_tree": "Gamer Guides – All Tree Locations",
+    "gg_misc": "Gamer Guides – towers, shrines, recipes, magic/magma ore pages",
+    "bearblog": "Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev) – via search snippets",
+    "kokorogu": "kokorogu.com – list of bosses at continent Area Rank 5+ (Japanese)",
+    "gamewith": "GameWith (gamewith.jp/fantasylife-i) – ore list & node pages (JP)",
+    "game8": "Game8 (game8.jp/fantasylife-i) – node pages (JP)",
+    "wikiwiki": "wikiwiki.jp/gget – Ginormosia walkthrough (Japanese)",
+    "jp_routes": "JP farming-route posts (chi-tara.com, szer.net, note.com/eg_stbry)",
+    "earlier": "This app's earlier dataset (Ginormosia FAQ & Data Project, cross-checked with Gamer Guides and Game Rant)"
+  },
+  "confidenceLevels": {
+    "confirmed": "2+ sources agree, or one detailed first-hand map source",
+    "single-source": "only one source; plausible but unverified",
+    "disputed": "sources conflict – see note"
+  }
 }

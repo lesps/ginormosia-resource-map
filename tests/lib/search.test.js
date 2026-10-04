@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import raw from '../../data/regions.json';
-import { search, regionHasCategory, regionMatches, typesFor } from '../../src/lib/search.js';
+import { search, regionHasCategory, regionMatches, typesFor, entryKey } from '../../src/lib/search.js';
 
 const regions = raw.regions;
 const byId = (id) => regions.find((r) => r.id === id);
@@ -46,6 +46,37 @@ describe('search', () => {
     const res = search(regions, 'great', 'trees', 'Oak');
     expect(res.length).toBeGreaterThan(0);
     expect(res.every((m) => m.entry.type === 'Oak' && /great/i.test(m.entry.name))).toBe(true);
+  });
+});
+
+describe('search over details', () => {
+  it('finds bosses under "all" and "boss"', () => {
+    expect(ids(search(regions, 'napdragon', 'all'))).toContain('wgg');
+    expect(search(regions, 'napdragon', 'boss').every((m) => m.category === 'boss')).toBe(true);
+    expect(search(regions, 'napdragon', 'ore').every((m) => m.drop)).toBe(true);
+  });
+
+  it('matches drop names and reports which drop matched', () => {
+    const res = search(regions, 'ruby', 'all');
+    const claw = res.find((m) => m.entry.name === "Dragon's Claw");
+    expect(claw.regionId).toBe('scorchrock');
+    expect(claw.drop.name).toBe('Ruby');
+  });
+
+  it('does not report a drop when the name itself matches', () => {
+    const [m] = search(regions, 'golden swordfish', 'all');
+    expect(m.drop).toBeUndefined();
+  });
+
+  it('matches Japanese names', () => {
+    expect(search(regions, '白金', 'ore').map((m) => m.entry.name)).toContain('Platinum Deposit');
+  });
+});
+
+describe('entryKey', () => {
+  it('slugs names', () => {
+    expect(entryKey({ name: "Dragon's Claw" })).toBe('dragons-claw');
+    expect(entryKey({ name: 'Oak / Great Oak Tree' })).toBe('oak-great-oak-tree');
   });
 });
 

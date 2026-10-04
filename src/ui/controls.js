@@ -2,17 +2,17 @@ import { h, CAT_LABEL } from './dom.js';
 import { typesFor } from '../lib/search.js';
 import { formatRank } from '../lib/rank.js';
 
-const FILTERS = ['all', 'ore', 'trees', 'fish'];
+const FILTERS = ['all', 'ore', 'trees', 'fish', 'boss'];
 
 export function createControls(store, regions, typeOrder = {}) {
   const input = h('input', {
     id: 'q', type: 'search', placeholder: 'Search, e.g. Platinum or Skytree',
     'aria-label': 'Find a resource', autocomplete: 'off', enterkeyhint: 'search',
-    oninput: (e) => store.set({ query: e.target.value, selectedId: null, fromResults: false }),
+    oninput: (e) => store.set({ query: e.target.value, selectedId: null, fromResults: false, openKey: null }),
   });
   const clear = h('button', {
     class: 'clear', type: 'button', 'aria-label': 'Clear search', hidden: true,
-    onclick: () => { store.set({ query: '', selectedId: null, fromResults: false }); input.focus(); },
+    onclick: () => { store.set({ query: '', selectedId: null, fromResults: false, openKey: null }); input.focus(); },
   }, '×');
 
   const chips = FILTERS.map((cat) =>
@@ -41,12 +41,12 @@ export function createControls(store, regions, typeOrder = {}) {
       const types = typesFor(regions, s.category, typeOrder[s.category]);
       typeRow.replaceChildren(...(types.length ? [
         h('button', { class: 'type-chip', type: 'button', dataset: { type: '' }, onclick: () => store.set({ type: null }) },
-          `Any ${CAT_LABEL[s.category].toLowerCase()}`),
+          `All ${CAT_LABEL[s.category].toLowerCase()}`),
         ...types.map(({ type, regions: n, minRank }) =>
           h('button', {
             class: 'type-chip', type: 'button', dataset: { type },
             title: `${type}: ${n} region${n === 1 ? '' : 's'}, from ${formatRank(minRank)}`,
-            onclick: () => store.set({ type: store.get().type === type ? null : type, selectedId: null, fromResults: false }),
+            onclick: () => store.set({ type: store.get().type === type ? null : type, selectedId: null, fromResults: false, openKey: null }),
           }, type, h('span', { class: 'n', 'aria-label': `${n} regions` }, String(n)))),
       ] : []));
       typeRow.hidden = !types.length;
