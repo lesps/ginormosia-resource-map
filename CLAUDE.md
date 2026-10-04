@@ -30,7 +30,7 @@ BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 - Keep README, CHANGELOG and this file accurate to the code.
 
 ## Deviations from SPEC.md
-- Data `version` 3: required `type` on every entry; a `boss` category; optional per-entry `where`, `conditions`, `tags`, `level`, `drops`, `note`, `confidence`, `sources`, `nameJa`; region `tower`/`landmarks`/`summary`/`nameJa`; top-level `mechanics`, `sources`, `confidenceLevels`. `search`/`regionMatches`/`regionHasCategory` take an optional 4th `type` argument, and `search` results can carry `drop` when only a drop matched.
+- Data `version` 3: required `type` on every entry; a `boss` category; optional per-entry `where`, `conditions`, `tags`, `level`, `drops`, `note`, `confidence`, `sources`, `nameJa`, `spawnType`, `shadow` (fish), `ggXY`; region `tower`/`landmarks`/`summary`/`nameJa`; top-level `mechanics`, `sources`, `confidenceLevels`. `search`/`regionMatches`/`regionHasCategory` take an optional 4th `type` argument, and `search` results can carry `drop` when only a drop matched.
 - Resource rows are buttons that expand a detail card (store key `openKey`, hash `e=`). Bosses have their own chip. Rank 6 exists.
 - The map image is a different, labelled 1024×1012 map (not the 3200² fan-annotated one). The frame's aspect ratio comes from `data.image`, and pins sit on each region's tower (located from an in-game screenshot via a coastline fit). On this image the towers sit inside the printed labels, so pins can cover part of a label at 1×/2×.
 - Zoom is 1×/2×/3×, not 1×/2×. Pin markers draw smaller at 1× on narrow screens; the tap target stays 44×56.
@@ -38,7 +38,8 @@ BASE_PATH=/sub/ npm run build  # sub-path build (CI sets /<repo-name>/)
 - Additions not in the spec: idle region list, sticky toolbar, URL-hash state, keyboard shortcuts, install button/iOS help, offline badge.
 
 ## Known data caveats
-- Hot Spring Bream rank disputed (`"1 or 5"`). Great Darkwood Tree vs Shroomhaven "Great Darkness Tree" unconfirmed (typed separately). `"-"` = spawns, rank unknown. Common fish, herbs and ground pickups aren't covered.
+- Coldwater Tuna rank disputed (`"1 or 5"`); Rainbow Flying Fish disputed between East Dryridge and South Greatgut. Shroomhaven's "Great Darkness Tree" is treated as the Darkwood R4 tier (likely the Great Darkwood Tree; unconfirmed in game). `"-"` = spawns, rank unknown. Common fish, herbs and ground pickups aren't covered.
 - Data v3 was migrated once from an external guide (not in the repo); the old/new reconciliation rules are in CHANGELOG 'Unreleased'. Entries only in the earlier data carry `sources: ["earlier"]` and `confidence: "single-source"`.
 - Drop names with `official: false` are translations, not confirmed English names; never present them as official.
-- `type` groupings are this project's own grouping, not the game's. `typeOrder` positions for Haniwa Stone, Fossil, Red Ore, Pear, Fruit Tree and Eel are unverified guesses.
+- `type` groupings are this project's own grouping, not the game's. `typeOrder` positions for Haniwa Stone, Fossil, Eel and Sand Fish are unverified guesses; trees follow Gamer Guides' rarity field.
+- Round-2 research (2026-10-04) was merged once from an external JSON (not in the repo): confidence only moves up, or to `disputed`; "not found" verdicts become `disputed`, not deletions; boilerplate locations became `spawnType`, not `where` text.

@@ -124,6 +124,21 @@ describe('validateRegions', () => {
     expect(() => validateRegions(d)).toThrow(/duplicate entry/i);
   });
 
+  it('rejects an unknown spawnType', () => {
+    const d = clone();
+    d.regions[0].ore[0].spawnType = 'teleporting';
+    expect(() => validateRegions(d)).toThrow(/spawnType "teleporting"/);
+  });
+
+  it('rejects a shadow on a non-fish or an unknown size', () => {
+    const d = clone();
+    d.regions[0].ore[0].shadow = 'big';
+    expect(() => validateRegions(d)).toThrow(/shadow/);
+    const e = clone();
+    e.regions.find((r) => r.fish.length).fish[0].shadow = 'huge';
+    expect(() => validateRegions(e)).toThrow(/shadow/);
+  });
+
   it('accepts rank 6', () => {
     const d = clone();
     d.regions[0].ore[0].minRank = '6';

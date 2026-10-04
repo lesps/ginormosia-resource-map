@@ -51,13 +51,13 @@ describe('selecting a region', () => {
   });
 
   it('formats ranks and shows location details when a row is opened', () => {
-    t.pin('Scorchrock Mountain').click();
-    const btn = t.entry('Hot Spring Bream');
+    t.pin('Drakesnout Range').click();
+    const btn = t.entry('Coldwater Tuna');
     expect(btn.textContent).toContain('R1 or R5');
     expect(btn.getAttribute('aria-expanded')).toBe('false');
     btn.click();
-    expect(t.entry('Hot Spring Bream').getAttribute('aria-expanded')).toBe('true');
-    expect(t.detail().textContent).toContain('Lake at the top of Scorchrock Mountain');
+    expect(t.entry('Coldwater Tuna').getAttribute('aria-expanded')).toBe('true');
+    expect(t.detail().textContent).toContain('Off the shore');
   });
 
   it('selects with Enter on a focused pin', () => {
