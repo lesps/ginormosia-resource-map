@@ -44,7 +44,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
       h('ul', {}, data.notInGinormosia.map((n) => h('li', {}, h('strong', {}, n.name), ` — ${n.foundAt}`))),
       h('p', {}, 'The West and East Greatgut labels on the map image look swapped; pins follow guide descriptions. Common fish, herbs and ground pickups aren’t mapped.'),
       h('p', {}, 'Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant.'),
-      h('p', {}, 'Map labels and tower markers: fan annotations from ',
+      h('p', {}, 'Map labels and tower markers: fan annotations by u/dzchan, from ',
         h('a', { href: 'https://www.reddit.com/r/fantasylife/comments/1l6srj4/ginormosia_map_wip/', rel: 'noopener', target: '_blank' }, '“Ginormosia map WIP” on r/fantasylife'), '.'),
       h('p', { class: 'legal' }, h('cite', {}, 'Fantasy Life i: The Girl Who Steals Time'),
         ' and the map artwork © LEVEL-5 Inc. Fan-made, unofficial and not affiliated with or endorsed by LEVEL-5.')),

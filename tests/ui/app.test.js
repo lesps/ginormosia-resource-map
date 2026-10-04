@@ -199,6 +199,7 @@ describe('footer', () => {
     const a = t.$('footer a[href="https://www.reddit.com/r/fantasylife/comments/1l6srj4/ginormosia_map_wip/"]');
     expect(a).not.toBeNull();
     expect(a.closest('p').textContent).toMatch(/annotations/i);
+    expect(a.closest('p').textContent).toContain('u/dzchan');
   });
 });
 
