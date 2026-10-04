@@ -78,4 +78,8 @@ Open `http://<your-computer-ip>:3000` on the phone. Note that service workers (a
 
 ## Credits
 
-Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant. Fan project; not affiliated with Level-5.
+Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant.
+
+Map labels and tower markers: fan annotations by u/dzchan, from [“Ginormosia map WIP” on r/fantasylife](https://www.reddit.com/r/fantasylife/comments/1l6srj4/ginormosia_map_wip/).
+
+*Fantasy Life i: The Girl Who Steals Time* and the map artwork © LEVEL-5 Inc. Fan-made, unofficial and not affiliated with or endorsed by LEVEL-5. The app icon is original artwork.

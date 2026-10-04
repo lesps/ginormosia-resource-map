@@ -188,6 +188,19 @@ describe('footer', () => {
     for (const n of raw.notInGinormosia) expect(foot).toContain(n.name);
     expect(foot).toContain('fli-ginormosia.bearblog.dev');
   });
+
+  it('credits LEVEL-5 and disclaims affiliation', () => {
+    const foot = t.$('footer').textContent;
+    expect(foot).toContain('© LEVEL-5 Inc.');
+    expect(foot).toMatch(/not affiliated with or endorsed by LEVEL-5/);
+  });
+
+  it('credits the fan map annotations with a link', () => {
+    const a = t.$('footer a[href="https://www.reddit.com/r/fantasylife/comments/1l6srj4/ginormosia_map_wip/"]');
+    expect(a).not.toBeNull();
+    expect(a.closest('p').textContent).toMatch(/annotations/i);
+    expect(a.closest('p').textContent).toContain('u/dzchan');
+  });
 });
 
 describe('url state', () => {
