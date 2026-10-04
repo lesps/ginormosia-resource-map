@@ -4,6 +4,9 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+### Added
+- LEVEL-5 copyright credit and non-affiliation notice in the site footer and README.
+
 ## [1.0.0] - 2026-10-04
 
 ### Added

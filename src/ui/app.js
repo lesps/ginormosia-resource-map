@@ -43,7 +43,9 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
       h('h2', {}, 'Not found in Ginormosia'),
       h('ul', {}, data.notInGinormosia.map((n) => h('li', {}, h('strong', {}, n.name), ` — ${n.foundAt}`))),
       h('p', {}, 'The West and East Greatgut labels on the map image look swapped; pins follow guide descriptions. Common fish, herbs and ground pickups aren’t mapped.'),
-      h('p', {}, 'Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant.')),
+      h('p', {}, 'Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant.'),
+      h('p', { class: 'legal' }, h('cite', {}, 'Fantasy Life i: The Girl Who Steals Time'),
+        ' and the map artwork © LEVEL-5 Inc. Fan-made, unofficial and not affiliated with or endorsed by LEVEL-5.')),
   );
 
   function renderStatus(s) {

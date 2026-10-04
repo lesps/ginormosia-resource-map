@@ -188,6 +188,12 @@ describe('footer', () => {
     for (const n of raw.notInGinormosia) expect(foot).toContain(n.name);
     expect(foot).toContain('fli-ginormosia.bearblog.dev');
   });
+
+  it('credits LEVEL-5 and disclaims affiliation', () => {
+    const foot = t.$('footer').textContent;
+    expect(foot).toContain('© LEVEL-5 Inc.');
+    expect(foot).toMatch(/not affiliated with or endorsed by LEVEL-5/);
+  });
 });
 
 describe('url state', () => {

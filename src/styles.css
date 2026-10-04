@@ -268,3 +268,5 @@ mark { background: var(--hit); color: #1d2a24; border-radius: 4px; padding: 0 2p
   .pin, .pin .head { transition: none; }
   .pin.hit::after { animation: none; opacity: 1; transform: scale(1.4); }
 }
+.legal { font-size: .8rem; }
+.legal cite { font-style: italic; }
