@@ -2,6 +2,7 @@ import { h, reducedMotion, CAT_LABEL, PIN_CATS } from './dom.js';
 import { search, entryKey } from '../lib/search.js';
 import { formatRank, rankOrder, rankTitle } from '../lib/rank.js';
 import { highlight } from '../lib/escape.js';
+import { howToFind } from '../lib/find.js';
 
 const VIEW_CATS = { all: ['ore', 'trees', 'fish', 'boss', 'other'], ore: ['ore'], trees: ['trees'], fish: ['fish'], boss: ['boss'] };
 
@@ -51,22 +52,18 @@ export function createPanel(store, data) {
   const el = h('section', { id: 'panel', class: 'panel', 'aria-live': 'polite', tabindex: '-1' });
   const select = (id, fromResults = false, openKey = null) => store.set({ selectedId: id, fromResults, openKey });
 
-  function detail(entry, id, open) {
+  function detail(r, entry, cat, id, open) {
     const rows = [
-      ['Where', entry.where],
-      ['Conditions', entry.conditions],
+      ['How to find', h('ol', { class: 'find' }, howToFind(entry, r, cat).map((step) => h('li', {}, step)))],
       ['Drops', entry.drops?.length && dropList(entry.drops)],
       ['Note', entry.note],
-      ['Reliability', entry.confidence && `${entry.confidence[0].toUpperCase()}${entry.confidence.slice(1).replace('-', ' ')}: ${data.confidenceLevels[entry.confidence]}`],
       ['Sources', entry.sources?.length && entry.sources.map((k) => sourceLabel(data, k)).join(' · ')],
-      ['Japanese name', entry.nameJa && h('span', { lang: 'ja' }, entry.nameJa)],
     ].filter(([, v]) => v);
     return h('div', { class: 'detail', id, hidden: !open },
-      rows.length ? h('dl', {}, rows.flatMap(([k, v]) => [h('dt', {}, k), h('dd', {}, v)])) : h('p', { class: 'empty' }, 'No extra details recorded yet.'),
-      h('p', { class: 'rank-note' }, rankTitle(entry.minRank), '.'));
+      h('dl', {}, rows.flatMap(([k, v]) => [h('dt', {}, k), h('dd', {}, v)])));
   }
 
-  function entryRow(r, entry, s) {
+  function entryRow(r, entry, cat, s) {
     const key = entryKey(entry);
     const open = s.openKey === key;
     const id = `d-${r.id}-${key}`;
@@ -81,7 +78,7 @@ export function createPanel(store, data) {
         badges(entry),
         rank(entry.minRank),
         h('span', { class: 'chev', 'aria-hidden': 'true' })),
-      detail(entry, id, open));
+      detail(r, entry, cat, id, open));
   }
 
   function regionView(r, s) {
@@ -104,7 +101,7 @@ export function createPanel(store, data) {
       groups.length
         ? groups.map(({ c, list }) => h('div', { class: 'group' },
             h('h3', {}, h('span', { class: 'dot', dataset: { cat: c } }), CAT_LABEL[c]),
-            h('ul', { class: 'entries' }, list.map((e) => entryRow(r, e, s)))))
+            h('ul', { class: 'entries' }, list.map((e) => entryRow(r, e, c, s)))))
         : h('p', { class: 'empty' }, `No ${s.type ?? CAT_LABEL[s.category].toLowerCase()} in this region.`),
     ];
   }

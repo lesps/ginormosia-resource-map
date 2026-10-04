@@ -272,15 +272,18 @@ describe('resource details', () => {
     expect(sword.querySelector('.conf')).toBeNull();
   });
 
-  it('opens one detail card at a time with drops, conditions and sources', () => {
+  it('opens one detail card at a time with how-to-find steps, drops and sources', () => {
     t.pin('West Dryridge Desert').click();
     t.entry('Golden Swordfish').click();
     const d = t.detail();
+    const labels = [...d.querySelectorAll('dt')].map((x) => x.textContent);
+    expect(labels).toEqual(['How to find', 'Drops', 'Sources']);
+    expect(d.querySelectorAll('ol.find li').length).toBeGreaterThanOrEqual(3);
     expect(d.textContent).toContain('Off the coast');
-    expect(d.textContent).toContain('gold-crown; Lv60');
     expect(d.textContent).toContain('Golden Fin');
     expect(d.textContent).toContain('Gamer Guides');
-    expect(d.textContent).toContain('ゴールデンカジキ');
+    expect(d.textContent).not.toContain('ゴールデンカジキ');
+    expect(d.textContent).not.toMatch(/Reliability/);
     t.entry('Sand Fish').click();
     expect(t.$$('.entry[aria-expanded="true"]')).toHaveLength(1);
     t.entry('Sand Fish').click();

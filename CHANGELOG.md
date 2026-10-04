@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- "How to find" checklist in each detail card: rank and tower, location, and the spawn rules that apply (crowns, legendary rolls, events, night/day, cave respawns, tier rolls, level), from `src/lib/find.js`.
 - Pins now sit on each region's tower. Positions came from the tower diamonds in an in-game map screenshot, mapped onto the current image by fitting the two coastlines (pins moved 31–87 px).
 - Resource detail cards: rows expand to show where, conditions, drops, note, reliability, sources and the Japanese name. Rows carry badges (gold/silver crown, legendary, event, night, day, cave, level, unconfirmed/disputed) and a one-line location. Search results open the exact card, and the open card is kept in the URL (`e=`).
 - Bosses category and chip (29 bosses with drops), typed Silver-crown / Field boss / Dungeon / Challenge / Legendary.
@@ -15,6 +16,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - Credit and link for the fan map annotations by u/dzchan (r/fantasylife “Ginormosia map WIP”).
 
 ### Changed
+- Detail cards no longer show Reliability or the Japanese name; Where and Conditions are folded into the How to find checklist. The unconfirmed/disputed row badges stay, and Japanese names still match in search.
 - Corrections from the guide: Rainbow Flying Fish moved from West Dryridge/South Greatgut to East Dryridge; Coldwater Tuna any → R5; Great Dragontree top → R5; Poseidon Swordfish top → R5; Starry/Great Starry Tree and Electric Eel ranks recorded (R1); Legendary Shiny Geode and Rocket Fish 3 → 3+; Crops any → R1. Viridia's Magic Ore Deposit is now Great Magic Ore Deposit, and King Woolie moved from Other to Bosses.
 - New entries include Sand Fish, Cactus Fish, Skeleton Fish, Sneakfish, Crystalline Bass (disputed), Blackgill, Sneaky Tuna, Evil Carp, Faraway Sweetfish, Lulab Trout, Redgill, Lavashrimp, Godfish, Gold in Moltana Wastes, Superior Gold in Drakesnout, Legendary King Spud in four plains regions, and the Pickaxe/Axe of Time recipes.
 - Entries found only in the earlier data (coastal Tuna/Dunefin Tuna/Flying Fish in several regions) are kept but marked unconfirmed.

@@ -244,7 +244,8 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 .drops li { border: 0 !important; padding: 0 0 2px; }
 .approx-mark { color: var(--muted); font-size: .8em; margin-left: 2px; }
 .drop.approx { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; }
-.rank-note { color: var(--muted); font-size: .8rem; margin: 8px 0 0; }
+.find { margin: 0; padding-left: 1.3em; }
+.find li { border: 0 !important; padding: 0 0 4px; }
 .region-info { font-size: .9rem; margin: 0 0 6px; }
 .region-info p { margin: 0 0 4px; }
 .what { display: flex; flex-direction: column; min-width: 0; flex: 1; }
