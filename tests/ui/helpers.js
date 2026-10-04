@@ -19,5 +19,7 @@ export function mount(data = structuredClone(raw), opts = {}) {
     q.value = value;
     q.dispatchEvent(new Event('input', { bubbles: true }));
   };
-  return { root, app, $, $$, pin, panel, chip, type, typeQuery };
+  const entry = (name) => $$('.entry').find((b) => b.querySelector('.name').textContent === name);
+  const detail = () => $('.detail:not([hidden])');
+  return { root, app, $, $$, pin, panel, chip, type, typeQuery, entry, detail };
 }

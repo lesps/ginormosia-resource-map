@@ -29,7 +29,7 @@ describe('map', () => {
   });
 
   it('shows a dot per category the region has', () => {
-    expect([...t.pin('Moltana Wastes').querySelectorAll('.dot')].map((d) => d.dataset.cat)).toEqual(['ore', 'fish']);
+    expect([...t.pin('Moltana Wastes').querySelectorAll('.dot')].map((d) => d.dataset.cat)).toEqual(['ore', 'fish', 'boss']);
   });
 
   it('zoom buttons scale the map and report state', () => {
@@ -45,16 +45,19 @@ describe('selecting a region', () => {
     t.pin('Crickneck Canyon').click();
     expect(t.panel().querySelector('h2').textContent).toBe('Crickneck Canyon');
     expect(t.panel().textContent).toContain('Mountains northwest of the Greatgut Plains');
-    expect(headings()).toEqual(['Ore', 'Trees']);
+    expect(headings()).toEqual(['Ore', 'Trees', 'Bosses']);
     expect(t.pin('Crickneck Canyon').classList.contains('sel')).toBe(true);
     expect(t.pin('Crickneck Canyon').getAttribute('aria-pressed')).toBe('true');
   });
 
-  it('formats ranks and notes', () => {
+  it('formats ranks and shows location details when a row is opened', () => {
     t.pin('Scorchrock Mountain').click();
-    const row = [...t.panel().querySelectorAll('li')].find((li) => li.textContent.includes('Hot Spring Bream'));
-    expect(row.textContent).toContain('R1 or R5');
-    expect(row.textContent).toContain('inland lake');
+    const btn = t.entry('Hot Spring Bream');
+    expect(btn.textContent).toContain('R1 or R5');
+    expect(btn.getAttribute('aria-expanded')).toBe('false');
+    btn.click();
+    expect(t.entry('Hot Spring Bream').getAttribute('aria-expanded')).toBe('true');
+    expect(t.detail().textContent).toContain('Lake at the top of Scorchrock Mountain');
   });
 
   it('selects with Enter on a focused pin', () => {
@@ -127,7 +130,7 @@ describe('sub-type filter', () => {
     t.chip('Ore').click();
     t.type('Platinum').click();
     t.pin('Moltana Wastes').click();
-    const names = [...t.panel().querySelectorAll('li .name')].map((n) => n.textContent);
+    const names = [...t.panel().querySelectorAll('.entry .name')].map((n) => n.textContent);
     expect(names).toEqual(['Platinum Deposit', 'Great Platinum Deposit']);
   });
 
@@ -231,9 +234,11 @@ describe('keyboard shortcuts', () => {
     expect(document.activeElement).toBe(t.$('#q'));
   });
 
-  it('Escape closes the region, then clears the search', () => {
+  it('Escape closes the open card, then the region, then clears the search', () => {
     t.typeQuery('platinum');
     [...t.panel().querySelectorAll('.results button')][0].click();
+    key('Escape');
+    expect(t.$$('.entry[aria-expanded="true"]')).toHaveLength(0);
     key('Escape');
     expect(t.panel().querySelector('.results')).not.toBeNull();
     key('Escape', t.$('#q'));
@@ -246,5 +251,88 @@ describe('hash changes after load', () => {
     t.app.applyHash('#q=skytree');
     expect(t.$$('.pin.hit').map((p) => p.getAttribute('aria-label'))).toEqual(['Shroomhaven']);
     expect(t.$('#q').value).toBe('skytree');
+  });
+});
+
+describe('resource details', () => {
+  it('shows the region tower, summary and landmarks', () => {
+    t.pin('Moltana Wastes').click();
+    const text = t.panel().textContent;
+    expect(text).toContain("Googlisha's Tower");
+    expect(text).toContain('No legendary challenges spawn here');
+    expect(text).toContain('Panther Preserve town');
+  });
+
+  it('badges rows with crown, level and reliability', () => {
+    t.pin('West Dryridge Desert').click();
+    const sword = t.entry('Golden Swordfish');
+    expect(sword.querySelector('[data-tag="gold-crown"]').getAttribute('aria-label')).toMatch(/gold-crown/i);
+    expect(sword.querySelector('.lv').textContent).toBe('Lv60');
+    expect(t.entry('Tuna').querySelector('.conf').textContent).toMatch(/unconfirmed/i);
+    expect(sword.querySelector('.conf')).toBeNull();
+  });
+
+  it('opens one detail card at a time with drops, conditions and sources', () => {
+    t.pin('West Dryridge Desert').click();
+    t.entry('Golden Swordfish').click();
+    const d = t.detail();
+    expect(d.textContent).toContain('Off the coast');
+    expect(d.textContent).toContain('gold-crown; Lv60');
+    expect(d.textContent).toContain('Golden Fin');
+    expect(d.textContent).toContain('Gamer Guides');
+    expect(d.textContent).toContain('ゴールデンカジキ');
+    t.entry('Sand Fish').click();
+    expect(t.$$('.entry[aria-expanded="true"]')).toHaveLength(1);
+    t.entry('Sand Fish').click();
+    expect(t.$$('.entry[aria-expanded="true"]')).toHaveLength(0);
+  });
+
+  it('marks translated drop names', () => {
+    t.pin('West Dryridge Desert').click();
+    t.entry('Golden Swordfish').click();
+    const drops = [...t.detail().querySelectorAll('.drop')];
+    const fin = drops.find((x) => x.textContent.includes('Golden Fin'));
+    const scale = drops.find((x) => x.textContent.includes('Fish Scale'));
+    expect(fin.classList.contains('approx')).toBe(false);
+    expect(scale.classList.contains('approx')).toBe(true);
+    expect(scale.getAttribute('title')).toMatch(/translated from Japanese/i);
+  });
+
+  it('groups monster drops by monster', () => {
+    t.pin('West Dryridge Desert').click();
+    t.entry('Silver-crown monsters').click();
+    expect(t.detail().textContent).toContain('Giant Sand Spider');
+  });
+
+  it('opens the exact entry from a search result', () => {
+    t.typeQuery('ruby');
+    [...t.panel().querySelectorAll('.results button')].find((b) => b.textContent.includes("Dragon's Claw")).click();
+    expect(t.panel().querySelector('h2').textContent).toBe('Scorchrock Mountain');
+    expect(t.entry("Dragon's Claw").getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('says which drop matched in results', () => {
+    t.typeQuery('ruby');
+    const row = [...t.panel().querySelectorAll('.results button')].find((b) => b.textContent.includes('Golemstone'));
+    expect(row.textContent).toMatch(/drops Ruby/);
+  });
+
+  it('restores an open entry from the hash and reports it', () => {
+    const seen = [];
+    t = mount(undefined, { hash: '#r=moltana&e=golemstone', onHash: (h) => seen.push(h) });
+    expect(t.entry('Golemstone').getAttribute('aria-expanded')).toBe('true');
+    t.entry('Golemstone').click();
+    expect(seen.at(-1)).toBe('#r=moltana');
+  });
+
+  it('has a Bosses chip with boss type chips', () => {
+    t.chip('Bosses').click();
+    expect(t.type('Field boss')).toBeTruthy();
+    expect(t.type('Silver-crown')).toBeTruthy();
+  });
+
+  it('explains how spawns work', () => {
+    const box = t.$('details.mechanics');
+    expect(box.querySelectorAll('li').length).toBe(raw.mechanics.length);
   });
 });
