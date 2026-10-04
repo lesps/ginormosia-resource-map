@@ -13,12 +13,12 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
   const valid = {
     categories: ['all', 'ore', 'trees', 'fish'],
     regionIds: regions.map((r) => r.id),
-    types: Object.fromEntries(['ore', 'trees', 'fish'].map((c) => [c, typesFor(regions, c).map((t) => t.type)])),
+    types: Object.fromEntries(['ore', 'trees', 'fish'].map((c) => [c, typesFor(regions, c, data.typeOrder[c]).map((t) => t.type)])),
   };
   const initial = fromHash(hash, valid);
   const store = createStore({ ...initial, zoom: 1, fromResults: false });
 
-  const controls = createControls(store, regions);
+  const controls = createControls(store, regions, data.typeOrder);
   const map = createMap(store, regions, {
     imageSrc,
     imageAlt: 'Map of Ginormosia with a pin on each region’s tower',

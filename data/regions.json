@@ -20,6 +20,60 @@
     "-": "rank not recorded",
     "1 or 5": "sources disagree"
   },
+  "typeOrder": {
+    "ore": [
+      "Copper",
+      "Iron",
+      "Blue Ore",
+      "Silver",
+      "Marine Ore",
+      "Gold",
+      "Haniwa Stone",
+      "Fossil",
+      "Platinum",
+      "Red Ore",
+      "Graphite",
+      "Magic Ore",
+      "Geode",
+      "Golemstone",
+      "Starcrystal",
+      "Dragon's Claw",
+      "Heart of Darkness"
+    ],
+    "trees": [
+      "Oak",
+      "Apple",
+      "Palm",
+      "Cherry",
+      "Pine",
+      "Pear",
+      "Fruit Tree",
+      "Sugar",
+      "Desert",
+      "Starry",
+      "Skytree",
+      "Darkwood",
+      "Darkness Tree",
+      "Angeltree",
+      "Giant's Tree",
+      "God Tree",
+      "Dragontree"
+    ],
+    "fish": [
+      "Tuna",
+      "Flying Fish",
+      "Bream",
+      "Eel",
+      "Swordfish",
+      "Rocket Fish",
+      "Lordfish"
+    ],
+    "other": [
+      "Crops",
+      "King Spud",
+      "Monster"
+    ]
+  },
   "regions": [
     {
       "id": "drakeseye",

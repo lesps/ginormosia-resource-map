@@ -25,8 +25,8 @@ export function regionHasCategory(region, category, type = null) {
 export const regionMatches = (region, query, category, type = null) =>
   search([region], query, category, type).length > 0;
 
-// Most common first: earliest spawn rank, then more regions, then name.
-export function typesFor(regions, category) {
+// Ordered by `order` (the game's tiers, from data.typeOrder); alphabetical without one.
+export function typesFor(regions, category, order = []) {
   if (category === 'all') return [];
   const byType = new Map();
   for (const r of regions) {
@@ -39,5 +39,8 @@ export function typesFor(regions, category) {
   }
   return [...byType.values()]
     .map(({ type, ids, minRank }) => ({ type, regions: ids.size, minRank }))
-    .sort((a, b) => rankOrder(a.minRank) - rankOrder(b.minRank) || b.regions - a.regions || a.type.localeCompare(b.type));
+    .sort((a, b) => {
+      const ia = order.indexOf(a.type), ib = order.indexOf(b.type);
+      return (ia < 0) - (ib < 0) || ia - ib || a.type.localeCompare(b.type);
+    });
 }

@@ -5,7 +5,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Changed
-- Sub-type chips are ordered from most common to rarest (earliest spawn rank, then region count) instead of alphabetically. Chip tooltips show the earliest rank.
+- Sub-type chips follow the game's tier order, set by a new `typeOrder` list in `data/regions.json` (validated against the types in use). Chip tooltips show the earliest rank.
 
 ### Added
 - LEVEL-5 copyright credit and non-affiliation notice in the site footer and README.

@@ -4,7 +4,7 @@ import { formatRank } from '../lib/rank.js';
 
 const FILTERS = ['all', 'ore', 'trees', 'fish'];
 
-export function createControls(store, regions) {
+export function createControls(store, regions, typeOrder = {}) {
   const input = h('input', {
     id: 'q', type: 'search', placeholder: 'Search, e.g. Platinum or Skytree',
     'aria-label': 'Find a resource', autocomplete: 'off', enterkeyhint: 'search',
@@ -38,7 +38,7 @@ export function createControls(store, regions) {
   function renderTypes(s) {
     if (renderedCat !== s.category) {
       renderedCat = s.category;
-      const types = typesFor(regions, s.category);
+      const types = typesFor(regions, s.category, typeOrder[s.category]);
       typeRow.replaceChildren(...(types.length ? [
         h('button', { class: 'type-chip', type: 'button', dataset: { type: '' }, onclick: () => store.set({ type: null }) },
           `Any ${CAT_LABEL[s.category].toLowerCase()}`),
