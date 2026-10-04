@@ -1,0 +1,1 @@
+# ginormosia-resource-map
