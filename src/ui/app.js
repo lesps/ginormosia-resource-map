@@ -2,9 +2,9 @@ import { h, reducedMotion, FILTERS } from './dom.js';
 import { createStore } from './state.js';
 import { createControls } from './controls.js';
 import { createMap } from './map.js';
-import { createPanel, TAG_INFO } from './panel.js';
+import { createPanel, TAG_INFO, filterOf } from './panel.js';
 import { loadRegions, CATEGORIES } from '../lib/data.js';
-import { search, typesFor, entryKey, isCommonMonster, findEntry } from '../lib/search.js';
+import { search, searchPlaces, typesFor, entryKey, isCommonMonster, findEntry } from '../lib/search.js';
 import { toHash, fromHash } from '../lib/hash.js';
 import { availability, sanitizeRanks } from '../lib/ranks.js';
 import { createStorage } from './storage.js';
@@ -64,7 +64,14 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = cr
       h('details', { class: 'mechanics' },
         h('summary', {}, 'How spawns work'),
         h('ul', {}, data.mechanics.map((m) => h('li', {}, m))),
-        h('p', { class: 'legend-keys' }, Object.values(TAG_INFO).map(([icon, label]) => h('span', {}, h('span', { 'aria-hidden': 'true' }, icon), ` ${label}`)),
+        h('p', { class: 'legend-hint' }, 'Tap a badge to see everything that has it.'),
+        h('p', { class: 'legend-keys' }, Object.entries(TAG_INFO).map(([tag, [icon, label]]) => h('button', {
+          class: 'legend-key', type: 'button', dataset: { tag }, title: 'Show everything with this badge',
+          onclick: () => {
+            store.set({ category: 'all', type: null, tag, selectedId: null, fromResults: false, openKey: null, mine: false });
+            controls.el.scrollIntoView?.({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+          },
+        }, h('span', { 'aria-hidden': 'true' }, icon), ` ${label}`)),
           h('span', {}, h('span', { class: 'approx-mark', 'aria-hidden': 'true' }, '≈'), ' Name translated from Japanese or not yet confirmed; the in-game English name may differ'))),
       h('h2', {}, 'Not found in Ginormosia'),
       h('ul', {}, data.notInGinormosia.map((n) => h('li', {}, h('strong', {}, n.name), ` — ${n.foundAt}`))),
@@ -75,12 +82,15 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = cr
   );
 
   function renderStatus(s) {
-    const active = s.query.trim() || s.type;
-    if (!active || s.selectedId) { jump.hidden = true; return; }
-    const matches = search(regions, s.query, s.category, s.type);
+    const active = s.query.trim() || s.type || s.tag;
+    if (!active || s.selectedId || s.mine) { jump.hidden = true; return; }
+    const matches = search(regions, filterOf(s));
+    const places = searchPlaces(regions, s.query).length;
     const n = new Set(matches.map((m) => m.regionId)).size;
+    const plural = (k, word) => `${k} ${word}${k === 1 ? '' : 's'}`;
+    const parts = [places && plural(places, 'place'), matches.length && `${plural(matches.length, 'spawn')} in ${plural(n, 'region')}`].filter(Boolean);
     jump.hidden = false;
-    jump.textContent = n ? `${n} region${n === 1 ? '' : 's'} · ${matches.length} spawn${matches.length === 1 ? '' : 's'} — see list ↓` : 'No matches — see why ↓';
+    jump.textContent = parts.length ? `${parts.join(' · ')} — see list ↓` : 'No matches — see why ↓';
   }
 
   const render = (s, prev) => {
@@ -113,7 +123,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = cr
       if (s.mine) store.set({ mine: false });
       else if (s.openKey) store.set({ openKey: null });
       else if (s.selectedId) store.set({ selectedId: null, fromResults: false });
-      else if (s.query || s.type) store.set({ query: '', type: null });
+      else if (s.query || s.type || s.tag) store.set({ query: '', type: null, tag: null });
     }
   }, { signal: ac.signal });
 

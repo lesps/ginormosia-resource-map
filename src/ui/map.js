@@ -1,5 +1,5 @@
 import { h, reducedMotion, PIN_CATS } from './dom.js';
-import { regionHasCategory, search } from '../lib/search.js';
+import { regionHasCategory, search, searchPlaces } from '../lib/search.js';
 import { availability } from '../lib/ranks.js';
 
 export const ZOOMS = [1, 2, 3];
@@ -47,26 +47,27 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
   }
 
   function render(s, prev) {
-    const active = !!(s.query.trim() || s.type);
+    const active = !!(s.query.trim() || s.type || s.tag);
     const counts = new Map();
     const above = new Map(); // matches that need a higher rank than yours
-    for (const m of search(regions, s.query, s.category, s.type)) {
+    const places = new Set(searchPlaces(regions, s.query).map((p) => p.regionId));
+    for (const m of search(regions, { query: s.query, category: s.category, type: s.type, tag: s.tag })) {
       counts.set(m.regionId, (counts.get(m.regionId) ?? 0) + 1);
       if (availability(m.entry, s.ranks?.[m.regionId]) === 'locked') above.set(m.regionId, (above.get(m.regionId) ?? 0) + 1);
     }
     for (const r of regions) {
       const pin = pins.get(r.id);
-      const hit = counts.has(r.id);
-      const dim = active ? !hit : !regionHasCategory(r, s.category);
-      const n = counts.get(r.id);
-      const locked = hit && above.get(r.id) === n;
+      const hit = counts.has(r.id) || places.has(r.id);
+      const dim = active ? !hit : !regionHasCategory(r, { category: s.category });
+      const n = counts.get(r.id) ?? 0;
+      const locked = n > 0 && above.get(r.id) === n;
       pin.classList.toggle('hit', hit);
       pin.classList.toggle('locked', locked);
       pin.classList.toggle('dim', dim && r.id !== s.selectedId);
       pin.classList.toggle('sel', r.id === s.selectedId);
       pin.setAttribute('aria-pressed', String(r.id === s.selectedId));
-      pin.querySelector('.count').textContent = hit ? `${locked ? '🔒' : ''}${n}` : '';
-      if (hit) pin.setAttribute('aria-description', `${n} match${n === 1 ? '' : 'es'}${locked ? ', all need a higher rank' : ''}`);
+      pin.querySelector('.count').textContent = !hit ? '' : n ? `${locked ? '🔒' : ''}${n}` : '•';
+      if (hit) pin.setAttribute('aria-description', n ? `${n} match${n === 1 ? '' : 'es'}${locked ? ', all need a higher rank' : ''}` : 'Matches a place here');
       else pin.removeAttribute('aria-description');
     }
     inner.dataset.zoom = String(s.zoom);

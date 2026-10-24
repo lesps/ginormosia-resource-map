@@ -95,12 +95,15 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
   scroll-padding-inline: var(--gutter);
 }
 .chips::-webkit-scrollbar, .types::-webkit-scrollbar { display: none; }
-.chip, .type-chip {
+.chip, .type-chip, .tag-chip {
   flex: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
   border: 1.5px solid var(--line); background: var(--panel); border-radius: 999px; white-space: nowrap;
 }
 .chip { min-height: 40px; padding: 6px 14px; font-weight: 700; font-size: .9rem; }
-.type-chip { min-height: 36px; padding: 4px 12px; font-weight: 600; font-size: .85rem; }
+.type-chip, .tag-chip { min-height: 36px; padding: 4px 12px; font-weight: 600; font-size: .85rem; }
+/* Badge chips look like type chips; the invisible ::before stretches the tap target to 44px. */
+.tag-chip { position: relative; }
+.tag-chip::before { content: ''; position: absolute; inset: -4px 0; }
 /* Keep all five category chips on screen down to 360px wide. */
 @media (max-width: 480px) {
   .chips { gap: 4px; }
@@ -108,12 +111,12 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
   .chip .dot { width: 8px; height: 8px; }
 }
 @media (max-width: 374px) { .chip { padding: 6px 8px; } }
-.chip[aria-pressed='true'], .type-chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--panel); }
-.type-chip .n {
+.chip[aria-pressed='true'], .type-chip[aria-pressed='true'], .tag-chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--panel); }
+.type-chip .n, .tag-chip .n {
   font-size: .72rem; font-weight: 700; min-width: 20px; padding: 0 6px; border-radius: 999px;
   background: var(--soft); color: var(--muted); text-align: center;
 }
-.type-chip[aria-pressed='true'] .n { background: var(--hit); color: #1d2a24; }
+.type-chip[aria-pressed='true'] .n, .tag-chip[aria-pressed='true'] .n { background: var(--hit); color: #1d2a24; }
 
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--other); }
 .dot[data-cat='ore'] { background: var(--ore); }
@@ -310,7 +313,14 @@ mark { background: var(--hit); color: #1d2a24; border-radius: 4px; padding: 0 2p
 .mechanics { background: var(--panel); border: 1.5px solid var(--line); border-radius: 12px; padding: 8px 14px; margin: 8px 0 12px; color: var(--ink); }
 .mechanics summary { cursor: pointer; font-weight: 700; min-height: 32px; display: flex; align-items: center; }
 .mechanics li { margin: 4px 0; }
-.legend-keys { display: grid; gap: 4px; font-size: .82rem; color: var(--muted); margin: 10px 0 2px; }
+.legend-keys { display: grid; gap: 0; font-size: .82rem; color: var(--muted); margin: 10px 0 2px; }
+.legend-hint { margin: 10px 0 0; font-size: .82rem; color: var(--muted); }
+.legend-key {
+  display: flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 6px; margin: 0 -6px; text-align: left;
+  border: 0; background: none; color: inherit; font: inherit; cursor: pointer; border-radius: 8px;
+}
+.legend-key:hover { background: var(--soft); color: var(--ink); }
+.place-mark { flex: none; width: 10px; font-size: .8rem; line-height: 1; display: grid; place-items: center; }
 .foot li { margin: 3px 0; }
 .foot strong { color: var(--ink); }
 
