@@ -19,6 +19,11 @@ describe('dist/', () => {
     expect(bytes).toBeLessThan(1.5 * 1024 * 1024);
   });
 
+  it('does not bundle the field notes archive', () => {
+    const text = walk(dist).filter((f) => /\.(js|html|json|webmanifest)$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
+    expect(text).not.toContain('ginormosia-field-notes-archive');
+  });
+
   it('ships the webp map and not the source jpg', () => {
     expect(existsSync(join(dist, 'map.webp'))).toBe(true);
     expect(walk(dist).some((f) => /ginormosia-map\.(jpg|webp)$/.test(f))).toBe(false);

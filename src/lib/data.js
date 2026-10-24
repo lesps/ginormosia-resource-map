@@ -4,6 +4,11 @@ export const CATEGORIES = ['ore', 'trees', 'fish', 'monsters', 'other'];
 export const TAGS = ['gold-crown', 'silver-crown', 'legendary', 'event', 'night', 'day', 'cave', 'mount'];
 export const CONFIDENCE = ['confirmed', 'single-source', 'disputed'];
 export const SPAWN_TYPES = ['overworld', 'tier-roll', 'roaming', 'legendary-event', 'area-challenge', 'fixed-boss', 'cave-or-fort'];
+// Spawn types that aren't at one place (no spots), and where an absence means nothing.
+export const NO_SPOT = ['overworld', 'tier-roll', 'roaming', 'legendary-event', 'area-challenge'];
+export const NO_ABSENT = ['tier-roll', 'legendary-event', 'area-challenge'];
+export const PRECISIONS = ['approx', 'exact'];
+const unit = (v) => typeof v === 'number' && v >= 0 && v <= 1;
 const MONSTER_FIELDS = { crown: ['gold', 'silver'], time: ['day', 'night'], sleeps: ['day', 'night'], nameStatus: ['probable', 'unofficial'] };
 const OTHER_HALF = { day: 'night', night: 'day' };
 
@@ -70,6 +75,13 @@ export function validateRegions(data) {
       if (typeof v !== 'number' || v < 0 || v > 1)
         throw new Error(`Region "${r.id}": pin.${axis} must be a number in [0,1], got ${JSON.stringify(v)}`);
     }
+    const places = new Set();
+    for (const p of r.places ?? []) {
+      if (typeof p?.name !== 'string' || !p.name.trim() || !unit(p.x) || !unit(p.y))
+        throw new Error(`Region "${r.id}": each place needs a name and x/y in [0,1]`);
+      if (places.has(p.name.toLowerCase())) throw new Error(`Region "${r.id}": duplicate place "${p.name}"`);
+      places.add(p.name.toLowerCase());
+    }
     const names = new Set();
     for (const cat of CATEGORIES) {
       if (!Array.isArray(r[cat])) throw new Error(`Region "${r.id}": category "${cat}" must be an array`);
@@ -86,6 +98,9 @@ export function validateRegions(data) {
       });
     }
   }
+  const merged = data.fieldNotesMerged ?? [];
+  if (!Array.isArray(merged) || merged.some((id) => typeof id !== 'string') || new Set(merged).size !== merged.length)
+    throw new Error('fieldNotesMerged must be a list of unique note ids');
   for (const cat of CATEGORIES) {
     const order = data.typeOrder?.[cat];
     if (!Array.isArray(order)) throw new Error(`typeOrder.${cat} must be an array`);
@@ -103,6 +118,11 @@ function validateDetails(data, r, e, cat) {
   if (e.confidence !== undefined && !CONFIDENCE.includes(e.confidence)) throw new Error(`${where} has invalid confidence "${e.confidence}"`);
   for (const src of e.sources ?? []) if (!data.sources?.[src]) throw new Error(`${where} cites undefined source "${src}"`);
   for (const t of e.tags ?? []) if (!TAGS.includes(t)) throw new Error(`${where} has unknown tag "${t}"`);
+  for (const sp of e.spots ?? []) {
+    if (!unit(sp?.x) || !unit(sp?.y) || !PRECISIONS.includes(sp.precision) || !Array.isArray(sp.sources) || sp.sources.some((k) => !data.sources?.[k]))
+      throw new Error(`${where} has an invalid spot (x/y in [0,1], precision approx or exact, defined sources)`);
+  }
+  if (e.spots?.length && NO_SPOT.includes(e.spawnType)) throw new Error(`${where} has a spot, but ${e.spawnType} spawns aren't at one place`);
   for (const d of e.drops ?? []) {
     if (typeof d?.name !== 'string' || !d.name || typeof d.official !== 'boolean')
       throw new Error(`${where} has a drop without an English name and official flag`);

@@ -363,6 +363,20 @@ textarea.fn-input { resize: vertical; }
 .halos { position: absolute; inset: 0; pointer-events: none; }
 .halo { position: absolute; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; border: 3px solid var(--hit); background: rgba(242, 176, 44, .18); }
 .halo.local { border-style: dashed; }
+.marks { position: absolute; inset: 0; pointer-events: none; }
+.spot-pin { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--pin); border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .5); }
+/* Places: a small diamond in a 44px tap target; labels only once zoomed in. */
+.place-marker {
+  position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; padding: 0; border: 0; background: none;
+  pointer-events: auto; cursor: pointer; display: grid; place-items: center; z-index: 6; /* above the selected pin */
+}
+.place-marker .diamond { width: 12px; height: 12px; rotate: 45deg; background: #fff; border: 3px solid var(--sea-deep); box-shadow: 0 1px 3px rgba(0, 0, 0, .5); }
+.place-label {
+  position: absolute; top: 34px; left: 50%; translate: -50% 0; white-space: nowrap; padding: 1px 6px; border-radius: 6px;
+  background: rgba(255, 255, 255, .92); color: #1d2a24; font: 700 .72rem var(--font-body);
+}
+.map-inner[data-zoom='1'] .place-label { display: none; }
+.mapcard.placing .place-marker { pointer-events: none; }
 
 /* Footer */
 .foot { color: var(--muted); font-size: .86rem; padding-top: 8px; padding-bottom: calc(env(safe-area-inset-bottom) + 24px); }

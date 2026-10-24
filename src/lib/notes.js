@@ -1,6 +1,6 @@
 // Field notes: observations recorded in the game (format v1, see README "Field notes").
 // The app only captures and exports them; scripts/merge-notes.mjs draws conclusions later.
-import { CATEGORIES } from './data.js';
+import { CATEGORIES, NO_SPOT, NO_ABSENT } from './data.js';
 import { MAX_RANK } from './ranks.js';
 import { entryKey } from './search.js';
 
@@ -9,9 +9,7 @@ export const NOTES_VERSION = 1;
 export const MAX_TEXT = 500;
 const ISSUE_MAX = 8000;
 
-// Spawn types where a spot means nothing (not at one place), or where absence means nothing.
-export const NO_SPOT = ['overworld', 'tier-roll', 'roaming', 'legendary-event', 'area-challenge'];
-export const NO_ABSENT = ['tier-roll', 'legendary-event', 'area-challenge'];
+export { NO_SPOT, NO_ABSENT };
 
 const ENTRY = ['region', 'category', 'entry'];
 const FIELDS = {

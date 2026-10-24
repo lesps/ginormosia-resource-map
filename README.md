@@ -46,6 +46,29 @@ The data still has gaps (151 spawns with no recorded rank, 98 resting on one sou
 
 `entry` is the monster id for monsters and the entry key (the `e=` slug) otherwise. An export is `{ "format": "ginormosia-field-notes", "version": 1, "dataVersion": 4, "exported": "YYYY-MM-DD", "gameLanguage": "en", "notes": [...] }`.
 
+### Merging notes
+
+Notes only change the data through a script with explicit, tested rules (`src/lib/merge-notes.js`):
+
+```bash
+npm run merge-notes -- notes.json [more.json …] --dry-run   # print the report, write nothing
+npm run merge-notes -- notes.json                           # apply, archive, report
+```
+
+The workflow: save the export (or the JSON block from a `[field notes]` issue) to a file, run with `--dry-run`, read the report, run for real, handle the **Needs review** items by hand, commit `data/regions.json` and `data/field-notes.json`, and close the issue referencing the commit. The script validates the result and writes nothing if it's invalid; it writes `data/regions.json` in its usual format, appends new notes to `data/field-notes.json` (an archive the app never loads) and their ids to `fieldNotesMerged`, so the app shows them as merged. Re-running a file changes nothing.
+
+| note | rule |
+|---|---|
+| `seen` | Adds source `ingame` and confirms the entry. With a rank R, lowers `minRank` to R if it was `"-"` or higher (`"1 or 5"` seen at R3 becomes `"1"`). **Review, no change:** seen above `maxRank`, or at night for a day-only entry (and the reverse). A disputed entry keeps its rank change but its confidence goes to review, because a sighting doesn't settle every dispute. |
+| `absent` | Skipped for tier rolls, legendary and challenge spawns, and when the absence is expected: no tower rank recorded, the tower below the entry's rank or above `maxRank`, or the wrong time of day. Otherwise a single-source entry becomes disputed with the note "Not found in game at R{R} ({time}) on {date}.", a disputed one gets that note, and a confirmed one only goes to review. Nothing is ever deleted. |
+| `name` | Sets the monster's name and removes `nameStatus` (a rename changes the entry key, so old links fall back to the region). |
+| `drop-name` | Renames every drop with that `ja` and marks it official. |
+| `spot` | Adds `{ x, y, precision: "approx", sources: ["ingame"] }` to the entry's (or monster appearance's) `spots`, unless within 0.015 of an existing spot or on a spawn that isn't at one place. |
+| `place` | Adds `{ name, x, y }` to the region's `places`, or moves a place with the same name. |
+| `text` | Review only. |
+
+Name and drop-name notes from an export with `gameLanguage` other than `en` go to review. Notes about unknown regions, entries, monsters or drops are skipped with the reason. The changelog gets a line per merge, e.g. "Field notes merged (12 notes): …".
+
 ## Install on your phone
 
 - **Android (Chrome):** open the site and tap **Install app** in the header, or use ⋮ → *Install app* / *Add to Home screen*.
@@ -63,6 +86,7 @@ npm run build        # production build to dist/
 npm run test:build   # checks dist/: manifest, service worker precache, base path, size budget
 npm run preview      # serve dist/ locally
 npm run assets       # regenerate public/map.webp and the icons (sharp)
+npm run merge-notes -- notes.json [--dry-run]   # fold field notes into the data (see Field notes)
 ```
 
 `npm run test:build` needs a fresh `npm run build` first. To check a sub-path build: `BASE_PATH=/ginormosia-resource-map/ npm run build && BASE_PATH=/ginormosia-resource-map/ npm run test:build`.
@@ -112,7 +136,11 @@ A region's `monsters` array holds appearances: `{ "id": "white-woolie", "minRank
 - Monster fields: `crown` (`gold`/`silver`), `time` and `sleeps` (`day`/`night`; `sleeps` means it stays but is asleep then), `aggressive` (attacks on sight), `mount`, `element`, `drops`, `note`, and `nameStatus`: absent for a confirmed English name, `probable` for a name matched by region only, `unofficial` for a translation. The last two show a ≈.
 - `type` and `tags` are derived, not stored: `legendary-event` → Legendary, `area-challenge` → Challenge, otherwise the crown (Gold-crown boss, Silver-crown) or Common. Crown tags only go on their own type, `event` on challenges, `night`/`day` from the time unless the monster just sleeps through the other half, `cave` when `where` names a cave, and `mount`.
 
-`npm test` validates the file (unique ids, pin range, ranks, names, types, category arrays, tags, confidence, sources, drops, unique entry names, monster ids and fields, and no Japanese text outside `nameJa`/`ja`), so run it after editing.
+- `spots` (optional, on resource entries and monster appearances): `[{ "x": 0.62, "y": 0.21, "precision": "approx", "sources": ["ingame"] }]`. `x`/`y` are 0–1 on the map image; `precision` is `approx` (drawn as a halo) or `exact` (a small pin, reserved for converted Gamer Guides nodes). Not allowed on `overworld`, `tier-roll`, `roaming`, `legendary-event` or `area-challenge` spawns. How to find then says "Marked on the map".
+- `places` (optional, per region): `[{ "name": "Agekara Cave", "x": 0.585, "y": 0.255 }]`, names unique per region. The selected region's places show as diamonds (labelled from 2×); tapping one searches its name.
+- `fieldNotesMerged` (top level): ids of field notes already merged, written by `npm run merge-notes`.
+
+`npm test` validates the file (unique ids, pin range, ranks, names, types, category arrays, tags, confidence, sources, drops, unique entry names, monster ids and fields, spots, places, merged note ids, and no Japanese text outside `nameJa`/`ja`), so run it after editing.
 
 ## Known data caveats
 

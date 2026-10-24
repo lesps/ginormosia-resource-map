@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:build": "vitest run --config vitest.build.config.js",
-    "assets": "node scripts/build-assets.mjs && node scripts/build-icons.mjs"
+    "assets": "node scripts/build-assets.mjs && node scripts/build-icons.mjs",
+    "merge-notes": "node scripts/merge-notes.mjs"
   },
   "devDependencies": {
     "jsdom": "^29.1.1",
