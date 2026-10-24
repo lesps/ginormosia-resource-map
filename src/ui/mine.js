@@ -9,7 +9,7 @@ const rankOptions = (current, blank) => [
 export const rankSelect = (attrs, current, blank = 'Not set') => h('select', attrs, rankOptions(current, blank));
 
 // "My game": your unlocked Area Rank per region, saved on this device (persisted by app.js).
-export function createMine(store, regions) {
+export function createMine(store, regions, { extra = () => null } = {}) {
   const sorted = regions.slice().sort((a, b) => a.name.localeCompare(b.name));
   let armed = null;
   let clearBtn;
@@ -56,6 +56,7 @@ export function createMine(store, regions) {
           rankSelect({ class: 'region-rank', dataset: { region: r.id, focus: `rank:${r.id}` }, onchange: (e) => setRank(r.id, e.target.value) }, s.ranks[r.id]))))),
       h('p', { class: 'mine-actions' }, clearBtn),
       h('p', { class: 'note' }, 'Saved on this device only.'),
+      extra(s),
     ];
   }
 

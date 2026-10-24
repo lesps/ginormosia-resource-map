@@ -5,6 +5,7 @@ import { highlight, excerpt } from '../lib/escape.js';
 import { howToFind } from '../lib/find.js';
 import { availability, lowestRank } from '../lib/ranks.js';
 import { createMine, rankSelect } from './mine.js';
+import { createFieldNotes } from './fieldnotes.js';
 
 // Monsters go last in the All view so a long monster list doesn't bury the resources.
 const VIEW_CATS = { all: ['ore', 'trees', 'fish', 'other', 'monsters'] };
@@ -52,7 +53,7 @@ function dropItem(d) {
   }, d.name, !d.official && h('span', { class: 'approx-mark', 'aria-hidden': 'true' }, '≈'));
 }
 
-const dropList = (drops) => h('p', { class: 'drops' }, drops.flatMap((d, i) => [i ? ', ' : null, dropItem(d)]));
+const dropList = (drops, edit = () => null) => h('p', { class: 'drops' }, drops.flatMap((d, i) => [i ? ', ' : null, dropItem(d), edit(d)]));
 
 const sourceLabel = (data, k) => data.sources[k].replace(/\s*\(.*\)\s*$/, '');
 
@@ -62,7 +63,6 @@ export function createPanel(store, data) {
   const { regions } = data;
   const byId = new Map(regions.map((r) => [r.id, r]));
   const el = h('section', { id: 'panel', class: 'panel', 'aria-live': 'polite', tabindex: '-1' });
-  const mine = createMine(store, regions);
   // Opening a folded entry (common monster, or one above your rank) unfolds it, so closing the card leaves the row in place.
   const select = (id, fromResults = false, openKey = null) => {
     const e = findEntry(byId.get(id), openKey);
@@ -72,15 +72,18 @@ export function createPanel(store, data) {
       ...(e && locked(store.get(), id, e) && { lockedFor: id }),
     });
   };
+  const notes = createFieldNotes(store, data, { select });
+  const mine = createMine(store, regions, { extra: notes.settings });
 
   function detail(r, entry, cat, id, open, s) {
     const rows = [
       ['How to find', h('ol', { class: 'find' }, howToFind(entry, r, cat, { unlocked: s.ranks?.[r.id] }).map((step) => h('li', {}, step)))],
-      ['Drops', entry.drops?.length && dropList(entry.drops)],
+      ['Drops', entry.drops?.length && dropList(entry.drops, s.notesOn ? (d) => notes.dropEdit(r, entry, cat, d, s) : undefined)],
       ['Element', entry.element],
       ['Name', NAME_NOTE[entry.nameStatus]],
       ['Note', entry.note],
       ['Sources', entry.sources?.length && entry.sources.map((k) => sourceLabel(data, k)).join(' · ')],
+      ['Field notes', s.notesOn && notes.cardRow(r, entry, cat, s)],
     ].filter(([, v]) => v);
     return h('div', { class: 'detail', id, hidden: !open },
       h('dl', {}, rows.flatMap(([k, v]) => [h('dt', {}, k), h('dd', {}, v)])));
@@ -165,6 +168,8 @@ export function createPanel(store, data) {
         h('p', { class: 'note' }, [r.tower && `Tower: ${r.tower}`, r.landmarks?.length && `Landmarks: ${r.landmarks.join(' · ')}`].filter(Boolean).join('. '))),
       h('label', { class: 'rank-row your-rank-row' }, 'Your rank here',
         rankSelect({ class: 'your-rank', dataset: { focus: 'your-rank' }, onchange: (e) => setRank(e.target.value) }, s.ranks?.[r.id])),
+      s.notesOn && notes.bar(r, s),
+      s.notesOn && notes.questions(r, s),
       s.type && h('p', { class: 'scope' }, `Showing ${s.type} only. `,
         h('button', { class: 'link', type: 'button', onclick: () => store.set({ type: null }) }, `Show all ${CAT_LABEL[s.category].toLowerCase()}`)),
       s.tag && h('p', { class: 'scope' }, `Showing ${tagLabel(s.tag)} only. `,
@@ -273,6 +278,7 @@ export function createPanel(store, data) {
       h('ul', { class: 'region-list' }, list.map((r) => h('li', {},
         h('button', { type: 'button', onclick: () => select(r.id) },
           h('span', { class: 'what' }, h('span', { class: 'name' }, r.name), h('span', { class: 'note' }, r.where)),
+          s.notesOn && notes.regionCount(r, s),
           s.ranks?.[r.id] && h('span', { class: 'your-rank-chip', title: `Your Area Rank here: R${s.ranks[r.id]}` }, `R${s.ranks[r.id]}`),
           s.category === 'monsters' ? bossCount(r) : h('span', { class: 'dots', 'aria-hidden': 'true' },
             PIN_CATS.filter((c) => r[c].length).map((c) => h('span', { class: 'dot', dataset: { cat: c }, title: `${r[c].length} ${CAT_LABEL[c].toLowerCase()}` }))))))),

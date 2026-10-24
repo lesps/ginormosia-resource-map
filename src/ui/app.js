@@ -8,8 +8,14 @@ import { search, searchPlaces, typesFor, entryKey, isCommonMonster, findEntry } 
 import { toHash, fromHash } from '../lib/hash.js';
 import { availability, sanitizeRanks } from '../lib/ranks.js';
 import { createStorage } from './storage.js';
+import { toast } from './toast.js';
+import { validateNote, newNote } from '../lib/notes.js';
 
 export const RANKS_KEY = 'gnm:ranks:v1';
+// Personal state saved on this device (never in the hash): store key → storage key.
+const SAVED = { notesOn: 'gnm:notesOn:v1', notes: 'gnm:notes:v1', tower: 'gnm:tower:v1', gameEnglish: 'gnm:gameEnglish:v1' };
+
+const validNotes = (list) => (Array.isArray(list) ? list.filter((n) => { try { return validateNote(n); } catch { return false; } }) : []);
 
 export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = createStorage() } = {}) {
   const data = loadRegions(json);
@@ -32,8 +38,33 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = cr
     };
   };
   const ranks = sanitizeRanks(storage.get(RANKS_KEY, {}), valid.regionIds);
-  const store = createStore({ ...withFolds(fromHash(hash, valid), ranks), ranks, mine: false, zoom: 1, fromResults: false });
-  store.subscribe((s, prev) => { if (s.ranks !== prev.ranks) storage.set(RANKS_KEY, s.ranks); });
+  const store = createStore({
+    ...withFolds(fromHash(hash, valid), ranks), ranks, mine: false, zoom: 1, fromResults: false,
+    notesOn: storage.get(SAVED.notesOn, false) === true,
+    notes: validNotes(storage.get(SAVED.notes, [])),
+    tower: sanitizeRanks(storage.get(SAVED.tower, {}), valid.regionIds),
+    gameEnglish: storage.get(SAVED.gameEnglish, true) !== false,
+    tod: null, placing: null, questionsFor: null, editing: null, exportMerged: false,
+  });
+  let askedPersist = false;
+  store.subscribe((s, prev) => {
+    if (s.ranks !== prev.ranks) storage.set(RANKS_KEY, s.ranks);
+    for (const [k, key] of Object.entries(SAVED)) {
+      if (s[k] === prev[k]) continue;
+      const ok = storage.set(key, s[k]);
+      if (k !== 'notes') continue;
+      if (!ok) toast('Couldn’t save on this device — export your notes now.');
+      else if (!askedPersist) {
+        askedPersist = true;
+        navigator.storage?.persist?.()?.catch?.(() => {});
+      }
+    }
+  });
+  const onPlace = ({ x, y, zoom }) => {
+    const { placing: p, notes } = store.get();
+    const fields = p.kind === 'spot' ? { region: p.region, category: p.category, entry: p.entry, x, y, zoom } : { region: p.region, name: p.name, x, y, zoom };
+    store.set({ notes: [...notes, newNote(p.kind, fields)], placing: null });
+  };
 
   const controls = createControls(store, regions, data.typeOrder);
   const map = createMap(store, regions, {
@@ -41,6 +72,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = cr
     imageAlt: 'Map of Ginormosia with its 15 regions numbered and labelled',
     width: data.image.width,
     height: data.image.height,
+    onPlace,
   });
   const panel = createPanel(store, data);
 
@@ -120,7 +152,9 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = cr
       controls.input.focus();
     } else if (e.key === 'Escape') {
       const s = store.get();
-      if (s.mine) store.set({ mine: false });
+      if (s.placing) store.set({ placing: null });
+      else if (s.editing) store.set({ editing: null });
+      else if (s.mine) store.set({ mine: false });
       else if (s.openKey) store.set({ openKey: null });
       else if (s.selectedId) store.set({ selectedId: null, fromResults: false });
       else if (s.query || s.type || s.tag) store.set({ query: '', type: null, tag: null });

@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- Field notes (opt-in, in My game): a region bar with the tower rank and time of day, an "Open questions (N)" checklist per region (disputed, one source, rank?, spot?, name?, drop names) with counts in the region list, and card actions — Seen here, Looked, not here, 📍 Mark spot, ✎ Note, English name corrections for ≈ monsters and drops — plus 📍 Mark a place. Placement mode records a tap on the map; your spots show as dashed halos. Notes stay on the device until exported (Share file, Download, Copy JSON, or a prefilled GitHub issue); merged notes are marked and left out by default. Format v1 is documented in the README.
 - Search covers places and challenges: locations, challenge names and notes match from 3 characters ("agekara", "Fort Gardhart", "Glittering Silk"), with the matched text excerpted on the row, and matching regions (name, tower, landmark) are listed first under Places. Pins light up for place matches too ("•" when only a place matched), and the status line counts places.
 - Badge filters: under the All chip, a row of badge chips (👑 🥈 ★ ⚑ 🐴 🌙 ☀️ ⛰️) with region counts filters every category by badge (`#tag=mount`). The badge key in "How spawns work" applies them.
 - Your ranks: a "Your rank here" picker per region and a My game view (header button) for all 15 regions, saved on this device only. With a rank set, higher-rank entries fold behind "Show N more from R5", results split into "Available to you" / "Needs a higher rank" with "you: R2" on locked rows, pins whose matches all need a higher rank turn grey with a 🔒 count, the region list shows your ranks, and How to find tells you what to set the tower to (including "Gone above R4" for entries that disappear at higher ranks and a try-your-rank hint for disputed ranks). Unknown ranks count as available.
@@ -26,6 +27,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - Credit and link for the fan map annotations by u/dzchan (r/fantasylife “Ginormosia map WIP”).
 
 ### Changed
+- How to find no longer says "only during a challenge" twice for a challenge-only spawn without a named challenge (e.g. Burrow Star).
 - `search` takes a filter object `{ query, category, type, tag }` and reports how each result matched (`via`).
 - Bosses folded into Monsters: each old boss row merged into its monster (drops, spots and conditions kept, sources merged, confidence only up). The group rows "Silver-crown monsters" and "Fort Gardhart dark bosses" became individual monsters, Prairie Dragon / Goldmeer and Scorchrock's Napdragon / Prairie Dragon were split, Black Box is now Pandora's Box, Rock Ghost / Bouldergeist is Bouldergeist, and Fortoise is a common monster. Scorchrock's Pyro Panther is kept but disputed. Survey ranks win where both exist (e.g. Iron Golem in Wingtip 1 → 5); Lord of Curses' horn drop is now Bone Dragon Horn.
 - Unrecorded ranks show as "R?" instead of "rank n/a". Monster rank tooltips say "Appears from Area Rank N" without the tier-roll wording.

@@ -140,6 +140,10 @@ describe('howToFind for monsters', () => {
     expect(s).not.toMatch(/Only appears during/);
   });
 
+  it('says "only during a challenge" once when the challenge has no name', () => {
+    expect(steps('moltana', 'Burrow Star').match(/only (appears )?during/gi)).toHaveLength(1);
+  });
+
   it('uses the defeat wording for gold-crown bosses', () => {
     expect(steps('moltana', 'Mohawkasaurus')).toMatch(/respawns 5 minutes after you defeat it/);
   });
