@@ -1,23 +1,24 @@
-import { h, reducedMotion } from './dom.js';
+import { h, reducedMotion, FILTERS } from './dom.js';
 import { createStore } from './state.js';
 import { createControls } from './controls.js';
 import { createMap } from './map.js';
 import { createPanel, TAG_INFO } from './panel.js';
 import { loadRegions, CATEGORIES } from '../lib/data.js';
-import { search, typesFor, entryKey } from '../lib/search.js';
+import { search, typesFor, entryKey, isCommonMonster } from '../lib/search.js';
 import { toHash, fromHash } from '../lib/hash.js';
 
 export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
   const data = loadRegions(json);
   const { regions } = data;
   const valid = {
-    categories: ['all', 'ore', 'trees', 'fish', 'boss'],
+    categories: FILTERS,
     regionIds: regions.map((r) => r.id),
-    types: Object.fromEntries(['ore', 'trees', 'fish', 'boss'].map((c) => [c, typesFor(regions, c, data.typeOrder[c]).map((t) => t.type)])),
+    types: Object.fromEntries(FILTERS.slice(1).map((c) => [c, typesFor(regions, c, data.typeOrder[c]).map((t) => t.type)])),
     entries: Object.fromEntries(regions.map((r) => [r.id, CATEGORIES.flatMap((c) => r[c].map(entryKey))])),
   };
-  const initial = fromHash(hash, valid);
-  const store = createStore({ ...initial, zoom: 1, fromResults: false });
+  // A linked common monster unfolds its region's common monsters (see panel.js monsterGroup).
+  const withCommon = (s) => ({ ...s, commonFor: isCommonMonster(regions.find((r) => r.id === s.selectedId), s.openKey) ? s.selectedId : null });
+  const store = createStore({ ...withCommon(fromHash(hash, valid)), zoom: 1, fromResults: false });
 
   const controls = createControls(store, regions, data.typeOrder);
   const map = createMap(store, regions, {
@@ -38,7 +39,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
     h('header', { class: 'top' },
       h('div', { class: 'titles' },
         h('h1', {}, 'Ginormosia Resource Map'),
-        h('p', { class: 'sub' }, 'Where every ore, tree and fish spawns. Ranks are the Area Rank a node starts at.')),
+        h('p', { class: 'sub' }, 'Where every ore, tree, fish and monster spawns. Ranks are the Area Rank a spawn starts at.')),
       h('div', { class: 'top-actions', id: 'top-actions' })),
     controls.el,
     h('main', { class: 'layout' }, map.el, panel.el),
@@ -47,11 +48,11 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
         h('summary', {}, 'How spawns work'),
         h('ul', {}, data.mechanics.map((m) => h('li', {}, m))),
         h('p', { class: 'legend-keys' }, Object.values(TAG_INFO).map(([icon, label]) => h('span', {}, h('span', { 'aria-hidden': 'true' }, icon), ` ${label}`)),
-          h('span', {}, h('span', { class: 'approx-mark', 'aria-hidden': 'true' }, '≈'), ' Drop name translated from Japanese; the in-game English name may differ'))),
+          h('span', {}, h('span', { class: 'approx-mark', 'aria-hidden': 'true' }, '≈'), ' Name translated from Japanese or not yet confirmed; the in-game English name may differ'))),
       h('h2', {}, 'Not found in Ginormosia'),
       h('ul', {}, data.notInGinormosia.map((n) => h('li', {}, h('strong', {}, n.name), ` — ${n.foundAt}`))),
       h('p', {}, 'Common fish, herbs and ground pickups aren’t mapped.'),
-      h('p', {}, 'Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant.'),
+      h('p', {}, 'Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant. Monsters: FLiDB (hassaku74kg.com) and Gamer Guides.'),
       h('p', { class: 'legal' }, h('cite', {}, 'Fantasy Life i: The Girl Who Steals Time'),
         ' and the map artwork © LEVEL-5 Inc. Fan-made, unofficial and not affiliated with or endorsed by LEVEL-5.')),
   );
@@ -98,7 +99,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
   }, { signal: ac.signal });
 
   const applyHash = (h) => {
-    if (h !== toHash(store.get())) store.set({ ...fromHash(h, valid), fromResults: false });
+    if (h !== toHash(store.get())) store.set({ ...withCommon(fromHash(h, valid)), fromResults: false });
   };
 
   return { store, applyHash, actions: root.querySelector('#top-actions'), destroy: () => ac.abort() };

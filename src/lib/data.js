@@ -1,9 +1,59 @@
 import { RANKS } from './rank.js';
 
-export const CATEGORIES = ['ore', 'trees', 'fish', 'boss', 'other'];
-export const TAGS = ['gold-crown', 'silver-crown', 'legendary', 'event', 'night', 'day', 'cave'];
+export const CATEGORIES = ['ore', 'trees', 'fish', 'monsters', 'other'];
+export const TAGS = ['gold-crown', 'silver-crown', 'legendary', 'event', 'night', 'day', 'cave', 'mount'];
 export const CONFIDENCE = ['confirmed', 'single-source', 'disputed'];
-export const SPAWN_TYPES = ['overworld', 'tier-roll', 'roaming', 'legendary-event', 'area-challenge', 'fixed-boss'];
+export const SPAWN_TYPES = ['overworld', 'tier-roll', 'roaming', 'legendary-event', 'area-challenge', 'fixed-boss', 'cave-or-fort'];
+const MONSTER_FIELDS = { crown: ['gold', 'silver'], time: ['day', 'night'], sleeps: ['day', 'night'], nameStatus: ['probable', 'unofficial'] };
+const OTHER_HALF = { day: 'night', night: 'day' };
+
+function monsterType(m, a) {
+  if (a.spawnType === 'legendary-event') return 'Legendary';
+  if (a.spawnType === 'area-challenge') return 'Challenge';
+  return { gold: 'Gold-crown boss', silver: 'Silver-crown' }[m.crown] ?? 'Common';
+}
+
+// A monster that only sleeps through the other half of the day is there all day, so it gets no day/night tag.
+function monsterTags(m, a, type) {
+  const time = a.time ?? m.time;
+  return [
+    type === 'Gold-crown boss' && 'gold-crown',
+    type === 'Silver-crown' && 'silver-crown',
+    type === 'Legendary' && 'legendary',
+    type === 'Challenge' && 'event',
+    time && m.sleeps !== OTHER_HALF[time] && time,
+    /\bcave\b/i.test(a.where ?? '') && 'cave',
+    m.mount && 'mount',
+  ].filter(Boolean);
+}
+
+// Joins each region's monster appearances ({id, minRank, spawnType, ...}) with data.monsters[id].
+// Returns a copy; the input is untouched.
+export function expandMonsters(data) {
+  for (const [id, m] of Object.entries(data.monsters ?? {}))
+    for (const [k, allowed] of Object.entries(MONSTER_FIELDS))
+      if (m[k] !== undefined && !allowed.includes(m[k])) throw new Error(`Monster "${id}" has invalid ${k} "${m[k]}"`);
+  return {
+    ...data,
+    regions: data.regions.map((r) => !Array.isArray(r.monsters) ? r : {
+      ...r,
+      monsters: r.monsters.map((a) => {
+        const m = data.monsters?.[a.id];
+        if (!m) throw new Error(`Region "${r.id}": unknown monster "${a.id}"`);
+        if (a.maxRank !== undefined && !/^[1-6]$/.test(a.maxRank)) throw new Error(`Region "${r.id}": "${m.name}" has invalid maxRank "${a.maxRank}"`);
+        const { crown, time, mount, note, drops, ...rest } = m;
+        const { time: _, ...appearance } = a;
+        const type = monsterType(m, a);
+        return {
+          ...rest, ...appearance, type,
+          tags: monsterTags(m, a, type),
+          drops: a.drops ?? drops,
+          note: [note, a.note].filter(Boolean).join(' ') || undefined,
+        };
+      }),
+    }),
+  };
+}
 
 export function validateRegions(data) {
   for (const k of ['width', 'height']) {
@@ -11,7 +61,8 @@ export function validateRegions(data) {
     if (typeof v !== 'number' || v <= 0) throw new Error(`image.${k} must be a positive number, got ${JSON.stringify(v)}`);
   }
   const seen = new Set();
-  for (const r of data.regions) {
+  const { regions } = expandMonsters(data);
+  for (const r of regions) {
     if (seen.has(r.id)) throw new Error(`Duplicate region id "${r.id}"`);
     seen.add(r.id);
     for (const axis of ['x', 'y']) {
@@ -38,7 +89,7 @@ export function validateRegions(data) {
   for (const cat of CATEGORIES) {
     const order = data.typeOrder?.[cat];
     if (!Array.isArray(order)) throw new Error(`typeOrder.${cat} must be an array`);
-    const used = new Set(data.regions.flatMap((r) => r[cat].map((e) => e.type)));
+    const used = new Set(regions.flatMap((r) => r[cat].map((e) => e.type)));
     for (const t of used) if (!order.includes(t)) throw new Error(`typeOrder.${cat} is missing type "${t}"`);
     for (const t of order) if (!used.has(t)) throw new Error(`typeOrder.${cat} lists "${t}", which no entry uses`);
   }
@@ -58,4 +109,4 @@ function validateDetails(data, r, e, cat) {
   }
 }
 
-export const loadRegions = (json) => validateRegions(json);
+export const loadRegions = (json) => expandMonsters(validateRegions(json));

@@ -11,9 +11,75 @@ describe('regions.json', () => {
   });
 
   it('gives every entry a type', () => {
-    for (const r of raw.regions)
-      for (const c of raw.categories)
+    const data = loadRegions(raw);
+    for (const r of data.regions)
+      for (const c of data.categories)
         for (const e of r[c]) expect(typeof e.type, `${r.id}/${e.name}`).toBe('string');
+  });
+});
+
+describe('monsters', () => {
+  const data = loadRegions(raw);
+  const m = (regionId, name) => data.regions.find((r) => r.id === regionId).monsters.find((e) => e.name === name);
+
+  it('replaces the boss category with monsters on every region', () => {
+    for (const r of raw.regions) {
+      expect(Array.isArray(r.monsters), r.id).toBe(true);
+      expect(r.boss, r.id).toBeUndefined();
+    }
+    expect(raw.categories).toEqual(['ore', 'trees', 'fish', 'monsters', 'other']);
+  });
+
+  it('stores each monster once and joins it onto its appearances at load', () => {
+    expect(raw.regions.find((r) => r.id === 'drakesnout').monsters.find((a) => a.id === 'pandoras-box').name).toBeUndefined();
+    const box = m('drakesnout', "Pandora's Box");
+    expect(box).toMatchObject({ id: 'pandoras-box', type: 'Silver-crown', minRank: '1', where: 'Nostruul Cave', element: 'Dark', aggressive: false });
+    expect(box.tags).toEqual(['silver-crown', 'cave']);
+    expect(box.drops.map((d) => d.name)).toContain('Sack of Gold');
+  });
+
+  it('derives the type from the spawn type and crown', () => {
+    expect(m('crickneck', 'Legendary Don Woolie').type).toBe('Legendary');
+    expect(m('scorchrock', 'Goliath').type).toBe('Challenge');
+    expect(m('scorchrock', 'Napdragon').type).toBe('Challenge');
+    expect(m('wgg', 'Napdragon').type).toBe('Gold-crown boss');
+    expect(m('wgg', 'White Woolie').type).toBe('Common');
+  });
+
+  it('derives tags: crown only for its own type, time unless the monster just sleeps then, mount', () => {
+    expect(m('scorchrock', 'Napdragon').tags).toEqual(['event']);
+    expect(m('moltana', 'Pyro Panther').tags).toEqual(['gold-crown', 'night', 'cave']);
+    expect(m('sgg', 'Red Wolf').tags).toEqual(['night']);
+    expect(m('viridia', 'Hill Spider').tags).toEqual([]);
+    expect(m('wgg', 'Tortortoise').tags).toEqual(['mount']);
+  });
+
+  it('lets an appearance override the drops and adds its own note', () => {
+    expect(m('wgg', 'Big Spooky').drops).toEqual([]);
+    expect(m('wdd', 'Big Spooky').drops.length).toBeGreaterThan(0);
+    expect(m('wgg', 'Big Spooky').note).toMatch(/drop nothing/);
+  });
+
+  it('rejects an appearance of an undefined monster', () => {
+    const d = clone();
+    d.regions[0].monsters[0].id = 'nessie';
+    expect(() => validateRegions(d)).toThrow(/drakeseye.*unknown monster "nessie"/);
+  });
+
+  it('rejects an invalid crown, time or maxRank', () => {
+    const d = clone();
+    d.monsters.mimic.crown = 'bronze';
+    expect(() => validateRegions(d)).toThrow(/mimic.*crown "bronze"/);
+    const e = clone();
+    e.monsters.mimic.sleeps = 'noon';
+    expect(() => validateRegions(e)).toThrow(/mimic.*sleeps "noon"/);
+    const f = clone();
+    f.regions[0].monsters[0].maxRank = 'top';
+    expect(() => validateRegions(f)).toThrow(/maxRank "top"/);
+  });
+
+  it('orders type chips bosses first: Gold-crown boss, Silver-crown, Legendary, Challenge, Common', () => {
+    expect(raw.typeOrder.monsters).toEqual(['Gold-crown boss', 'Silver-crown', 'Legendary', 'Challenge', 'Common']);
   });
 });
 
@@ -89,10 +155,6 @@ describe('validateRegions', () => {
     expect(() => validateRegions(d)).toThrow(new RegExp(`image\\.${k}`));
   });
 
-  it('has a boss category on every region', () => {
-    for (const r of raw.regions) expect(Array.isArray(r.boss), r.id).toBe(true);
-  });
-
   it('rejects an unknown confidence', () => {
     const d = clone();
     d.regions[0].ore[0].confidence = 'probably';
@@ -113,7 +175,7 @@ describe('validateRegions', () => {
 
   it('rejects a drop without an English name or official flag', () => {
     const d = clone();
-    const e = d.regions.flatMap((r) => d.categories.flatMap((c) => r[c])).find((x) => x.drops);
+    const e = d.regions.flatMap((r) => ['ore', 'trees', 'fish'].flatMap((c) => r[c])).find((x) => x.drops);
     e.drops[0] = { ja: '石' };
     expect(() => validateRegions(d)).toThrow(/drop/);
   });
@@ -156,8 +218,11 @@ describe('validateRegions', () => {
     expect(bad).toEqual([]);
   });
 
-  it('returns the data object from loadRegions', () => {
+  it('returns the data object from validateRegions, and an expanded copy from loadRegions', () => {
     const d = clone();
-    expect(loadRegions(d)).toBe(d);
+    expect(validateRegions(d)).toBe(d);
+    const loaded = loadRegions(d);
+    expect(loaded).not.toBe(d);
+    expect(d).toEqual(raw);
   });
 });

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "image": {
     "file": "assets/ginormosia-map.jpg",
     "width": 1024,
@@ -10,7 +10,7 @@
     "ore",
     "trees",
     "fish",
-    "boss",
+    "monsters",
     "other"
   ],
   "rankLegend": {
@@ -80,17 +80,17 @@
       "Godfish",
       "Lordfish"
     ],
+    "monsters": [
+      "Gold-crown boss",
+      "Silver-crown",
+      "Legendary",
+      "Challenge",
+      "Common"
+    ],
     "other": [
       "Crops",
       "King Spud",
       "Recipe"
-    ],
-    "boss": [
-      "Silver-crown",
-      "Field boss",
-      "Dungeon",
-      "Challenge",
-      "Legendary"
     ]
   },
   "regions": [
@@ -355,25 +355,227 @@
           ]
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Legendary Don Woolie",
-          "type": "Legendary",
-          "minRank": "3+",
-          "nameJa": "伝説ドン・バハ・ハ",
-          "conditions": "legendary challenge",
-          "tags": [
-            "legendary"
-          ],
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "killer-bear",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "alpha-coyote",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "greater-beetle-baller",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "legendary-don-woolie",
+          "minRank": "3+",
+          "spawnType": "legendary-event",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
             "gg_boss",
             "kokorogu"
+          ]
+        },
+        {
+          "id": "goliath",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
           ],
-          "spawnType": "legendary-event"
+          "conditions": "'Beware the Glittering Silk' challenge"
+        },
+        {
+          "id": "grotto-wolf",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "single-source",
+          "sources": [
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "fluff-baller",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "buffalo",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "cashmeer",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "cave-bat",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "flitty",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "hill-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "mimiti",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "proto-beetle-baller",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "red-wolf",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "rock-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "snowflake-bunny",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "starfish",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "tropic-toad",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "worker-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "drakesnout",
@@ -564,57 +766,200 @@
           ]
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Legendary Don Woolie",
-          "type": "Legendary",
-          "minRank": "3+",
-          "nameJa": "伝説ドン・バハ・ハ",
-          "conditions": "legendary challenge",
-          "tags": [
-            "legendary"
-          ],
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
           "confidence": "confirmed",
           "sources": [
-            "gg_boss",
-            "kokorogu"
+            "hassaku",
+            "gg_monsters",
+            "gget"
           ],
-          "spawnType": "legendary-event"
+          "note": "Also found inside Nostruul Cave."
         },
         {
-          "name": "Black Box",
-          "type": "Silver-crown",
+          "id": "pandoras-box",
           "minRank": "1",
-          "nameJa": "ブラックボックス",
-          "where": "Nostruul Cave",
-          "tags": [
-            "silver-crown",
-            "cave"
-          ],
-          "drops": [
-            {
-              "name": "Treasure Bag",
-              "ja": "秘宝袋",
-              "official": false
-            },
-            {
-              "name": "Sack of Gold",
-              "ja": "金貨袋",
-              "official": true
-            },
-            {
-              "name": "Sack of Silver",
-              "ja": "銀貨袋",
-              "official": false
-            }
-          ],
-          "confidence": "single-source",
+          "spawnType": "cave-or-fort",
+          "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu"
+          ],
+          "where": "Nostruul Cave"
+        },
+        {
+          "id": "cave-panther",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "greater-rock-serpent",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "legendary-don-woolie",
+          "minRank": "3+",
+          "spawnType": "legendary-event",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gg_boss",
             "kokorogu"
           ]
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "goliath",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "conditions": "'Beware the Glittering Silk' challenge"
+        },
+        {
+          "id": "buffalo",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "gemeleon",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "note": "Gamer Guides ties it to 'The Mountain's Treasure' challenge."
+        },
+        {
+          "id": "cashmeer",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "cave-bat",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "feral-bat",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "flitty",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "hill-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "rock-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "snowflake-bunny",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "starfish",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "vampire-bat",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "fangshore",
@@ -908,88 +1253,153 @@
           ]
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Steel Tortortoise",
-          "type": "Field boss",
+          "id": "steel-tortortoise",
           "minRank": "5",
-          "nameJa": "こうてつトーストス",
-          "drops": [
-            {
-              "name": "Steel Shell",
-              "ja": "こうてつのこうら",
-              "official": false
-            },
-            {
-              "name": "Dark Orb",
-              "ja": "闇の玉",
-              "official": false
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
             "gg_boss",
             "kokorogu"
-          ],
-          "spawnType": "fixed-boss"
+          ]
         },
         {
-          "name": "Crystal Golem",
-          "type": "Field boss",
+          "id": "crystal-golem",
           "minRank": "6",
-          "nameJa": "クリスタルゴーレム",
-          "drops": [
-            {
-              "name": "Frozen Crystal",
-              "ja": "氷結クリスタル",
-              "official": false
-            },
-            {
-              "name": "Star Shard",
-              "ja": "星のカケラ",
-              "official": false
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
             "kokorogu",
             "jp_routes"
-          ],
-          "spawnType": "fixed-boss"
+          ]
         },
         {
-          "name": "Black Box",
-          "type": "Silver-crown",
+          "id": "mimic",
           "minRank": "1",
-          "nameJa": "ブラックボックス",
-          "tags": [
-            "silver-crown"
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "greater-sea-beetle-baller",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "pandoras-box",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "megabitey-shark",
+          "minRank": "5",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
           ],
-          "drops": [
-            {
-              "name": "Treasure Bag",
-              "ja": "秘宝袋",
-              "official": false
-            },
-            {
-              "name": "Sack of Gold",
-              "ja": "金貨袋",
-              "official": true
-            },
-            {
-              "name": "Sack of Silver",
-              "ja": "銀貨袋",
-              "official": false
-            }
-          ],
+          "conditions": "'Lordly Shark?' challenge"
+        },
+        {
+          "id": "star-beetle-baller",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "bitey-shark",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "overworld",
           "confidence": "single-source",
           "sources": [
-            "kokorogu"
-          ],
-          "spawnType": "roaming"
+            "hassaku"
+          ]
+        },
+        {
+          "id": "shooting-star-starfish",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "snow-beetle-baller",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "splash-frog",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "starfish",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "crickneck",
@@ -1077,67 +1487,182 @@
         }
       ],
       "fish": [],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Rock Ghost / Bouldergeist",
-          "type": "Field boss",
+          "id": "bouldergeist",
           "minRank": "5",
-          "nameJa": "ロックゴースト",
-          "drops": [
-            {
-              "name": "Ghost Essence",
-              "ja": "幽体のもと",
-              "official": false
-            },
-            {
-              "name": "Dark Orb",
-              "ja": "闇の玉",
-              "official": false
-            },
-            {
-              "name": "Life Shard",
-              "ja": "命のカケラ",
-              "official": false
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
             "gg_boss",
             "kokorogu",
             "jp_routes"
           ],
-          "spawnType": "fixed-boss"
+          "time": "night"
         },
         {
-          "name": "Legendary Don Woolie",
-          "type": "Legendary",
-          "minRank": "3+",
-          "nameJa": "伝説ドン・バハ・ハ",
-          "conditions": "legendary challenge",
-          "tags": [
-            "legendary"
-          ],
-          "drops": [
-            {
-              "name": "Legendary Don Horn",
-              "ja": "伝説ドンホーン",
-              "official": true
-            },
-            {
-              "name": "Legendary Don Meat",
-              "ja": "伝説ドンミート",
-              "official": false
-            }
-          ],
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "legendary-don-woolie",
+          "minRank": "3+",
+          "spawnType": "legendary-event",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
             "gg_boss",
             "kokorogu"
+          ]
+        },
+        {
+          "id": "goliath",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
           ],
-          "spawnType": "legendary-event"
+          "conditions": "'Beware the Glittering Silk' challenge"
+        },
+        {
+          "id": "fluff-baller",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "mini-spooky",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "rowdy-woolie",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "black-woolie",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "cashmeer",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "cave-bat",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "feral-bat",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "hill-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "mimiti",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "white-woolie",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "worker-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "scorchrock",
@@ -1368,41 +1893,191 @@
           "shadow": "big"
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Pyro Panther",
-          "type": "Dungeon",
+          "id": "pyro-panther",
           "minRank": "5",
-          "nameJa": "ガンモエパンサー",
-          "where": "Agekara Cave",
-          "conditions": "night",
-          "tags": [
-            "night",
-            "cave"
-          ],
-          "confidence": "confirmed",
+          "spawnType": "fixed-boss",
+          "confidence": "disputed",
           "sources": [
             "gg_boss",
             "kokorogu"
+          ],
+          "where": "Agekara Cave",
+          "time": "night",
+          "note": "Earlier sources put this Agekara Cave boss in Scorchrock Mountain; the 2026-10 monster research lists it under Moltana Wastes."
+        },
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
           ]
         },
         {
-          "name": "Napdragon / Prairie Dragon",
-          "type": "Challenge",
+          "id": "greater-rock-serpent",
           "minRank": "5",
-          "nameJa": "イネムリドラゴン",
-          "conditions": "area challenge",
-          "tags": [
-            "event"
-          ],
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "king-cobra",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "napdragon",
+          "minRank": "5",
+          "spawnType": "area-challenge",
           "confidence": "single-source",
           "sources": [
+            "hassaku",
             "kokorogu"
           ],
-          "spawnType": "area-challenge"
+          "conditions": "area challenge"
+        },
+        {
+          "id": "prairie-dragon",
+          "minRank": "5",
+          "spawnType": "area-challenge",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku",
+            "kokorogu"
+          ],
+          "conditions": "area challenge"
+        },
+        {
+          "id": "goliath",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "conditions": "'Beware the Glittering Silk' challenge"
+        },
+        {
+          "id": "burly-gorilla",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "ancient-beetle-baller",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "crimson-razorbeak",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "crimson-weed",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "flame-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "hill-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "mimiti",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "proto-beetle-baller",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "razorbeak",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "rock-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "moltana",
@@ -1615,92 +2290,162 @@
           ]
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Mohawkasaurus",
-          "type": "Field boss",
+          "id": "mohawkasaurus",
           "minRank": "5",
-          "nameJa": "モヒカンザウルス",
-          "conditions": "day only",
-          "tags": [
-            "day"
-          ],
-          "drops": [
-            {
-              "name": "Burning Mohawk",
-              "ja": "燃えるモヒカン",
-              "official": false
-            },
-            {
-              "name": "Dinosaur Meat",
-              "ja": "きょうりゅう肉",
-              "official": false
-            },
-            {
-              "name": "Fire Mana",
-              "ja": "炎のマナ",
-              "official": true
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
             "gg_boss",
             "kokorogu"
           ],
-          "spawnType": "fixed-boss"
+          "time": "day"
         },
         {
-          "name": "Pyro Panther",
-          "type": "Challenge",
+          "id": "pyro-panther",
           "minRank": "5",
-          "nameJa": "ガンモエパンサー",
-          "conditions": "night; also 'Fired Up' event",
-          "tags": [
-            "event",
-            "night"
-          ],
-          "drops": [
-            {
-              "name": "Smoldering Claw",
-              "ja": "炎獣のツメ",
-              "official": true
-            },
-            {
-              "name": "Smoldering Fang",
-              "ja": "炎獣のキバ",
-              "official": true
-            },
-            {
-              "name": "Fire Mana",
-              "ja": "炎のマナ",
-              "official": true
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
             "gg_boss",
             "kokorogu"
           ],
-          "spawnType": "fixed-boss"
+          "where": "Agekara Cave (east side)",
+          "time": "night",
+          "conditions": "also via the 'Fired Up' event"
         },
         {
-          "name": "Fortoise",
-          "type": "Field boss",
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "greater-rock-serpent",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "king-cobra",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "where": "Agekara Cave (east side)"
+        },
+        {
+          "id": "lord-of-death",
+          "minRank": "5",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "conditions": "'Evil Primeval' challenge"
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "goliath",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "conditions": "'Beware the Glittering Silk' challenge"
+        },
+        {
+          "id": "fortoise",
           "minRank": "3",
-          "where": "Volcanic north",
-          "drops": [
-            {
-              "name": "Magma Ore",
-              "official": true
-            }
-          ],
+          "spawnType": "overworld",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
             "gg_misc"
+          ],
+          "where": "Volcanic north"
+        },
+        {
+          "id": "crimson-weed",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "fiery-panther",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "note": "Gamer Guides also lists Agekara Cave."
+        },
+        {
+          "id": "flame-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "hill-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "rock-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
           ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "wingtip",
@@ -1958,73 +2703,200 @@
         }
       ],
       "fish": [],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Big Beak / Marumaru",
-          "type": "Field boss",
+          "id": "marumaru",
           "minRank": "5",
-          "nameJa": "マルマル",
-          "drops": [
-            {
-              "name": "Rainbow Feather",
-              "ja": "虹鳥の羽毛",
-              "official": true
-            },
-            {
-              "name": "Wind Mana",
-              "ja": "風のマナ",
-              "official": false
-            },
-            {
-              "name": "Marumaru Egg",
-              "ja": "マルマルエッグ",
-              "official": false
-            },
-            {
-              "name": "Light Orb",
-              "ja": "光の玉",
-              "official": false
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "wikiwiki_fl",
             "gg_boss",
             "kokorogu",
             "wikiwiki_gget"
           ],
-          "spawnType": "fixed-boss",
           "conditions": "also from Area Rank 3 via the area challenge 'Boss of the Birds'",
           "note": "The only source of Rainbow Feather."
         },
         {
-          "name": "Iron Golem",
-          "type": "Silver-crown",
+          "id": "forest-panther",
           "minRank": "1",
-          "nameJa": "アイアンゴーレム",
-          "tags": [
-            "silver-crown"
-          ],
-          "drops": [
-            {
-              "name": "Faraway Iron",
-              "ja": "ハルカーナ鉄",
-              "official": true
-            },
-            {
-              "name": "Aquamarine",
-              "ja": "アクアマリン",
-              "official": true
-            }
-          ],
+          "spawnType": "roaming",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ],
+          "time": "night",
+          "maxRank": "4",
+          "note": "Replaced by Black Panther from Area Rank 5."
+        },
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "applejack-gorilla",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "giant-grass-serpent",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "black-panther",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "iron-golem",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl",
             "kokorogu",
             "wikiwiki_gget"
+          ]
+        },
+        {
+          "id": "applejack-ape",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "grass-serpent",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "pseudo-oak",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "razorbeak",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
           ],
-          "spawnType": "roaming"
+          "conditions": "night only from Area Rank 5"
+        },
+        {
+          "id": "starfish",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "whipweed",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "worker-bee",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "crimson-razorbeak",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "jackal",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "shroomhaven",
@@ -2293,71 +3165,174 @@
           ]
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Tunoco Quetzal",
-          "type": "Field boss",
+          "id": "tunoco-quetzal",
           "minRank": "5",
-          "nameJa": "怪鳥ナツココ",
-          "drops": [
-            {
-              "name": "Vivid Plumage",
-              "ja": "極彩色の羽毛",
-              "official": false
-            },
-            {
-              "name": "Monster Bird's Treasure",
-              "ja": "怪鳥のオタカラ",
-              "official": false
-            },
-            {
-              "name": "Monster Bird Egg",
-              "ja": "怪鳥エッグ",
-              "official": false
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
             "gg_boss",
             "kokorogu",
             "wikiwiki_gget",
             "wikiwiki_fl"
           ],
-          "where": "Directly in front of the Monkey Village, the settlement in the forest at the north-centre of the region.",
-          "conditions": "gold-crown",
-          "tags": [
-            "gold-crown"
+          "where": "Directly in front of the Monkey Village, the settlement in the forest at the north-centre of the region."
+        },
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
           ]
         },
         {
-          "name": "Silver-crown monsters",
-          "type": "Silver-crown",
+          "id": "pseudo-cherry",
           "minRank": "1",
-          "tags": [
-            "silver-crown"
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
           ],
-          "drops": [
-            {
-              "name": "Kingdom Apple",
-              "ja": "王国アップル",
-              "official": false,
-              "from": "Big Apple Monkey"
-            },
-            {
-              "name": "Star Apple",
-              "ja": "スターアップル",
-              "official": false,
-              "from": "Fang Monkey"
-            }
-          ],
+          "maxRank": "4"
+        },
+        {
+          "id": "apegore",
+          "minRank": "-",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "applejack-gorilla",
+          "minRank": "-",
+          "spawnType": "roaming",
           "confidence": "single-source",
           "sources": [
+            "hassaku",
             "kokorogu"
+          ]
+        },
+        {
+          "id": "greater-whipweed",
+          "minRank": "-",
+          "spawnType": "roaming",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
           ],
-          "spawnType": "roaming"
+          "time": "day"
+        },
+        {
+          "id": "jackal",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "killer-bunny",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "applejack-ape",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "bloom-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "grass-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "peach-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "starfish",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "whipweed",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "worker-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "pettlewing",
@@ -2595,6 +3570,175 @@
           "shadow": "small"
         }
       ],
+      "monsters": [
+        {
+          "id": "goldmeer",
+          "minRank": "5",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gg_boss",
+            "kokorogu"
+          ],
+          "where": "Pettlewing Forest",
+          "note": "The source listed Prairie Dragon and Goldmeer together; their drops were split by item type."
+        },
+        {
+          "id": "prairie-dragon",
+          "minRank": "5",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_boss",
+            "kokorogu"
+          ],
+          "where": "Pettlewing Forest dungeon",
+          "note": "The source listed Prairie Dragon and Goldmeer together; their drops were split by item type."
+        },
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "pseudo-cherry",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "black-panther",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "boor-bear-boss",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "apegore",
+          "minRank": "-",
+          "spawnType": "roaming",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "greater-whipweed",
+          "minRank": "-",
+          "spawnType": "roaming",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "grotto-wolf",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "bloom-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "cashmeer",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "where": "Pettlewing Forest"
+        },
+        {
+          "id": "grass-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "peach-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "pseudo-oak",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "whipweed",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "worker-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        }
+      ],
       "other": [
         {
           "name": "Axe of Time recipe",
@@ -2604,42 +3748,6 @@
           "confidence": "confirmed",
           "sources": [
             "gg_misc"
-          ]
-        }
-      ],
-      "boss": [
-        {
-          "name": "Prairie Dragon / Goldmeer",
-          "type": "Dungeon",
-          "minRank": "5",
-          "nameJa": "そうげんドラゴン",
-          "where": "Pettlewing Forest dungeon",
-          "drops": [
-            {
-              "name": "Prairie Tear",
-              "ja": "大草原の涙",
-              "official": false
-            },
-            {
-              "name": "Golden Goat Hair",
-              "ja": "きんいろやぎ毛",
-              "official": false
-            },
-            {
-              "name": "Noble Goat Hair",
-              "ja": "高貴なやぎ毛",
-              "official": false
-            },
-            {
-              "name": "Light Orb",
-              "ja": "光の玉",
-              "official": false
-            }
-          ],
-          "confidence": "confirmed",
-          "sources": [
-            "gg_boss",
-            "kokorogu"
           ]
         }
       ]
@@ -2738,6 +3846,328 @@
           ]
         }
       ],
+      "monsters": [
+        {
+          "id": "king-woolie",
+          "minRank": "5",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gg_boss",
+            "kokorogu"
+          ],
+          "conditions": "also via 'Head of the Flock' challenge earlier"
+        },
+        {
+          "id": "napdragon",
+          "minRank": "6",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "shadow-behemoth",
+          "minRank": "-",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "where": "Fort Gardhart"
+        },
+        {
+          "id": "shadow-carrotella",
+          "minRank": "-",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu",
+            "gg_misc"
+          ],
+          "where": "Fort Gardhart"
+        },
+        {
+          "id": "shadow-tortortoise",
+          "minRank": "-",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu",
+            "gg_misc"
+          ],
+          "where": "Fort Gardhart"
+        },
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "cornella",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "big-spooky",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "night",
+          "note": "The ones in West Greatgut drop nothing.",
+          "drops": []
+        },
+        {
+          "id": "taurus",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "shadow-panther",
+          "minRank": "-",
+          "spawnType": "cave-or-fort",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu",
+            "gg_misc"
+          ],
+          "where": "Fort Gardhart"
+        },
+        {
+          "id": "bloom-serpent",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "umbral-runner",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "wild-buffalo",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "black-woolie",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "buffalo",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "corny",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "flitty",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "grass-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "killer-bunny",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "mimiti",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "mini-spooky",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "red-wolf",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "rowdy-woolie",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "shadow-carroty",
+          "minRank": "-",
+          "spawnType": "cave-or-fort",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "where": "Fort Gardhart"
+        },
+        {
+          "id": "shadow-spooky",
+          "minRank": "-",
+          "spawnType": "cave-or-fort",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "where": "Fort Gardhart"
+        },
+        {
+          "id": "shadow-wolf",
+          "minRank": "-",
+          "spawnType": "cave-or-fort",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "where": "Fort Gardhart"
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "tunoco-lizard",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "white-woolie",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "worker-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        }
+      ],
       "other": [
         {
           "name": "Legendary King Spud",
@@ -2754,145 +4184,6 @@
             "kokorogu"
           ],
           "spawnType": "legendary-event"
-        }
-      ],
-      "boss": [
-        {
-          "name": "King Woolie",
-          "type": "Field boss",
-          "minRank": "5",
-          "nameJa": "キングバハ・ハ",
-          "conditions": "also via 'Head of the Flock' challenge earlier",
-          "tags": [
-            "event"
-          ],
-          "drops": [
-            {
-              "name": "Sheep King's Fleece",
-              "ja": "王様羊毛",
-              "official": true
-            },
-            {
-              "name": "Wild Antlers",
-              "ja": "ワイルドなツノ",
-              "official": true
-            },
-            {
-              "name": "Wool",
-              "ja": "羊毛",
-              "official": false
-            }
-          ],
-          "confidence": "confirmed",
-          "sources": [
-            "gg_boss",
-            "kokorogu"
-          ],
-          "spawnType": "fixed-boss"
-        },
-        {
-          "name": "Napdragon",
-          "type": "Field boss",
-          "minRank": "6",
-          "nameJa": "イネムリドラゴン",
-          "drops": [
-            {
-              "name": "Napdragon Tear",
-              "ja": "イネムリの涙",
-              "official": false
-            },
-            {
-              "name": "Napdragon Scale",
-              "ja": "イネムリのウロコ",
-              "official": false
-            },
-            {
-              "name": "Light Orb",
-              "ja": "光の玉",
-              "official": false
-            },
-            {
-              "name": "Dragon Meat",
-              "ja": "ドラゴン肉",
-              "official": false
-            }
-          ],
-          "confidence": "confirmed",
-          "sources": [
-            "gg_boss",
-            "kokorogu"
-          ],
-          "spawnType": "fixed-boss"
-        },
-        {
-          "name": "Fort Gardhart dark bosses",
-          "type": "Dungeon",
-          "minRank": "5",
-          "where": "Inside Fort Gardhart",
-          "drops": [
-            {
-              "name": "Dark Fire",
-              "ja": "闇の炎",
-              "official": true,
-              "from": "Dark Toastos"
-            },
-            {
-              "name": "Dark Carrot",
-              "ja": "闇色ニンジン",
-              "official": false,
-              "from": "Dark Decarrotte"
-            },
-            {
-              "name": "Mysterious Slate",
-              "ja": "謎の石板",
-              "official": true,
-              "from": "Dark Panther"
-            }
-          ],
-          "confidence": "confirmed",
-          "sources": [
-            "kokorogu",
-            "gg_misc"
-          ]
-        },
-        {
-          "name": "Silver-crown monsters",
-          "type": "Silver-crown",
-          "minRank": "1",
-          "tags": [
-            "silver-crown"
-          ],
-          "drops": [
-            {
-              "name": "Extra-Rich Milk",
-              "ja": "特濃ミルク",
-              "official": false,
-              "from": "Tauros"
-            },
-            {
-              "name": "Fierce Bull Horn",
-              "ja": "もうぎゅうのツノ",
-              "official": false,
-              "from": "Tauros"
-            },
-            {
-              "name": "Corn",
-              "ja": "とうもろこし",
-              "official": false,
-              "from": "Giant Corn"
-            },
-            {
-              "name": "Gunpowder Base",
-              "ja": "火薬のもと",
-              "official": false,
-              "from": "Giant Corn"
-            }
-          ],
-          "confidence": "single-source",
-          "sources": [
-            "kokorogu"
-          ],
-          "spawnType": "roaming"
         }
       ]
     },
@@ -3021,6 +4312,153 @@
           "shadow": "big"
         }
       ],
+      "monsters": [
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "black-panther",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu",
+            "gg_misc"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "radishella",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu",
+            "gg_misc"
+          ]
+        },
+        {
+          "id": "boss-bee",
+          "minRank": "-",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "kokorogu",
+            "gg_misc"
+          ]
+        },
+        {
+          "id": "carroty",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "radishy",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "splash-frog",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "white-runner",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "corny",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "grass-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "mimiti",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "tropic-toad",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "tunoco-lizard",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "worker-bee",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        }
+      ],
       "other": [
         {
           "name": "Legendary King Spud",
@@ -3037,56 +4475,6 @@
             "kokorogu"
           ],
           "spawnType": "legendary-event"
-        }
-      ],
-      "boss": [
-        {
-          "name": "Silver-crown monsters",
-          "type": "Silver-crown",
-          "minRank": "1",
-          "tags": [
-            "silver-crown"
-          ],
-          "drops": [
-            {
-              "name": "Giant Thorn",
-              "ja": "巨大なトゲ",
-              "official": true,
-              "from": "Worker Bee Leader"
-            },
-            {
-              "name": "Meadow Honey",
-              "ja": "草原はちみつ",
-              "official": false,
-              "from": "Worker Bee Leader"
-            },
-            {
-              "name": "Rampaging Radish",
-              "ja": "あばれダイコン",
-              "official": false,
-              "from": "Giant Turnip"
-            },
-            {
-              "name": "Monster Hide",
-              "ja": "まじゅうの皮",
-              "official": false,
-              "from": "Black Panther",
-              "when": "night"
-            },
-            {
-              "name": "Thick Fang",
-              "ja": "ぶっといキバ",
-              "official": false,
-              "from": "Black Panther",
-              "when": "night"
-            }
-          ],
-          "confidence": "single-source",
-          "sources": [
-            "kokorogu",
-            "gg_misc"
-          ],
-          "spawnType": "roaming"
         }
       ]
     },
@@ -3340,6 +4728,200 @@
           ]
         }
       ],
+      "monsters": [
+        {
+          "id": "great-chimera",
+          "minRank": "5",
+          "spawnType": "fixed-boss",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "alpha-coyote",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ],
+          "conditions": "also via the 'Boss of the Wolves' challenge (name translated from Japanese)"
+        },
+        {
+          "id": "giant-grass-serpent",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ],
+          "conditions": "also via the 'Beware of Snakes' challenge (name translated from Japanese)"
+        },
+        {
+          "id": "killer-bear",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "day"
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "goliath",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "conditions": "'Beware the Glittering Silk' challenge"
+        },
+        {
+          "id": "cashmeer",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "applejack-ape",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "gloom-spider",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "disputed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ],
+          "time": "night",
+          "note": "The Japanese wiki says night only; the FLiDB database says day and night."
+        },
+        {
+          "id": "jackal",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "killer-bunny",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "grass-serpent",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "hill-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "mini-spooky",
+          "minRank": "-",
+          "spawnType": "cave-or-fort",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "where": "Great Nayvel Cave"
+        },
+        {
+          "id": "red-wolf",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "tunoco-lizard",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        }
+      ],
       "other": [
         {
           "name": "Legendary King Spud",
@@ -3369,37 +4951,6 @@
           "sources": [
             "gg_misc"
           ]
-        }
-      ],
-      "boss": [
-        {
-          "name": "Great Chimera",
-          "type": "Field boss",
-          "minRank": "5",
-          "nameJa": "グランキマイラ",
-          "drops": [
-            {
-              "name": "Wind Mana",
-              "ja": "風のマナ",
-              "official": false
-            },
-            {
-              "name": "Mythic Beast Meat",
-              "ja": "幻獣肉",
-              "official": false
-            },
-            {
-              "name": "Giant Tail",
-              "ja": "巨大なしっぽ",
-              "official": false
-            }
-          ],
-          "confidence": "confirmed",
-          "sources": [
-            "gg_boss",
-            "kokorogu"
-          ],
-          "spawnType": "fixed-boss"
         }
       ]
     },
@@ -3546,6 +5097,127 @@
           ]
         }
       ],
+      "monsters": [
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "carrotella",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "burrow-star",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "goliath",
+          "minRank": "-",
+          "spawnType": "area-challenge",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "conditions": "'Beware the Glittering Silk' challenge"
+        },
+        {
+          "id": "carroty",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "corny",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "gemeleon",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "hill-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "mimiti",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "radishy",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "tropic-toad",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "white-woolie",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        }
+      ],
       "other": [
         {
           "name": "Crops",
@@ -3573,34 +5245,6 @@
             "kokorogu"
           ],
           "spawnType": "legendary-event"
-        }
-      ],
-      "boss": [
-        {
-          "name": "Decarrotte",
-          "type": "Silver-crown",
-          "minRank": "1",
-          "nameJa": "デキャロッテ",
-          "tags": [
-            "silver-crown"
-          ],
-          "drops": [
-            {
-              "name": "Carrot",
-              "ja": "ニンジン",
-              "official": false
-            },
-            {
-              "name": "Crimson Carrot",
-              "ja": "まっかニンジン",
-              "official": false
-            }
-          ],
-          "confidence": "single-source",
-          "sources": [
-            "kokorogu"
-          ],
-          "spawnType": "roaming"
         }
       ]
     },
@@ -3863,119 +5507,148 @@
           "shadow": "small"
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Stone Golem",
-          "type": "Field boss",
+          "id": "stone-golem",
           "minRank": "5",
-          "nameJa": "石工のゴーレム",
-          "drops": [
-            {
-              "name": "Sun Shard",
-              "ja": "太陽のカケラ",
-              "official": false
-            },
-            {
-              "name": "Ancient Core",
-              "ja": "太古の核",
-              "official": false
-            },
-            {
-              "name": "True Ancient Core",
-              "ja": "太古の真核",
-              "official": false
-            }
-          ],
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
             "gg_boss",
             "kokorogu"
           ],
-          "spawnType": "fixed-boss"
+          "time": "day"
         },
         {
-          "name": "Silver-crown monsters",
-          "type": "Silver-crown",
+          "id": "mimic",
           "minRank": "1",
-          "conditions": "no cooldown; respawn on rank switch or Anywhere Gate",
-          "tags": [
-            "silver-crown"
-          ],
-          "drops": [
-            {
-              "name": "Silk Thread",
-              "ja": "絹糸",
-              "official": false,
-              "from": "Giant Sand Spider"
-            },
-            {
-              "name": "Pink Silk Thread",
-              "ja": "ピンク絹糸",
-              "official": false,
-              "from": "Giant Sand Spider"
-            },
-            {
-              "name": "Beast Hide",
-              "ja": "やじゅうの皮",
-              "official": false,
-              "from": "Giant Sand Lizard"
-            },
-            {
-              "name": "Spirit Powder",
-              "ja": "精霊の粉",
-              "official": false,
-              "from": "Big Ghost",
-              "when": "night"
-            },
-            {
-              "name": "Magic Powder",
-              "ja": "魔法の粉",
-              "official": false,
-              "from": "Big Ghost",
-              "when": "night"
-            },
-            {
-              "name": "Sun Shard",
-              "ja": "太陽のカケラ",
-              "official": false,
-              "from": "Sand Golem",
-              "when": "day"
-            },
-            {
-              "name": "Sandstone",
-              "ja": "砂岩",
-              "official": false,
-              "from": "Sand Golem",
-              "when": "day"
-            },
-            {
-              "name": "Topaz",
-              "ja": "トパーズ",
-              "official": true,
-              "from": "Sand Golem",
-              "when": "day"
-            },
-            {
-              "name": "Haniwa Stone",
-              "ja": "ハニワストーン",
-              "official": true,
-              "from": "Haniwa Chief"
-            },
-            {
-              "name": "Swolean Gold",
-              "ja": "キントレー金",
-              "official": true,
-              "from": "Haniwa Chief"
-            }
-          ],
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "haniwa-chief",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "greater-sand-spider",
+          "minRank": "5",
+          "spawnType": "roaming",
           "confidence": "single-source",
           "sources": [
+            "hassaku",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "greater-sandzard",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "sand-golem",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
             "kokorogu"
           ],
-          "spawnType": "roaming"
+          "time": "day"
+        },
+        {
+          "id": "big-spooky",
+          "minRank": "-",
+          "spawnType": "roaming",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "mini-spooky",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ],
+          "time": "night"
+        },
+        {
+          "id": "sandshark",
+          "minRank": "1",
+          "spawnType": "overworld",
+          "confidence": "disputed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl",
+            "gg_monsters"
+          ],
+          "note": "The Japanese wiki says Rank 1, day only at Ranks 1–2; Gamer Guides says Rank 3+."
+        },
+        {
+          "id": "haniwa-tribesman",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ]
+        },
+        {
+          "id": "sand-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "sandzard",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "tortortoise",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
         }
-      ]
+      ],
+      "other": []
     },
     {
       "id": "edd",
@@ -4268,73 +5941,2002 @@
           ]
         }
       ],
-      "other": [],
-      "boss": [
+      "monsters": [
         {
-          "name": "Lord of Curses",
-          "type": "Field boss",
+          "id": "evil-spirit-ghost",
           "minRank": "5",
-          "nameJa": "ロードオブカース",
-          "drops": [
-            {
-              "name": "Dragon Bone Horn",
-              "ja": "竜骨のツノ",
-              "official": false
-            },
-            {
-              "name": "Fossil Shard",
-              "ja": "化石のカケラ",
-              "official": false
-            },
-            {
-              "name": "Dark Orb",
-              "ja": "闇の玉",
-              "official": false
-            }
-          ],
-          "confidence": "confirmed",
+          "spawnType": "fixed-boss",
+          "confidence": "single-source",
           "sources": [
-            "gg_boss",
-            "kokorogu"
+            "hassaku"
           ],
-          "spawnType": "fixed-boss"
+          "where": "East-edge grassland",
+          "time": "night"
         },
         {
-          "name": "Iron Golem",
-          "type": "Silver-crown",
-          "minRank": "1",
-          "nameJa": "アイアンゴーレム",
-          "tags": [
-            "silver-crown"
-          ],
-          "drops": [
-            {
-              "name": "Aquamarine",
-              "ja": "アクアマリン",
-              "official": true
-            },
-            {
-              "name": "Life Shard",
-              "ja": "命のカケラ",
-              "official": false
-            },
-            {
-              "name": "Faraway Iron",
-              "ja": "ハルカーナ鉄",
-              "official": true
-            }
-          ],
+          "id": "lord-of-curses",
+          "minRank": "5",
+          "spawnType": "fixed-boss",
           "confidence": "confirmed",
           "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl",
+            "gg_boss",
+            "kokorogu"
+          ]
+        },
+        {
+          "id": "mimic",
+          "minRank": "1",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "gget"
+          ]
+        },
+        {
+          "id": "big-spooky",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
+            "wikiwiki_fl"
+          ],
+          "time": "night",
+          "note": "Gamer Guides lists it in a cave."
+        },
+        {
+          "id": "greater-sand-spider",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "iron-golem",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters",
             "kokorogu",
             "wikiwiki_gget"
           ],
-          "spawnType": "roaming",
           "note": "Three Iron Golems roam here."
+        },
+        {
+          "id": "sand-golem",
+          "minRank": "3",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ],
+          "time": "day",
+          "note": "Two more roam inside Wyrmtail Cave."
+        },
+        {
+          "id": "greater-sandzard",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "haniwa-chief",
+          "minRank": "5",
+          "spawnType": "roaming",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "wikiwiki_fl"
+          ],
+          "where": "Near the Viridia / South Greatgut border"
+        },
+        {
+          "id": "mini-spooky",
+          "minRank": "3",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "gg_monsters",
+            "wikiwiki_fl"
+          ],
+          "time": "night",
+          "note": "Gamer Guides lists it in a cave."
+        },
+        {
+          "id": "jackal",
+          "minRank": "5",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "haniwa-tribesman",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "sand-spider",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "single-source",
+          "sources": [
+            "hassaku"
+          ]
+        },
+        {
+          "id": "sandshark",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        },
+        {
+          "id": "sandzard",
+          "minRank": "-",
+          "spawnType": "overworld",
+          "confidence": "confirmed",
+          "sources": [
+            "hassaku",
+            "gg_monsters"
+          ]
+        }
+      ],
+      "other": []
+    }
+  ],
+  "monsters": {
+    "alpha-coyote": {
+      "name": "Alpha Coyote",
+      "nameJa": "フラッドコヨーテ",
+      "crown": "silver",
+      "sleeps": "day",
+      "aggressive": true,
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Animal Fang",
+          "ja": "けもののキバ",
+          "official": false
+        },
+        {
+          "name": "Beast Hide",
+          "ja": "やじゅうの皮",
+          "official": false
+        }
+      ]
+    },
+    "ancient-beetle-baller": {
+      "name": "Ancient Beetle Baller",
+      "nameJa": "古代コロガシムシ"
+    },
+    "apegore": {
+      "name": "Apegore",
+      "nameJa": "キバザル",
+      "nameStatus": "probable",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Star Apple",
+          "ja": "スターアップル",
+          "official": false
+        }
+      ]
+    },
+    "applejack-ape": {
+      "name": "Applejack Ape",
+      "nameJa": "アップルモンキー"
+    },
+    "applejack-gorilla": {
+      "name": "Applejack Gorilla",
+      "nameJa": "ビッグアップルモンキー",
+      "crown": "silver",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Kingdom Apple",
+          "ja": "王国アップル",
+          "official": false
+        },
+        {
+          "name": "Star Apple",
+          "ja": "スターアップル",
+          "official": false
+        },
+        {
+          "name": "Golden Apple",
+          "ja": "黄金りんご",
+          "official": false
+        },
+        {
+          "name": "Poison Essence",
+          "ja": "どくのもと",
+          "official": false
+        }
+      ]
+    },
+    "big-spooky": {
+      "name": "Big Spooky",
+      "nameJa": "ビッグゴースト",
+      "crown": "silver",
+      "aggressive": true,
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Magic Powder",
+          "ja": "魔法の粉",
+          "official": false
+        },
+        {
+          "name": "Spirit Powder",
+          "ja": "精霊の粉",
+          "official": false
+        },
+        {
+          "name": "Paralysis Essence",
+          "ja": "まひのもと",
+          "official": false
+        }
+      ]
+    },
+    "bitey-shark": {
+      "name": "Bitey Shark",
+      "nameJa": "カミツキシャーク"
+    },
+    "black-panther": {
+      "name": "Black Panther",
+      "nameJa": "ブラックパンサー",
+      "crown": "silver",
+      "sleeps": "day",
+      "aggressive": true,
+      "mount": true,
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Animal Claw",
+          "ja": "けもののツメ",
+          "official": false
+        },
+        {
+          "name": "Hard Claw",
+          "ja": "かたいツメ",
+          "official": false
+        },
+        {
+          "name": "Thick Fang",
+          "ja": "ぶっといキバ",
+          "official": false
+        },
+        {
+          "name": "Sturdy Fang",
+          "ja": "じょうぶなキバ",
+          "official": false
+        },
+        {
+          "name": "Beast Hide",
+          "ja": "やじゅうの皮",
+          "official": false
+        },
+        {
+          "name": "Monster Hide",
+          "ja": "まじゅうの皮",
+          "official": false
+        }
+      ]
+    },
+    "black-woolie": {
+      "name": "Black Woolie",
+      "nameJa": "ボヘ・ヘ",
+      "time": "day",
+      "sleeps": "night",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Wool",
+          "ja": "羊毛",
+          "official": false
+        },
+        {
+          "name": "Black Wool",
+          "ja": "黒羊毛",
+          "official": false
+        },
+        {
+          "name": "Mutton",
+          "ja": "ひつじ肉",
+          "official": false
+        }
+      ]
+    },
+    "bloom-serpent": {
+      "name": "Bloom Serpent",
+      "nameJa": "おばなスネーク"
+    },
+    "boor-bear-boss": {
+      "name": "Boor Bear Boss",
+      "nameJa": "ビシバシドンベア",
+      "crown": "silver",
+      "sleeps": "day",
+      "aggressive": true,
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Giant Claw",
+          "ja": "巨大なツメ",
+          "official": false
+        },
+        {
+          "name": "Giant Fang",
+          "ja": "巨大なキバ",
+          "official": false
+        },
+        {
+          "name": "Monster Hide",
+          "ja": "まじゅうの皮",
+          "official": false
+        }
+      ]
+    },
+    "boss-bee": {
+      "name": "Boss Bee",
+      "nameJa": "はたらきばちリーダー",
+      "crown": "silver",
+      "aggressive": true,
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Meadow Honey",
+          "ja": "草原はちみつ",
+          "official": false
+        },
+        {
+          "name": "Secret Island Honey",
+          "ja": "秘島はちみつ",
+          "official": false
+        },
+        {
+          "name": "Giant Thorn",
+          "ja": "巨大なトゲ",
+          "official": true
+        },
+        {
+          "name": "Poison Essence",
+          "ja": "どくのもと",
+          "official": false
+        }
+      ]
+    },
+    "bouldergeist": {
+      "name": "Bouldergeist",
+      "nameJa": "ロックゴースト",
+      "crown": "gold",
+      "time": "night",
+      "element": "Earth",
+      "drops": [
+        {
+          "name": "Magic Powder",
+          "ja": "魔法の粉",
+          "official": false
+        },
+        {
+          "name": "Spirit Powder",
+          "ja": "精霊の粉",
+          "official": false
+        },
+        {
+          "name": "Life Shard",
+          "ja": "命のカケラ",
+          "official": false
+        },
+        {
+          "name": "Paralysis Essence",
+          "ja": "まひのもと",
+          "official": false
+        },
+        {
+          "name": "Ghost Essence",
+          "ja": "幽体のもと",
+          "official": false
+        },
+        {
+          "name": "Earth Mana",
+          "ja": "土のマナ",
+          "official": true
+        },
+        {
+          "name": "Dark Orb",
+          "ja": "闇の玉",
+          "official": false
+        }
+      ]
+    },
+    "buffalo": {
+      "name": "Buffalo",
+      "nameJa": "バッファロー",
+      "sleeps": "day",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Cow Milk",
+          "ja": "うしミルク",
+          "official": false
+        },
+        {
+          "name": "Beef",
+          "ja": "うし肉",
+          "official": false
+        },
+        {
+          "name": "Animal Hide",
+          "ja": "けものの皮",
+          "official": false
+        }
+      ]
+    },
+    "burly-gorilla": {
+      "name": "Burly Gorilla",
+      "nameJa": "キンニクゴリラ",
+      "note": "Drops fruit."
+    },
+    "burrow-star": {
+      "name": "Burrow Star",
+      "nameJa": "あなぐらスター",
+      "nameStatus": "unofficial"
+    },
+    "carrotella": {
+      "name": "Carrotella",
+      "nameJa": "デキャロッテ",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Carrot",
+          "ja": "ニンジン",
+          "official": false
+        },
+        {
+          "name": "Crimson Carrot",
+          "ja": "まっかニンジン",
+          "official": false
+        }
+      ]
+    },
+    "carroty": {
+      "name": "Carroty",
+      "nameJa": "キャロッテ"
+    },
+    "cashmeer": {
+      "name": "Cashmeer",
+      "nameJa": "ベェ",
+      "sleeps": "night",
+      "aggressive": false,
+      "mount": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Goat Hair",
+          "ja": "やぎ毛",
+          "official": false
+        },
+        {
+          "name": "Animal Hide",
+          "ja": "けものの皮",
+          "official": false
+        }
+      ]
+    },
+    "cave-bat": {
+      "name": "Cave Bat",
+      "nameJa": "ドウクツコウモリ"
+    },
+    "cave-panther": {
+      "name": "Cave Panther",
+      "nameJa": "どうくつパンサー",
+      "crown": "silver"
+    },
+    "cornella": {
+      "name": "Cornella",
+      "nameJa": "デカモロコシ",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Corn",
+          "ja": "とうもろこし",
+          "official": false
+        },
+        {
+          "name": "Gunpowder Base",
+          "ja": "火薬のもと",
+          "official": false
+        }
+      ]
+    },
+    "corny": {
+      "name": "Corny",
+      "nameJa": "モロコシ",
+      "sleeps": "night",
+      "element": "Fire",
+      "drops": [
+        {
+          "name": "Corn",
+          "ja": "とうもろこし",
+          "official": false
+        },
+        {
+          "name": "Grass Thread",
+          "ja": "草糸",
+          "official": false
+        }
+      ],
+      "note": "Burrows underground."
+    },
+    "crimson-razorbeak": {
+      "name": "Crimson Razorbeak",
+      "nameJa": "レッドシャモー",
+      "sleeps": "day",
+      "element": "Fire",
+      "drops": [
+        {
+          "name": "Crown Egg",
+          "ja": "おうかん卵",
+          "official": false
+        },
+        {
+          "name": "Queen Egg",
+          "ja": "クイーンたまご",
+          "official": false
+        },
+        {
+          "name": "Chicken",
+          "ja": "とり肉",
+          "official": false
+        }
+      ]
+    },
+    "crimson-weed": {
+      "name": "Crimson Weed",
+      "nameJa": "ベニイロクサ",
+      "nameStatus": "unofficial",
+      "aggressive": true,
+      "element": "Fire",
+      "drops": [
+        {
+          "name": "Healing Herb",
+          "ja": "いやし草",
+          "official": false
+        },
+        {
+          "name": "Vitality Herb",
+          "ja": "かつりょく草",
+          "official": false
+        },
+        {
+          "name": "Remedy Herb",
+          "ja": "なおし草",
+          "official": false
+        },
+        {
+          "name": "Gunpowder Base",
+          "ja": "火薬のもと",
+          "official": false
+        }
+      ]
+    },
+    "crystal-golem": {
+      "name": "Crystal Golem",
+      "crown": "gold",
+      "nameJa": "クリスタルゴーレム",
+      "drops": [
+        {
+          "name": "Frozen Crystal",
+          "ja": "氷結クリスタル",
+          "official": false
+        },
+        {
+          "name": "Star Shard",
+          "ja": "星のカケラ",
+          "official": false
+        }
+      ]
+    },
+    "evil-spirit-ghost": {
+      "name": "Evil-Spirit Ghost",
+      "nameJa": "あくりょうゴースト",
+      "nameStatus": "unofficial",
+      "crown": "gold",
+      "time": "night"
+    },
+    "feral-bat": {
+      "name": "Feral Bat",
+      "nameJa": "ワイルドバット",
+      "sleeps": "day",
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Thick Fang",
+          "ja": "ぶっといキバ",
+          "official": false
+        },
+        {
+          "name": "Sturdy Fang",
+          "ja": "じょうぶなキバ",
+          "official": false
+        },
+        {
+          "name": "Paralysis Essence",
+          "ja": "まひのもと",
+          "official": false
+        }
+      ]
+    },
+    "fiery-panther": {
+      "name": "Fiery Panther",
+      "nameJa": "しゃくねつパンサー",
+      "nameStatus": "probable"
+    },
+    "flame-serpent": {
+      "name": "Flame Serpent",
+      "nameJa": "ほのおスネーク",
+      "aggressive": true,
+      "element": "Fire",
+      "drops": [
+        {
+          "name": "Red Snake Scale",
+          "ja": "赤ヘビのウロコ",
+          "official": false
+        },
+        {
+          "name": "Sturdy Fang",
+          "ja": "じょうぶなキバ",
+          "official": false
+        },
+        {
+          "name": "Mighty Fang",
+          "ja": "たくましいキバ",
+          "official": false
+        },
+        {
+          "name": "Gunpowder Base",
+          "ja": "火薬のもと",
+          "official": false
+        }
+      ]
+    },
+    "flitty": {
+      "name": "Flitty",
+      "nameJa": "フリッティ",
+      "nameStatus": "unofficial",
+      "aggressive": false,
+      "element": "Water",
+      "drops": [
+        {
+          "name": "Animal Dung",
+          "ja": "どうぶつのふん",
+          "official": false
+        },
+        {
+          "name": "Golden Dung",
+          "ja": "金色のふん",
+          "official": false
+        }
+      ]
+    },
+    "fluff-baller": {
+      "name": "Fluff Baller",
+      "nameJa": "ふわふわコロガシ",
+      "aggressive": true,
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Strange Object",
+          "ja": "不思議な物体",
+          "official": false
+        }
+      ]
+    },
+    "forest-panther": {
+      "name": "Forest Panther",
+      "nameJa": "フォレストパンサー",
+      "crown": "silver",
+      "time": "night",
+      "aggressive": true,
+      "mount": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Animal Claw",
+          "ja": "けもののツメ",
+          "official": false
+        },
+        {
+          "name": "Thick Fang",
+          "ja": "ぶっといキバ",
+          "official": false
+        },
+        {
+          "name": "Beast Hide",
+          "ja": "やじゅうの皮",
+          "official": false
+        }
+      ]
+    },
+    "fortoise": {
+      "name": "Fortoise",
+      "nameJa": "要塞ガメ",
+      "sleeps": "night",
+      "element": "Fire",
+      "drops": [
+        {
+          "name": "Thick Shell",
+          "ja": "ぶあついこうら",
+          "official": false
+        },
+        {
+          "name": "Magma Ore",
+          "ja": "灼熱鉱",
+          "official": true
+        },
+        {
+          "name": "Flame Ruby",
+          "ja": "フレイムルビー",
+          "official": false
+        }
+      ]
+    },
+    "gemeleon": {
+      "name": "Gemeleon",
+      "nameJa": "ほうせきトカゲ",
+      "sleeps": "day",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Big Tail",
+          "ja": "大きなしっぽ",
+          "official": false
+        },
+        {
+          "name": "Yellow Stone",
+          "ja": "イエローストーン",
+          "official": false
+        },
+        {
+          "name": "Blue Stone",
+          "ja": "ブルーストーン",
+          "official": false
+        },
+        {
+          "name": "Purple Stone",
+          "ja": "パープルストーン",
+          "official": false
+        }
+      ]
+    },
+    "giant-grass-serpent": {
+      "name": "Giant Grass Serpent",
+      "nameJa": "ビッググリーンスネーク",
+      "crown": "silver",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Snake Scale",
+          "ja": "ヘビのウロコ",
+          "official": false
+        },
+        {
+          "name": "Great Snake Scale",
+          "ja": "オオヘビのウロコ",
+          "official": false
+        },
+        {
+          "name": "Giant Fang",
+          "ja": "巨大なキバ",
+          "official": false
+        },
+        {
+          "name": "Poison Essence",
+          "ja": "どくのもと",
+          "official": false
+        }
+      ]
+    },
+    "gloom-spider": {
+      "name": "Gloom Spider",
+      "nameJa": "ヤミグモ",
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Pink Silk Thread",
+          "ja": "ピンク絹糸",
+          "official": false
+        },
+        {
+          "name": "Poison Essence",
+          "ja": "どくのもと",
+          "official": false
+        }
+      ]
+    },
+    "goldmeer": {
+      "name": "Goldmeer",
+      "crown": "gold",
+      "drops": [
+        {
+          "name": "Golden Goat Hair",
+          "ja": "きんいろやぎ毛",
+          "official": false
+        },
+        {
+          "name": "Noble Goat Hair",
+          "ja": "高貴なやぎ毛",
+          "official": false
+        }
+      ]
+    },
+    "goliath": {
+      "name": "Goliath",
+      "nameJa": "デカヤマグモ",
+      "crown": "silver"
+    },
+    "grass-serpent": {
+      "name": "Grass Serpent",
+      "nameJa": "グリーンスネーク"
+    },
+    "great-chimera": {
+      "name": "Great Chimera",
+      "crown": "gold",
+      "nameJa": "グランキマイラ",
+      "drops": [
+        {
+          "name": "Wind Mana",
+          "ja": "風のマナ",
+          "official": false
+        },
+        {
+          "name": "Mythic Beast Meat",
+          "ja": "幻獣肉",
+          "official": false
+        },
+        {
+          "name": "Giant Tail",
+          "ja": "巨大なしっぽ",
+          "official": false
+        }
+      ]
+    },
+    "greater-beetle-baller": {
+      "name": "Greater Beetle Baller",
+      "nameJa": "オオコロガシムシ",
+      "crown": "silver"
+    },
+    "greater-rock-serpent": {
+      "name": "Greater Rock Serpent",
+      "nameJa": "オオオガララヘビ",
+      "crown": "silver"
+    },
+    "greater-sand-spider": {
+      "name": "Greater Sand Spider",
+      "nameJa": "オオスナグモ",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Silk Thread",
+          "ja": "絹糸",
+          "official": false
+        },
+        {
+          "name": "Pink Silk Thread",
+          "ja": "ピンク絹糸",
+          "official": false
+        }
+      ]
+    },
+    "greater-sandzard": {
+      "name": "Greater Sandzard",
+      "nameJa": "オオスナトカゲ",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Beast Hide",
+          "ja": "やじゅうの皮",
+          "official": false
+        }
+      ]
+    },
+    "greater-sea-beetle-baller": {
+      "name": "Greater Sea Beetle Baller",
+      "nameJa": "オオウミコロガシムシ",
+      "crown": "silver"
+    },
+    "greater-whipweed": {
+      "name": "Greater Whipweed",
+      "nameJa": "オオムチクサ",
+      "nameStatus": "unofficial",
+      "crown": "silver",
+      "time": "day"
+    },
+    "grotto-wolf": {
+      "name": "Grotto Wolf",
+      "nameJa": "あなぐらウルフ",
+      "sleeps": "day"
+    },
+    "haniwa-chief": {
+      "name": "Haniwa Chief",
+      "nameJa": "ハニワ族長",
+      "nameStatus": "unofficial",
+      "crown": "silver",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Swolean Gold",
+          "ja": "キントレー金",
+          "official": true
+        },
+        {
+          "name": "Sandstone",
+          "ja": "砂岩",
+          "official": false
+        },
+        {
+          "name": "Haniwa Stone",
+          "ja": "ハニワストーン",
+          "official": true
+        },
+        {
+          "name": "Haniwa Gem",
+          "ja": "ハニワ宝石",
+          "official": false
+        }
+      ]
+    },
+    "haniwa-tribesman": {
+      "name": "Haniwa Tribesman",
+      "nameJa": "ハニワ族",
+      "nameStatus": "unofficial",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Haniwa Stone",
+          "ja": "ハニワストーン",
+          "official": true
+        },
+        {
+          "name": "Sandstone",
+          "ja": "砂岩",
+          "official": false
+        }
+      ],
+      "note": "East Dryridge has the Hanihani Land village."
+    },
+    "hill-spider": {
+      "name": "Hill Spider",
+      "nameJa": "ヤマグモ",
+      "time": "night",
+      "sleeps": "day",
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Silk Thread",
+          "ja": "絹糸",
+          "official": false
+        }
+      ]
+    },
+    "iron-golem": {
+      "name": "Iron Golem",
+      "nameJa": "アイアンゴーレム",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Faraway Iron",
+          "ja": "ハルカーナ鉄",
+          "official": true
+        },
+        {
+          "name": "Aquamarine",
+          "ja": "アクアマリン",
+          "official": true
+        },
+        {
+          "name": "Life Shard",
+          "ja": "命のカケラ",
+          "official": false
+        }
+      ]
+    },
+    "jackal": {
+      "name": "Jackal",
+      "nameJa": "ジャッカル",
+      "sleeps": "day"
+    },
+    "killer-bear": {
+      "name": "Killer Bear",
+      "nameJa": "キラーベア",
+      "crown": "silver",
+      "time": "day"
+    },
+    "killer-bunny": {
+      "name": "Killer Bunny",
+      "nameJa": "キラーバニー"
+    },
+    "king-cobra": {
+      "name": "King Cobra",
+      "nameJa": "キングコブラ",
+      "crown": "silver"
+    },
+    "king-woolie": {
+      "name": "King Woolie",
+      "crown": "gold",
+      "mount": true,
+      "nameJa": "キングバハ・ハ",
+      "drops": [
+        {
+          "name": "Sheep King's Fleece",
+          "ja": "王様羊毛",
+          "official": true
+        },
+        {
+          "name": "Wild Antlers",
+          "ja": "ワイルドなツノ",
+          "official": true
+        },
+        {
+          "name": "Wool",
+          "ja": "羊毛",
+          "official": false
+        }
+      ]
+    },
+    "legendary-don-woolie": {
+      "name": "Legendary Don Woolie",
+      "nameJa": "伝説のドン・バハ",
+      "drops": [
+        {
+          "name": "Legendary Don Horn",
+          "ja": "伝説ドンホーン",
+          "official": true
+        },
+        {
+          "name": "Legendary Don Meat",
+          "ja": "伝説ドンミート",
+          "official": false
+        }
+      ]
+    },
+    "lord-of-curses": {
+      "name": "Lord of Curses",
+      "nameJa": "ロードオブカース",
+      "crown": "gold",
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Fossil Shard",
+          "ja": "化石のカケラ",
+          "official": false
+        },
+        {
+          "name": "Bone Dragon Horn",
+          "ja": "骨竜のツノ",
+          "official": false
+        },
+        {
+          "name": "Dark Orb",
+          "ja": "闇の玉",
+          "official": false
+        }
+      ]
+    },
+    "lord-of-death": {
+      "name": "Lord of Death",
+      "nameJa": "ロードオブデス",
+      "crown": "gold",
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Demon King Shard",
+          "ja": "マオーのカケラ",
+          "official": false
+        },
+        {
+          "name": "Dinosaur Meat",
+          "ja": "きょうりゅう肉",
+          "official": false
+        },
+        {
+          "name": "Monster Tail",
+          "ja": "まじゅうのしっぽ",
+          "official": false
+        },
+        {
+          "name": "Giant Tail",
+          "ja": "巨大なしっぽ",
+          "official": false
+        },
+        {
+          "name": "Giant Scale",
+          "ja": "巨大なウロコ",
+          "official": false
+        },
+        {
+          "name": "Dark Orb",
+          "ja": "闇の玉",
+          "official": false
+        }
+      ]
+    },
+    "marumaru": {
+      "name": "Big Beak / Marumaru",
+      "nameJa": "マルマル",
+      "nameStatus": "probable",
+      "crown": "gold",
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Rainbow Feather",
+          "ja": "虹鳥の羽毛",
+          "official": true
+        },
+        {
+          "name": "Marumaru Egg",
+          "ja": "マルマルエッグ",
+          "official": false
+        },
+        {
+          "name": "Queen Egg",
+          "ja": "クイーンたまご",
+          "official": false
+        },
+        {
+          "name": "Chicken",
+          "ja": "とり肉",
+          "official": false
+        },
+        {
+          "name": "Wind Mana",
+          "ja": "風のマナ",
+          "official": false
+        },
+        {
+          "name": "Light Orb",
+          "ja": "光の玉",
+          "official": false
+        }
+      ]
+    },
+    "megabitey-shark": {
+      "name": "Megabitey Shark",
+      "nameJa": "デカミツキシャーク",
+      "crown": "silver"
+    },
+    "mimic": {
+      "name": "Mimic",
+      "nameJa": "ミミック",
+      "crown": "silver",
+      "aggressive": false,
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Gachadan Seedling",
+          "ja": "ガチャダンの苗",
+          "official": false
+        },
+        {
+          "name": "Sack of Copper",
+          "ja": "銅貨袋",
+          "official": true
+        },
+        {
+          "name": "Sack of Silver",
+          "ja": "銀貨袋",
+          "official": false
+        },
+        {
+          "name": "Sack of Gold",
+          "ja": "金貨袋",
+          "official": true
+        },
+        {
+          "name": "Sack of Riches",
+          "ja": "財宝袋",
+          "official": false
+        }
+      ],
+      "note": "Runs away from you."
+    },
+    "mimiti": {
+      "name": "Mimiti",
+      "nameJa": "ミミティ",
+      "nameStatus": "unofficial",
+      "sleeps": "night",
+      "aggressive": false,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Animal Dung",
+          "ja": "どうぶつのふん",
+          "official": false
+        },
+        {
+          "name": "Golden Dung",
+          "ja": "金色のふん",
+          "official": false
+        }
+      ]
+    },
+    "mini-spooky": {
+      "name": "Mini Spooky",
+      "nameJa": "ミニゴースト",
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Magic Powder",
+          "ja": "魔法の粉",
+          "official": false
+        }
+      ]
+    },
+    "mohawkasaurus": {
+      "name": "Mohawkasaurus",
+      "nameJa": "モヒカンザウルス",
+      "crown": "gold",
+      "time": "day",
+      "element": "Fire",
+      "drops": [
+        {
+          "name": "Burning Mohawk",
+          "ja": "燃えるモヒカン",
+          "official": false
+        },
+        {
+          "name": "Dinosaur Meat",
+          "ja": "きょうりゅう肉",
+          "official": false
+        },
+        {
+          "name": "Monster Tail",
+          "ja": "まじゅうのしっぽ",
+          "official": false
+        },
+        {
+          "name": "Monster Hide",
+          "ja": "まじゅうの皮",
+          "official": false
+        },
+        {
+          "name": "Gunpowder Base",
+          "ja": "火薬のもと",
+          "official": false
+        },
+        {
+          "name": "Fire Mana",
+          "ja": "炎のマナ",
+          "official": true
+        },
+        {
+          "name": "Light Orb",
+          "ja": "光の玉",
+          "official": false
+        }
+      ]
+    },
+    "napdragon": {
+      "name": "Napdragon",
+      "crown": "gold",
+      "sleeps": "day",
+      "nameJa": "イネムリドラゴン",
+      "drops": [
+        {
+          "name": "Napdragon Tear",
+          "ja": "イネムリの涙",
+          "official": false
+        },
+        {
+          "name": "Napdragon Scale",
+          "ja": "イネムリのウロコ",
+          "official": false
+        },
+        {
+          "name": "Light Orb",
+          "ja": "光の玉",
+          "official": false
+        },
+        {
+          "name": "Dragon Meat",
+          "ja": "ドラゴン肉",
+          "official": false
+        }
+      ]
+    },
+    "pandoras-box": {
+      "name": "Pandora's Box",
+      "nameJa": "ブラックボックス",
+      "crown": "silver",
+      "aggressive": false,
+      "element": "Dark",
+      "drops": [
+        {
+          "name": "Sack of Silver",
+          "ja": "銀貨袋",
+          "official": false
+        },
+        {
+          "name": "Sack of Gold",
+          "ja": "金貨袋",
+          "official": true
+        },
+        {
+          "name": "Sack of Riches",
+          "ja": "財宝袋",
+          "official": false
+        },
+        {
+          "name": "Treasure Bag",
+          "ja": "秘宝袋",
+          "official": false
+        },
+        {
+          "name": "Leather Strap",
+          "ja": "革ひも",
+          "official": false
+        }
+      ]
+    },
+    "peach-bee": {
+      "name": "Peach Bee",
+      "nameJa": "ももいろばち",
+      "time": "day",
+      "sleeps": "night",
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Cherry Honey",
+          "ja": "サクラはちみつ",
+          "official": false
+        },
+        {
+          "name": "Paralysis Essence",
+          "ja": "まひのもと",
+          "official": false
+        }
+      ]
+    },
+    "prairie-dragon": {
+      "name": "Prairie Dragon",
+      "crown": "gold",
+      "nameJa": "そうげんドラゴン",
+      "drops": [
+        {
+          "name": "Prairie Tear",
+          "ja": "大草原の涙",
+          "official": false
+        },
+        {
+          "name": "Light Orb",
+          "ja": "光の玉",
+          "official": false
+        }
+      ]
+    },
+    "proto-beetle-baller": {
+      "name": "Proto Beetle Baller",
+      "nameJa": "オイデマコロガシ",
+      "nameStatus": "probable"
+    },
+    "pseudo-cherry": {
+      "name": "Pseudo Cherry",
+      "nameJa": "サクラノキモドキ",
+      "crown": "silver"
+    },
+    "pseudo-oak": {
+      "name": "Pseudo Oak",
+      "nameJa": "デクノキモドキ"
+    },
+    "pyro-panther": {
+      "name": "Pyro Panther",
+      "crown": "gold",
+      "time": "night",
+      "nameJa": "ガンモエパンサー",
+      "drops": [
+        {
+          "name": "Smoldering Claw",
+          "ja": "炎獣のツメ",
+          "official": true
+        },
+        {
+          "name": "Smoldering Fang",
+          "ja": "炎獣のキバ",
+          "official": true
+        },
+        {
+          "name": "Fire Mana",
+          "ja": "炎のマナ",
+          "official": true
+        }
+      ]
+    },
+    "radishella": {
+      "name": "Radishella",
+      "nameJa": "デカブラ",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Rampaging Radish",
+          "ja": "あばれダイコン",
+          "official": false
+        }
+      ]
+    },
+    "radishy": {
+      "name": "Radishy",
+      "nameJa": "カブラ",
+      "aggressive": false
+    },
+    "razorbeak": {
+      "name": "Razorbeak",
+      "nameJa": "シャモー"
+    },
+    "red-wolf": {
+      "name": "Red Wolf",
+      "nameJa": "レッドウルフ",
+      "time": "night",
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Animal Fang",
+          "ja": "けもののキバ",
+          "official": false
+        },
+        {
+          "name": "Animal Hide",
+          "ja": "けものの皮",
+          "official": false
+        }
+      ]
+    },
+    "rock-serpent": {
+      "name": "Rock Serpent",
+      "nameJa": "オガララヘビ"
+    },
+    "rowdy-woolie": {
+      "name": "Rowdy Woolie",
+      "nameJa": "あらくれバハ・ハ"
+    },
+    "sand-golem": {
+      "name": "Sand Golem",
+      "nameJa": "サンドゴーレム",
+      "crown": "silver",
+      "time": "day",
+      "drops": [
+        {
+          "name": "Sun Shard",
+          "ja": "太陽のカケラ",
+          "official": false
+        },
+        {
+          "name": "Sandstone",
+          "ja": "砂岩",
+          "official": false
+        },
+        {
+          "name": "Topaz",
+          "ja": "トパーズ",
+          "official": true
+        }
+      ]
+    },
+    "sand-spider": {
+      "name": "Sand Spider",
+      "nameJa": "スナグモ"
+    },
+    "sandshark": {
+      "name": "Sandshark",
+      "nameJa": "スナザメ"
+    },
+    "sandzard": {
+      "name": "Sandzard",
+      "nameJa": "スナトカゲ"
+    },
+    "shadow-behemoth": {
+      "name": "Shadow Behemoth",
+      "nameJa": "ダークブヒーモス",
+      "crown": "gold",
+      "drops": [
+        {
+          "name": "Dark Fire",
+          "ja": "闇の炎",
+          "official": true
+        },
+        {
+          "name": "Mysterious Slate",
+          "ja": "謎の石板",
+          "official": true
+        }
+      ]
+    },
+    "shadow-carrotella": {
+      "name": "Shadow Carrotella",
+      "nameJa": "ダークデキャロッテ",
+      "crown": "gold",
+      "drops": [
+        {
+          "name": "Dark Fire",
+          "ja": "闇の炎",
+          "official": true
+        },
+        {
+          "name": "Mysterious Slate",
+          "ja": "謎の石板",
+          "official": true
+        },
+        {
+          "name": "Dark Carrot",
+          "ja": "闇色ニンジン",
+          "official": false
+        }
+      ]
+    },
+    "shadow-carroty": {
+      "name": "Shadow Carroty",
+      "nameJa": "ダークキャロッテ",
+      "drops": [
+        {
+          "name": "Dark Fire",
+          "ja": "闇の炎",
+          "official": true
+        },
+        {
+          "name": "Mysterious Slate",
+          "ja": "謎の石板",
+          "official": true
+        }
+      ]
+    },
+    "shadow-panther": {
+      "name": "Shadow Panther",
+      "nameJa": "ダークパンサー",
+      "crown": "silver",
+      "drops": [
+        {
+          "name": "Dark Fire",
+          "ja": "闇の炎",
+          "official": true
+        },
+        {
+          "name": "Mysterious Slate",
+          "ja": "謎の石板",
+          "official": true
+        }
+      ]
+    },
+    "shadow-spooky": {
+      "name": "Shadow Spooky",
+      "nameJa": "ダークゴースト",
+      "drops": [
+        {
+          "name": "Dark Fire",
+          "ja": "闇の炎",
+          "official": true
+        },
+        {
+          "name": "Mysterious Slate",
+          "ja": "謎の石板",
+          "official": true
+        }
+      ]
+    },
+    "shadow-tortortoise": {
+      "name": "Shadow Tortortoise",
+      "nameJa": "ダークトーストス",
+      "crown": "gold",
+      "drops": [
+        {
+          "name": "Dark Fire",
+          "ja": "闇の炎",
+          "official": true
+        },
+        {
+          "name": "Mysterious Slate",
+          "ja": "謎の石板",
+          "official": true
+        }
+      ]
+    },
+    "shadow-wolf": {
+      "name": "Shadow Wolf",
+      "nameJa": "ダークウルフ",
+      "drops": [
+        {
+          "name": "Dark Fire",
+          "ja": "闇の炎",
+          "official": true
+        },
+        {
+          "name": "Mysterious Slate",
+          "ja": "謎の石板",
+          "official": true
+        }
+      ]
+    },
+    "shooting-star-starfish": {
+      "name": "Shooting-Star Starfish",
+      "nameJa": "ながれぼしヒトデ",
+      "nameStatus": "unofficial",
+      "sleeps": "day",
+      "aggressive": false,
+      "element": "Water",
+      "drops": [
+        {
+          "name": "Sturdy Shell",
+          "ja": "じょうぶなかいがら",
+          "official": false
+        },
+        {
+          "name": "Star Thread",
+          "ja": "星糸",
+          "official": false
+        },
+        {
+          "name": "Star Shard",
+          "ja": "星のカケラ",
+          "official": false
+        }
+      ]
+    },
+    "snow-beetle-baller": {
+      "name": "Snow Beetle Baller",
+      "nameJa": "ひやひやコロガシ",
+      "aggressive": true,
+      "element": "Water",
+      "drops": [
+        {
+          "name": "Mysterious Object",
+          "ja": "ナゾの物体",
+          "official": false
+        },
+        {
+          "name": "Strange Object",
+          "ja": "不思議な物体",
+          "official": false
+        }
+      ]
+    },
+    "snowflake-bunny": {
+      "name": "Snowflake Bunny"
+    },
+    "splash-frog": {
+      "name": "Splash Frog",
+      "nameJa": "フローヘイル",
+      "nameStatus": "probable",
+      "sleeps": "night",
+      "aggressive": true,
+      "element": "Water",
+      "drops": [
+        {
+          "name": "Red Jelly",
+          "ja": "レッドジェル",
+          "official": false
+        },
+        {
+          "name": "Blue Jelly",
+          "ja": "ブルージェル",
+          "official": false
+        }
+      ]
+    },
+    "star-beetle-baller": {
+      "name": "Star Beetle Baller",
+      "nameJa": "ほしコロガシムシ",
+      "sleeps": "night",
+      "aggressive": true,
+      "element": "Light",
+      "drops": [
+        {
+          "name": "Suspicious Object",
+          "ja": "あやしい物体",
+          "official": false
+        },
+        {
+          "name": "Mysterious Object",
+          "ja": "ナゾの物体",
+          "official": false
+        }
+      ]
+    },
+    "starfish": {
+      "name": "Starfish",
+      "nameJa": "ほしヒトデ",
+      "nameStatus": "unofficial",
+      "aggressive": false,
+      "element": "Water",
+      "drops": [
+        {
+          "name": "Pretty Coral",
+          "ja": "きれいなサンゴ",
+          "official": false
+        },
+        {
+          "name": "Beautiful Coral",
+          "ja": "うつくしいサンゴ",
+          "official": false
+        },
+        {
+          "name": "Small Shell",
+          "ja": "ちいさなかいがら",
+          "official": false
+        },
+        {
+          "name": "Sturdy Shell",
+          "ja": "じょうぶなかいがら",
+          "official": false
+        }
+      ]
+    },
+    "steel-tortortoise": {
+      "name": "Steel Tortortoise",
+      "crown": "gold",
+      "nameJa": "こうてつトーストス",
+      "drops": [
+        {
+          "name": "Steel Shell",
+          "ja": "こうてつのこうら",
+          "official": false
+        },
+        {
+          "name": "Dark Orb",
+          "ja": "闇の玉",
+          "official": false
+        }
+      ]
+    },
+    "stone-golem": {
+      "name": "Stone Golem",
+      "nameJa": "ストーンゴーレム",
+      "crown": "gold",
+      "time": "day",
+      "drops": [
+        {
+          "name": "Sun Shard",
+          "ja": "太陽のカケラ",
+          "official": false
+        },
+        {
+          "name": "Ancient Core",
+          "ja": "太古の核",
+          "official": false
+        },
+        {
+          "name": "True Ancient Core",
+          "ja": "太古の真核",
+          "official": false
+        }
+      ]
+    },
+    "taurus": {
+      "name": "Taurus",
+      "nameJa": "タウロス",
+      "crown": "silver",
+      "mount": true,
+      "drops": [
+        {
+          "name": "Extra-Rich Milk",
+          "ja": "特濃ミルク",
+          "official": false
+        },
+        {
+          "name": "Fierce Bull Horn",
+          "ja": "もうぎゅうのツノ",
+          "official": false
+        }
+      ]
+    },
+    "tortortoise": {
+      "name": "Tortortoise",
+      "nameJa": "トーストス",
+      "mount": true
+    },
+    "tropic-toad": {
+      "name": "Tropic Toad",
+      "nameJa": "ナンゴクフロッグ",
+      "aggressive": true,
+      "element": "Water",
+      "drops": [
+        {
+          "name": "Yellow Jelly",
+          "ja": "イエロージェル",
+          "official": false
+        },
+        {
+          "name": "Green Jelly",
+          "ja": "グリーンジェル",
+          "official": false
+        }
+      ]
+    },
+    "tunoco-lizard": {
+      "name": "Tunoco Lizard",
+      "nameJa": "ナツココトカゲ",
+      "aggressive": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Small Tail",
+          "ja": "小さなしっぽ",
+          "official": false
+        },
+        {
+          "name": "Animal Hide",
+          "ja": "けものの皮",
+          "official": false
+        }
+      ]
+    },
+    "tunoco-quetzal": {
+      "name": "Tunoco Quetzal",
+      "crown": "gold",
+      "nameJa": "怪鳥ナツココ",
+      "drops": [
+        {
+          "name": "Vivid Plumage",
+          "ja": "極彩色の羽毛",
+          "official": false
+        },
+        {
+          "name": "Monster Bird's Treasure",
+          "ja": "怪鳥のオタカラ",
+          "official": false
+        },
+        {
+          "name": "Monster Bird Egg",
+          "ja": "怪鳥エッグ",
+          "official": false
+        }
+      ]
+    },
+    "umbral-runner": {
+      "name": "Umbral Runner",
+      "nameJa": "ブラックランナー",
+      "aggressive": false,
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Jet-Black Feather",
+          "ja": "しっこくフェザー",
+          "official": false
+        },
+        {
+          "name": "Crown Egg",
+          "ja": "おうかん卵",
+          "official": false
+        },
+        {
+          "name": "Chicken",
+          "ja": "とり肉",
+          "official": false
+        }
+      ]
+    },
+    "vampire-bat": {
+      "name": "Vampire Bat",
+      "nameJa": "キューケツコウモリ",
+      "nameStatus": "unofficial"
+    },
+    "whipweed": {
+      "name": "Whipweed",
+      "nameJa": "ムチクサ",
+      "nameStatus": "unofficial",
+      "time": "day",
+      "sleeps": "night",
+      "element": "Earth",
+      "drops": [
+        {
+          "name": "Revival Herb",
+          "ja": "そせい草",
+          "official": false
+        },
+        {
+          "name": "Paralysis Essence",
+          "ja": "まひのもと",
+          "official": false
+        }
+      ]
+    },
+    "white-runner": {
+      "name": "White Runner",
+      "nameJa": "ホワイトランナー",
+      "aggressive": false,
+      "mount": true,
+      "element": "Water",
+      "drops": [
+        {
+          "name": "Glossy Feather",
+          "ja": "つややかフェザー",
+          "official": false
+        },
+        {
+          "name": "Crown Egg",
+          "ja": "おうかん卵",
+          "official": false
+        },
+        {
+          "name": "Chicken",
+          "ja": "とり肉",
+          "official": false
+        }
+      ]
+    },
+    "white-woolie": {
+      "name": "White Woolie",
+      "nameJa": "バハ・ハ",
+      "time": "day",
+      "sleeps": "night",
+      "aggressive": false,
+      "mount": true,
+      "element": "Neutral",
+      "drops": [
+        {
+          "name": "Wool",
+          "ja": "羊毛",
+          "official": false
+        },
+        {
+          "name": "Mutton",
+          "ja": "ひつじ肉",
+          "official": false
+        }
+      ]
+    },
+    "wild-buffalo": {
+      "name": "Wild Buffalo",
+      "nameJa": "あらくれバッファロー"
+    },
+    "worker-bee": {
+      "name": "Worker Bee",
+      "nameJa": "はたらきばち",
+      "aggressive": true,
+      "element": "Wind",
+      "drops": [
+        {
+          "name": "Meadow Honey",
+          "ja": "草原はちみつ",
+          "official": false
+        },
+        {
+          "name": "Poison Essence",
+          "ja": "どくのもと",
+          "official": false
         }
       ]
     }
-  ],
+  },
   "notInGinormosia": [
     {
       "name": "Luminous Magic Ore Deposit",
@@ -4365,6 +7967,8 @@
     "Tier rolls: a deposit or tree spot rolls its Great/Superior/Amazing tier at random, and higher Area Rank raises the odds. A 'min_rank' is the earliest rank a tier has been seen, not a guaranteed spawn (GG).",
     "Gold-crown bosses and nodes appear from Area Rank 5 and have a 5-minute respawn after you defeat or gather them (kokorogu, GG).",
     "Silver-crown monsters have no cooldown; switching any tower's Area Rank or using the Anywhere Gate respawns them instantly (kokorogu).",
+    "Common monsters roam a region's open field. Many have no recorded Area Rank; most are around from Area Rank 1 (FLiDB, Gamer Guides).",
+    "Day or night monsters only appear then; some stay but sleep through the other half of the day, and won’t attack until woken (FLiDB).",
     "Legendary challenges: solo they appear at random from Area Rank 3; in multiplayer when the challenge gauge fills. Changing any tower's rank rerolls them map-wide. Legendary gathering targets give 1,000 Area Points (GG, kokorogu).",
     "Moltana Wastes and Scorchrock Mountain never spawn legendary challenges (kokorogu).",
     "Cave nodes (e.g. Agekara Cave Platinum) respawn when you leave and re-enter the cave (GameWith, Game8).",
@@ -4387,7 +7991,10 @@
     "deltias": "deltiasgaming.com – Starcrystal & Faraway Iron guides",
     "selphie": "selphie1999gaming.com – fish list",
     "wikiwiki_fl": "Fantasy Life i Strategy Wiki (wikiwiki.jp/fantasylifei) – gathering master table and region pages (Japanese)",
-    "wikiwiki_gget": "wikiwiki.jp/gget – region resource tables, levelling and farming pages (Japanese)"
+    "wikiwiki_gget": "wikiwiki.jp/gget – region resource tables, levelling and farming pages (Japanese)",
+    "hassaku": "FLiDB monster pages – hassaku74kg.com (Japanese)",
+    "gg_monsters": "Gamer Guides – All Monster Locations",
+    "gget": "gget.jp – region notes (Japanese)"
   },
   "confidenceLevels": {
     "confirmed": "2+ sources agree, or one detailed first-hand map source",

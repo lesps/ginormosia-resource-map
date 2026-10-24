@@ -29,7 +29,7 @@ describe('map', () => {
   });
 
   it('shows a dot per category the region has', () => {
-    expect([...t.pin('Moltana Wastes').querySelectorAll('.dot')].map((d) => d.dataset.cat)).toEqual(['ore', 'fish', 'boss']);
+    expect([...t.pin('Moltana Wastes').querySelectorAll('.dot')].map((d) => d.dataset.cat)).toEqual(['ore', 'fish']);
   });
 
   it('zoom buttons scale the map and report state', () => {
@@ -45,7 +45,7 @@ describe('selecting a region', () => {
     t.pin('Crickneck Canyon').click();
     expect(t.panel().querySelector('h2').textContent).toBe('Crickneck Canyon');
     expect(t.panel().textContent).toContain('Mountains northwest of the Greatgut Plains');
-    expect(headings()).toEqual(['Ore', 'Trees', 'Bosses']);
+    expect(headings()).toEqual(['Ore', 'Trees', 'Monsters']);
     expect(t.pin('Crickneck Canyon').classList.contains('sel')).toBe(true);
     expect(t.pin('Crickneck Canyon').getAttribute('aria-pressed')).toBe('true');
   });
@@ -197,6 +197,7 @@ describe('footer', () => {
     const foot = t.$('footer').textContent;
     for (const n of raw.notInGinormosia) expect(foot).toContain(n.name);
     expect(foot).toContain('fli-ginormosia.bearblog.dev');
+    expect(foot).toContain('hassaku74kg.com');
   });
 
   it('credits LEVEL-5 and disclaims affiliation', () => {
@@ -301,11 +302,6 @@ describe('resource details', () => {
     expect(scale.getAttribute('title')).toMatch(/translated from Japanese/i);
   });
 
-  it('groups monster drops by monster', () => {
-    t.pin('West Dryridge Desert').click();
-    t.entry('Silver-crown monsters').click();
-    expect(t.detail().textContent).toContain('Giant Sand Spider');
-  });
 
   it('opens the exact entry from a search result', () => {
     t.typeQuery('ruby');
@@ -328,14 +324,136 @@ describe('resource details', () => {
     expect(seen.at(-1)).toBe('#r=moltana');
   });
 
-  it('has a Bosses chip with boss type chips', () => {
-    t.chip('Bosses').click();
-    expect(t.type('Field boss')).toBeTruthy();
-    expect(t.type('Silver-crown')).toBeTruthy();
-  });
 
   it('explains how spawns work', () => {
     const box = t.$('details.mechanics');
     expect(box.querySelectorAll('li').length).toBe(raw.mechanics.length);
+  });
+});
+
+describe('monsters', () => {
+  const names = () => [...t.panel().querySelectorAll('.entry .name')].map((n) => n.textContent);
+  const toggle = () => t.panel().querySelector('.show-common');
+
+  it('has a Monsters chip whose type chips put bosses first, with their badge icons', () => {
+    t.chip('Monsters').click();
+    expect(t.$$('.type-chip').map((c) => c.dataset.type)).toEqual(['', 'Gold-crown boss', 'Silver-crown', 'Legendary', 'Challenge', 'Common']);
+    expect(t.$$('.type-chip')[0].textContent).toBe('All monsters');
+    expect(t.type('Gold-crown boss').textContent).toMatch(/^👑/);
+    expect(t.type('Challenge').textContent).toMatch(/^⚑/);
+    expect(t.type('Common').textContent).toMatch(/^Common/);
+    expect(t.chip('Bosses')).toBeUndefined();
+  });
+
+  it('lists monsters after the other resources in the All view', () => {
+    t.pin('West Greatgut Plains').click();
+    expect(headings()).toEqual(['Trees', 'Fish', 'Other', 'Monsters']);
+  });
+
+  it('summarises bosses in the region list under the Monsters chip', () => {
+    t.chip('Monsters').click();
+    const row = [...t.panel().querySelectorAll('.region-list button')].find((b) => b.textContent.includes('Crickneck Canyon'));
+    expect(row.querySelector('.dots')).toBeNull();
+    const sum = row.querySelector('.boss-count');
+    expect(sum.getAttribute('aria-label')).toBe('1 gold-crown boss, 1 silver-crown monster');
+    expect(sum.textContent.replace(/\s+/g, '')).toBe('👑1🥈1');
+  });
+
+  it('shows bosses and rare monsters in a region, with common ones one tap away', () => {
+    t.pin('Crickneck Canyon').click();
+    expect(names()).toEqual(expect.arrayContaining(['Bouldergeist', 'Mimic', 'Legendary Don Woolie', 'Goliath']));
+    expect(names()).not.toContain('White Woolie');
+    expect(toggle().textContent).toBe('Show 13 common monsters');
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+    toggle().click();
+    expect(names()).toContain('White Woolie');
+    expect(toggle().textContent).toBe('Hide common monsters');
+    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+    t.pin('Drakesnout Range').click();
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('keeps keyboard focus on the toggle and on rows across re-renders', () => {
+    t.pin('Crickneck Canyon').click();
+    toggle().focus();
+    toggle().click();
+    expect(document.activeElement).toBe(toggle());
+    t.entry('Mimic').focus();
+    t.entry('Mimic').click();
+    expect(document.activeElement).toBe(t.entry('Mimic'));
+  });
+
+  it('marks unofficial names in search results too', () => {
+    t.typeQuery('evil-spirit');
+    expect(t.panel().querySelector('.results .approx-mark')).not.toBeNull();
+  });
+
+  it('lists every monster without a toggle under the Monsters chip', () => {
+    t.chip('Monsters').click();
+    t.pin('Crickneck Canyon').click();
+    expect(names()).toHaveLength(17);
+    expect(names().slice(0, 2)).toEqual(['Bouldergeist', 'Mimic']);
+    expect(toggle()).toBeNull();
+  });
+
+  it('opens a common monster from a link even while commons are folded', () => {
+    t = mount(undefined, { hash: '#r=crickneck&e=white-woolie' });
+    expect(t.entry('White Woolie').getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('keeps common monsters listed after closing a linked or searched card', () => {
+    t = mount(undefined, { hash: '#r=crickneck&e=white-woolie' });
+    t.entry('White Woolie').click();
+    expect(names()).toContain('White Woolie');
+    expect(toggle().textContent).toBe('Hide common monsters');
+    t = mount();
+    t.typeQuery('white woolie');
+    [...t.panel().querySelectorAll('.results button')].find((b) => b.textContent.includes('Crickneck')).click();
+    expect(t.entry('White Woolie').getAttribute('aria-expanded')).toBe('true');
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(names()).toContain('White Woolie');
+  });
+
+  it('highlights every region with a type and lists it', () => {
+    t.chip('Monsters').click();
+    t.type('Legendary').click();
+    expect(t.$$('.pin.hit').map((p) => p.getAttribute('aria-label')).sort()).toEqual(['Crickneck Canyon', 'Drakeseye Valley', 'Drakesnout Range']);
+    expect(t.panel().querySelectorAll('.results button')).toHaveLength(3);
+  });
+
+  it('badges mounts and marks unofficial names, with a note in the card', () => {
+    t.pin('Crickneck Canyon').click();
+    toggle().click();
+    expect(t.entry('Tortortoise').querySelector('[data-tag="mount"]').getAttribute('aria-label')).toMatch(/mount/i);
+    t.pin('East Dryridge Desert').click();
+    const ghost = t.entry('Evil-Spirit Ghost');
+    expect(ghost.querySelector('.approx-mark')).not.toBeNull();
+    expect(t.entry('Lord of Curses').querySelector('.approx-mark')).toBeNull();
+    ghost.click();
+    const d = t.detail();
+    expect([...d.querySelectorAll('dt')].map((x) => x.textContent)).toContain('Name');
+    expect(d.textContent).toMatch(/Translated from Japanese/);
+    expect(d.textContent).not.toMatch(/Name translated/);
+  });
+
+  it('shows element and drops in a monster card', () => {
+    t.pin('Moltana Wastes').click();
+    toggle().click();
+    t.entry('Fortoise').click();
+    const d = t.detail();
+    const labels = [...d.querySelectorAll('dt')].map((x) => x.textContent);
+    expect(labels.slice(0, 3)).toEqual(['How to find', 'Drops', 'Element']);
+    expect(d.textContent).toContain('Fire');
+    expect(d.textContent).toContain('Magma Ore');
+  });
+
+  it('shows "R?" for an unrecorded rank', () => {
+    t.pin('West Greatgut Plains').click();
+    expect(t.entry('Shadow Behemoth').querySelector('.rank').textContent).toBe('R?');
+  });
+
+  it('maps an old boss link to the Monsters chip', () => {
+    t = mount(undefined, { hash: '#cat=boss' });
+    expect(t.chip('Monsters').getAttribute('aria-pressed')).toBe('true');
   });
 });

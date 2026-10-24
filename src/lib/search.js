@@ -1,6 +1,6 @@
 import { rankOrder } from './rank.js';
 
-const SEARCHABLE = { all: ['ore', 'trees', 'fish', 'boss', 'other'], ore: ['ore'], trees: ['trees'], fish: ['fish'], boss: ['boss'] };
+const SEARCHABLE = { all: ['ore', 'trees', 'fish', 'monsters', 'other'] };
 
 const cats = (category) => SEARCHABLE[category] ?? [category];
 
@@ -52,3 +52,5 @@ export function typesFor(regions, category, order = []) {
 }
 
 export const entryKey = (entry) => entry.name.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+export const isCommonMonster = (region, key) => !!region?.monsters?.some((e) => e.type === 'Common' && entryKey(e) === key);

@@ -1,10 +1,12 @@
 import { h, reducedMotion, CAT_LABEL, PIN_CATS } from './dom.js';
-import { search, entryKey } from '../lib/search.js';
+import { search, entryKey, isCommonMonster } from '../lib/search.js';
 import { formatRank, rankOrder, rankTitle } from '../lib/rank.js';
 import { highlight } from '../lib/escape.js';
 import { howToFind } from '../lib/find.js';
 
-const VIEW_CATS = { all: ['ore', 'trees', 'fish', 'boss', 'other'], ore: ['ore'], trees: ['trees'], fish: ['fish'], boss: ['boss'] };
+// Monsters go last in the All view so a long monster list doesn't bury the resources.
+const VIEW_CATS = { all: ['ore', 'trees', 'fish', 'other', 'monsters'] };
+const viewCats = (category) => VIEW_CATS[category] ?? [category];
 
 export const TAG_INFO = {
   'gold-crown': ['👑', 'Gold-crown: from Area Rank 5; respawns 5 minutes after you gather or defeat it'],
@@ -14,10 +16,18 @@ export const TAG_INFO = {
   night: ['🌙', 'Night only'],
   day: ['☀️', 'Day only'],
   cave: ['⛰️', 'In a cave'],
+  mount: ['🐴', 'Can drop a mount'],
+};
+// The badge each monster type carries, shown on its type chip too.
+export const TYPE_TAG = { 'Gold-crown boss': 'gold-crown', 'Silver-crown': 'silver-crown', Legendary: 'legendary', Challenge: 'event' };
+const NAME_NOTE = {
+  unofficial: 'Translated from Japanese; the in-game English name may differ.',
+  probable: 'Matched to an English list by region only; the in-game name may differ.',
 };
 const CONF_LABEL = { 'single-source': 'unconfirmed', disputed: 'disputed' };
 
-const rank = (r) => h('span', { class: 'rank', dataset: { rank: r }, title: rankTitle(r) }, formatRank(r));
+const rank = (r, cat) => h('span', { class: 'rank', dataset: { rank: r }, title: rankTitle(r, cat) }, formatRank(r));
+const approx = (title) => h('span', { class: 'approx-mark', title, 'aria-label': title, role: 'img' }, '≈');
 
 function badges(entry) {
   return h('span', { class: 'badges' },
@@ -33,16 +43,7 @@ function dropItem(d) {
   }, d.name, !d.official && h('span', { class: 'approx-mark', 'aria-hidden': 'true' }, '≈'));
 }
 
-function dropList(drops) {
-  const groups = new Map();
-  for (const d of drops) {
-    const k = d.from ? `${d.from}${d.when ? ` (${d.when})` : ''}` : '';
-    groups.set(k, [...(groups.get(k) ?? []), d]);
-  }
-  return h('ul', { class: 'drops' }, [...groups].map(([from, items]) => h('li', {},
-    from && h('strong', {}, `${from}: `),
-    items.flatMap((d, i) => [i ? ', ' : null, dropItem(d)]))));
-}
+const dropList = (drops) => h('p', { class: 'drops' }, drops.flatMap((d, i) => [i ? ', ' : null, dropItem(d)]));
 
 const sourceLabel = (data, k) => data.sources[k].replace(/\s*\(.*\)\s*$/, '');
 
@@ -50,12 +51,16 @@ export function createPanel(store, data) {
   const { regions } = data;
   const byId = new Map(regions.map((r) => [r.id, r]));
   const el = h('section', { id: 'panel', class: 'panel', 'aria-live': 'polite', tabindex: '-1' });
-  const select = (id, fromResults = false, openKey = null) => store.set({ selectedId: id, fromResults, openKey });
+  // Opening a common monster unfolds the region's common monsters, so closing the card leaves the row in place.
+  const select = (id, fromResults = false, openKey = null) =>
+    store.set({ selectedId: id, fromResults, openKey, ...(isCommonMonster(byId.get(id), openKey) && { commonFor: id }) });
 
   function detail(r, entry, cat, id, open) {
     const rows = [
       ['How to find', h('ol', { class: 'find' }, howToFind(entry, r, cat).map((step) => h('li', {}, step)))],
       ['Drops', entry.drops?.length && dropList(entry.drops)],
+      ['Element', entry.element],
+      ['Name', NAME_NOTE[entry.nameStatus]],
       ['Note', entry.note],
       ['Sources', entry.sources?.length && entry.sources.map((k) => sourceLabel(data, k)).join(' · ')],
     ].filter(([, v]) => v);
@@ -69,22 +74,39 @@ export function createPanel(store, data) {
     const id = `d-${r.id}-${key}`;
     return h('li', { class: open ? 'open' : null, dataset: { key } },
       h('button', {
-        class: 'entry', type: 'button', 'aria-expanded': String(open), 'aria-controls': id,
+        class: 'entry', type: 'button', 'aria-expanded': String(open), 'aria-controls': id, dataset: { focus: `entry:${key}` },
         onclick: () => store.set({ openKey: open ? null : key }),
       },
         h('span', { class: 'what' },
-          h('span', { class: 'name', html: highlight(entry.name, s.query) }),
+          h('span', { class: 'title' },
+            h('span', { class: 'name', html: highlight(entry.name, s.query) }),
+            NAME_NOTE[entry.nameStatus] && approx(NAME_NOTE[entry.nameStatus])),
           entry.where && h('span', { class: 'note clamp' }, entry.where)),
         badges(entry),
-        rank(entry.minRank),
+        rank(entry.minRank, cat),
         h('span', { class: 'chev', 'aria-hidden': 'true' })),
       detail(r, entry, cat, id, open));
   }
 
+  // In the All view, common monsters fold behind a toggle.
+  function monsterGroup(r, list, s) {
+    const common = list.filter((e) => e.type === 'Common');
+    if (s.category !== 'all' || !common.length) return { list };
+    const expanded = s.commonFor === r.id;
+    return {
+      list: expanded ? list : list.filter((e) => e.type !== 'Common'),
+      more: h('button', {
+        class: 'link show-common', type: 'button', 'aria-expanded': String(expanded), dataset: { focus: 'show-common' },
+        onclick: () => store.set({ commonFor: expanded ? null : r.id, ...(expanded && isCommonMonster(r, s.openKey) && { openKey: null }) }),
+      }, expanded ? 'Hide common monsters' : `Show ${common.length} common monster${common.length === 1 ? '' : 's'}`),
+    };
+  }
+
   function regionView(r, s) {
-    const groups = VIEW_CATS[s.category]
+    const groups = viewCats(s.category)
       .map((c) => ({ c, list: r[c].filter((e) => !s.type || e.type === s.type) }))
-      .filter((g) => g.list.length);
+      .filter((g) => g.list.length)
+      .map((g) => (g.c === 'monsters' ? { ...g, ...monsterGroup(r, g.list, s) } : g));
     const close = () => store.set({ selectedId: null, fromResults: false, openKey: null });
     return [
       h('div', { class: 'panel-head' },
@@ -99,9 +121,10 @@ export function createPanel(store, data) {
       s.type && h('p', { class: 'scope' }, `Showing ${s.type} only. `,
         h('button', { class: 'link', type: 'button', onclick: () => store.set({ type: null }) }, `Show all ${CAT_LABEL[s.category].toLowerCase()}`)),
       groups.length
-        ? groups.map(({ c, list }) => h('div', { class: 'group' },
+        ? groups.map(({ c, list, more }) => h('div', { class: 'group' },
             h('h3', {}, h('span', { class: 'dot', dataset: { cat: c } }), CAT_LABEL[c]),
-            h('ul', { class: 'entries' }, list.map((e) => entryRow(r, e, c, s)))))
+            h('ul', { class: 'entries' }, list.map((e) => entryRow(r, e, c, s))),
+            more))
         : h('p', { class: 'empty' }, `No ${s.type ?? CAT_LABEL[s.category].toLowerCase()} in this region.`),
     ];
   }
@@ -135,12 +158,24 @@ export function createPanel(store, data) {
         return h('li', {}, h('button', { type: 'button', onclick: () => select(regionId, true, entryKey(entry)) },
           h('span', { class: 'dot', dataset: { cat: category }, 'aria-hidden': 'true' }),
           h('span', { class: 'what' },
-            h('span', { class: 'name', html: highlight(entry.name, s.query) }),
-            h('span', { class: 'note' }, r.name, drop ? h('span', {}, ' · drops ', h('span', { html: highlight(drop.name, s.query) })) : entry.where ? ` · ${entry.where}` : '')),
+            h('span', { class: 'title' },
+              h('span', { class: 'name', html: highlight(entry.name, s.query) }),
+              NAME_NOTE[entry.nameStatus] && approx(NAME_NOTE[entry.nameStatus])),
+            h('span', { class: 'note clamp2' }, r.name, drop ? h('span', {}, ' · drops ', h('span', { html: highlight(drop.name, s.query) })) : entry.where ? ` · ${entry.where}` : '')),
           badges(entry),
-          rank(entry.minRank)));
+          rank(entry.minRank, category)));
       })),
     ];
+  }
+
+  function bossCount(r) {
+    const n = (type) => r.monsters.filter((e) => e.type === type).length;
+    const parts = [['Gold-crown boss', 'gold-crown boss', 'gold-crown bosses'], ['Silver-crown', 'silver-crown monster', 'silver-crown monsters']]
+      .map(([type, one, many]) => ({ tag: TYPE_TAG[type], k: n(type), label: n(type) === 1 ? one : many }))
+      .filter((p) => p.k);
+    if (!parts.length) return null;
+    return h('span', { class: 'boss-count', role: 'img', 'aria-label': parts.map((p) => `${p.k} ${p.label}`).join(', ') },
+      parts.map((p) => h('span', {}, TAG_INFO[p.tag][0], ` ${p.k}`)));
   }
 
   function idleView(s) {
@@ -153,7 +188,7 @@ export function createPanel(store, data) {
       h('ul', { class: 'region-list' }, list.map((r) => h('li', {},
         h('button', { type: 'button', onclick: () => select(r.id) },
           h('span', { class: 'what' }, h('span', { class: 'name' }, r.name), h('span', { class: 'note' }, r.where)),
-          h('span', { class: 'dots', 'aria-hidden': 'true' },
+          s.category === 'monsters' ? bossCount(r) : h('span', { class: 'dots', 'aria-hidden': 'true' },
             PIN_CATS.filter((c) => r[c].length).map((c) => h('span', { class: 'dot', dataset: { cat: c }, title: `${r[c].length} ${CAT_LABEL[c].toLowerCase()}` }))))))),
     ];
   }
@@ -161,7 +196,9 @@ export function createPanel(store, data) {
   function render(s, prev) {
     const r = s.selectedId && byId.get(s.selectedId);
     const active = s.query.trim() || s.type;
+    const focused = el.contains(document.activeElement) && document.activeElement.dataset.focus;
     el.replaceChildren(...[r ? regionView(r, s) : active ? resultsView(s) : idleView(s)].flat(3).filter(Boolean));
+    if (focused) el.querySelector(`[data-focus="${focused}"]`)?.focus({ preventScroll: true });
     const behavior = reducedMotion() ? 'auto' : 'smooth';
     if (r && s.openKey && (!prev || prev.openKey !== s.openKey || prev.selectedId !== s.selectedId)) {
       el.querySelector(`li[data-key="${s.openKey}"]`)?.scrollIntoView?.({ behavior, block: 'nearest' });
