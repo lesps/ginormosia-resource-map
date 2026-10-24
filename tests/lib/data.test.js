@@ -180,6 +180,13 @@ describe('validateRegions', () => {
     expect(() => validateRegions(d)).toThrow(/drop/);
   });
 
+  it('lists each landmark once per region', () => {
+    for (const r of raw.regions) {
+      const l = (r.landmarks ?? []).map((s) => s.toLowerCase());
+      for (const a of l) expect(l.filter((b) => b.includes(a)), `${r.id}: ${a}`).toHaveLength(1);
+    }
+  });
+
   it('rejects duplicate entry names within a region', () => {
     const d = clone();
     d.regions[0].ore.push({ ...d.regions[0].ore[0] });

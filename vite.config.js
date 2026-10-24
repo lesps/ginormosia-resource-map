@@ -13,7 +13,7 @@ export default defineConfig({
       manifest: {
         name: 'Ginormosia Resource Map',
         short_name: 'Ginormosia',
-        description: 'Where every ore, tree and fish spawns in Ginormosia (Fantasy Life i). Works offline.',
+        description: 'Where every ore, tree, fish and monster spawns in Ginormosia (Fantasy Life i). Works offline.',
         display: 'standalone',
         orientation: 'portrait',
         start_url: base,

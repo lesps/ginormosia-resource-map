@@ -2,7 +2,7 @@
 
 A phone-first, installable, offline web app showing where every gatherable resource (ore, trees, fish) and monster spawns in Ginormosia, the open-world continent in *Fantasy Life i: The Girl Who Steals Time*.
 
-Live: `https://<user>.github.io/ginormosia-resource-map/` (once Pages is enabled; see Hosting).
+Live: `https://lesps.github.io/ginormosia-resource-map/`
 
 ## Features
 
