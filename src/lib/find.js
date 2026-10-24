@@ -1,10 +1,24 @@
 // Turns an entry's rank, location, tags and conditions into ordered "how to find" steps.
 // Spawn rules come from the guide's mechanics notes (data.mechanics).
+import { lowestRank } from './ranks.js';
+
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
 const end = (s) => (/[.!?]$/.test(s) ? s : `${s}.`);
 
-function rankStep(rank, region, entry, category) {
+// With your unlocked rank known, say what to do with the tower; otherwise describe the rank itself.
+function yourRankStep(rank, region, entry, unlocked, tower) {
+  const n = lowestRank(rank);
+  if (entry.maxRank && unlocked > +entry.maxRank) return `Gone above R${entry.maxRank}: set ${tower} to R${entry.maxRank} or lower to find it.`;
+  if (n > unlocked) return `Needs Area Rank ${n} here; you’ve unlocked R${unlocked}. Raise ${region.name} at ${tower}.`;
+  if (rank === '1 or 5' && unlocked < 5) return `Sources disagree (R1 or R5). Try it at R${unlocked}; if it doesn’t show, it needs R5.`;
+  if (n >= 2) return `You’ve unlocked R${unlocked} here, so set ${tower} to R${n} or higher.`;
+  return null;
+}
+
+function rankStep(rank, region, entry, category, unlocked) {
   const tower = region.tower ?? 'the region’s tower';
+  const yours = unlocked && rank !== '-' && yourRankStep(rank, region, entry, unlocked, tower);
+  if (yours) return yours;
   if (/^\d$/.test(rank)) return rank === '1' ? 'Available from Area Rank 1, so no rank change is needed.' : `Raise ${region.name} to Area Rank ${rank} at ${tower}.`;
   if (rank === '3+') return `Set ${tower} to Area Rank 3 or higher.`;
   if (rank === 'any') return 'Spawns at every Area Rank.';
@@ -55,11 +69,11 @@ function spawnStep(type, region, possessive, category, event) {
 
 const challengeName = (event) => event.replace(/^(an?|the) /, '');
 
-export function howToFind(entry, region, category) {
+export function howToFind(entry, region, category, { unlocked } = {}) {
   const tags = entry.tags ?? [];
   const { event, extras } = splitConditions(entry.conditions);
   const verb = category === 'fish' ? 'catch it' : category === 'monsters' ? 'defeat it' : 'gather it';
-  const steps = [rankStep(entry.minRank, region, entry, category)];
+  const steps = [rankStep(entry.minRank, region, entry, category, unlocked)];
 
   const possessive = region.name.endsWith('s') ? `${region.name}’` : `${region.name}’s`;
   const named = entry.spawnType === 'area-challenge' && !entry.where && event && event !== 'event';
@@ -78,7 +92,7 @@ export function howToFind(entry, region, category) {
   if (tags.includes('day')) steps.push('Go during the day.');
   if (entry.sleeps) steps.push(entry.sleeps === 'day' ? 'Sleeps during the day; it’s awake at night.' : 'Sleeps at night; it’s awake during the day.');
   if (entry.aggressive !== undefined) steps.push(entry.aggressive ? 'Attacks on sight.' : 'Won’t attack unless you strike first.');
-  if (entry.maxRank) steps.push(`Only up to Area Rank ${entry.maxRank}; it’s gone from Rank ${+entry.maxRank + 1}.`);
+  if (entry.maxRank && !(unlocked > +entry.maxRank)) steps.push(`Only up to Area Rank ${entry.maxRank}; it’s gone from Rank ${+entry.maxRank + 1}.`);
   if (tags.includes('mount')) steps.push('Can drop a mount.');
   if (tags.includes('cave') && (category === 'ore' || category === 'trees') && !/re-enter/.test(entry.where ?? '')) steps.push('Cave nodes respawn when you leave and re-enter the cave.');
   if ((category === 'ore' || category === 'trees') && /^(Great|Superior|Amazing) /.test(entry.name) && !tags.includes('gold-crown') && entry.spawnType !== 'tier-roll') {

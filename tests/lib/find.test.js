@@ -144,3 +144,32 @@ describe('howToFind for monsters', () => {
     expect(steps('moltana', 'Mohawkasaurus')).toMatch(/respawns 5 minutes after you defeat it/);
   });
 });
+
+describe('howToFind with your unlocked rank', () => {
+  const s = (id, name, unlocked) => howToFind(entry(id, name), region(id), entry(id, name).category, { unlocked }).join('\n');
+
+  it('says when an entry needs a higher rank than you have', () => {
+    expect(s('moltana', 'Golemstone', 3)).toContain('Needs Area Rank 5 here; you’ve unlocked R3. Raise Moltana Wastes at Googlisha\'s Tower.');
+  });
+
+  it('tells you to set the tower when you already have the rank', () => {
+    expect(s('moltana', 'Golemstone', 6)).toContain('You’ve unlocked R6 here, so set Googlisha\'s Tower to R5 or higher.');
+    expect(s('moltana', 'Platinum Deposit', 6)).toContain('Available from Area Rank 1');
+  });
+
+  it('tells you to set the tower down for an entry that disappears at higher ranks', () => {
+    const t = s('wingtip', 'Forest Panther', 5);
+    expect(t).toContain('Gone above R4: set Googloria\'s Tower to R4 or lower to find it.');
+    expect(t).not.toMatch(/it’s gone from Rank 5/);
+    expect(s('wingtip', 'Forest Panther', 3)).toMatch(/it’s gone from Rank 5/);
+  });
+
+  it('tries your rank first when sources disagree', () => {
+    expect(s('drakesnout', 'Coldwater Tuna', 2)).toContain('Sources disagree (R1 or R5). Try it at R2; if it doesn’t show, it needs R5.');
+  });
+
+  it('keeps today’s text when the rank is unset or unknown', () => {
+    expect(s('moltana', 'Golemstone', undefined)).toContain('Raise Moltana Wastes to Area Rank 5');
+    expect(s('viridia', 'Golemstone', 3)).toMatch(/rank isn’t recorded/i);
+  });
+});

@@ -7,7 +7,7 @@ export function createControls(store, regions, typeOrder = {}) {
   const input = h('input', {
     id: 'q', type: 'search', placeholder: 'Search, e.g. Platinum or Mimic',
     'aria-label': 'Find a resource', autocomplete: 'off', enterkeyhint: 'search',
-    oninput: (e) => store.set({ query: e.target.value, selectedId: null, fromResults: false, openKey: null }),
+    oninput: (e) => store.set({ query: e.target.value, selectedId: null, fromResults: false, openKey: null, mine: false }),
   });
   const clear = h('button', {
     class: 'clear', type: 'button', 'aria-label': 'Clear search', hidden: true,
@@ -19,7 +19,7 @@ export function createControls(store, regions, typeOrder = {}) {
       class: 'chip', type: 'button', dataset: { cat },
       onclick: () => {
         const s = store.get();
-        if (s.category !== cat) store.set({ category: cat, type: null, fromResults: s.fromResults && !s.type });
+        if (s.category !== cat || s.mine) store.set({ category: cat, type: null, fromResults: s.fromResults && !s.type, mine: false });
       },
     }, cat !== 'all' && h('span', { class: 'dot', dataset: { cat } }), cat === 'all' ? 'All' : CAT_LABEL[cat]));
 
@@ -39,13 +39,13 @@ export function createControls(store, regions, typeOrder = {}) {
       renderedCat = s.category;
       const types = typesFor(regions, s.category, typeOrder[s.category]);
       typeRow.replaceChildren(...(types.length ? [
-        h('button', { class: 'type-chip', type: 'button', dataset: { type: '' }, onclick: () => store.set({ type: null }) },
+        h('button', { class: 'type-chip', type: 'button', dataset: { type: '' }, onclick: () => store.set({ type: null, mine: false }) },
           `All ${CAT_LABEL[s.category].toLowerCase()}`),
         ...types.map(({ type, regions: n, minRank }) =>
           h('button', {
             class: 'type-chip', type: 'button', dataset: { type },
             title: `${type}: ${n} region${n === 1 ? '' : 's'}, from ${formatRank(minRank)}`,
-            onclick: () => store.set({ type: store.get().type === type ? null : type, selectedId: null, fromResults: false, openKey: null }),
+            onclick: () => store.set({ type: store.get().type === type ? null : type, selectedId: null, fromResults: false, openKey: null, mine: false }),
           }, s.category === 'monsters' && TYPE_TAG[type] && h('span', { 'aria-hidden': 'true' }, TAG_INFO[TYPE_TAG[type]][0]),
           type, h('span', { class: 'n', 'aria-label': `${n} regions` }, String(n)))),
       ] : []));

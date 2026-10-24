@@ -1,5 +1,6 @@
 import { h, reducedMotion, PIN_CATS } from './dom.js';
 import { regionHasCategory, search } from '../lib/search.js';
+import { availability } from '../lib/ranks.js';
 
 export const ZOOMS = [1, 2, 3];
 
@@ -9,7 +10,10 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
     h('img', { src: imageSrc, alt: imageAlt, width, height, decoding: 'async', draggable: 'false' }));
 
   for (const r of regions) {
-    const select = () => store.get().selectedId !== r.id && store.set({ selectedId: r.id, fromResults: false, openKey: null });
+    const select = () => {
+      const s = store.get();
+      if (s.selectedId !== r.id || s.mine) store.set({ selectedId: r.id, fromResults: false, openKey: null, mine: false });
+    };
     const pin = h('button', {
       class: 'pin', type: 'button', 'aria-label': r.name, 'aria-pressed': 'false', dataset: { id: r.id },
       style: `left:${+(r.pin.x * 100).toFixed(3)}%;top:${+(r.pin.y * 100).toFixed(3)}%`,
@@ -45,18 +49,24 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
   function render(s, prev) {
     const active = !!(s.query.trim() || s.type);
     const counts = new Map();
-    for (const m of search(regions, s.query, s.category, s.type)) counts.set(m.regionId, (counts.get(m.regionId) ?? 0) + 1);
+    const above = new Map(); // matches that need a higher rank than yours
+    for (const m of search(regions, s.query, s.category, s.type)) {
+      counts.set(m.regionId, (counts.get(m.regionId) ?? 0) + 1);
+      if (availability(m.entry, s.ranks?.[m.regionId]) === 'locked') above.set(m.regionId, (above.get(m.regionId) ?? 0) + 1);
+    }
     for (const r of regions) {
       const pin = pins.get(r.id);
       const hit = counts.has(r.id);
       const dim = active ? !hit : !regionHasCategory(r, s.category);
+      const n = counts.get(r.id);
+      const locked = hit && above.get(r.id) === n;
       pin.classList.toggle('hit', hit);
+      pin.classList.toggle('locked', locked);
       pin.classList.toggle('dim', dim && r.id !== s.selectedId);
       pin.classList.toggle('sel', r.id === s.selectedId);
       pin.setAttribute('aria-pressed', String(r.id === s.selectedId));
-      pin.querySelector('.count').textContent = hit ? String(counts.get(r.id)) : '';
-      const n = counts.get(r.id);
-      if (hit) pin.setAttribute('aria-description', `${n} match${n === 1 ? '' : 'es'}`);
+      pin.querySelector('.count').textContent = hit ? `${locked ? '🔒' : ''}${n}` : '';
+      if (hit) pin.setAttribute('aria-description', `${n} match${n === 1 ? '' : 'es'}${locked ? ', all need a higher rank' : ''}`);
       else pin.removeAttribute('aria-description');
     }
     inner.dataset.zoom = String(s.zoom);

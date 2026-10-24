@@ -4,21 +4,36 @@ import { createControls } from './controls.js';
 import { createMap } from './map.js';
 import { createPanel, TAG_INFO } from './panel.js';
 import { loadRegions, CATEGORIES } from '../lib/data.js';
-import { search, typesFor, entryKey, isCommonMonster } from '../lib/search.js';
+import { search, typesFor, entryKey, isCommonMonster, findEntry } from '../lib/search.js';
 import { toHash, fromHash } from '../lib/hash.js';
+import { availability, sanitizeRanks } from '../lib/ranks.js';
+import { createStorage } from './storage.js';
 
-export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
+export const RANKS_KEY = 'gnm:ranks:v1';
+
+export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = createStorage() } = {}) {
   const data = loadRegions(json);
   const { regions } = data;
+  const regionById = (id) => regions.find((r) => r.id === id);
   const valid = {
     categories: FILTERS,
     regionIds: regions.map((r) => r.id),
     types: Object.fromEntries(FILTERS.slice(1).map((c) => [c, typesFor(regions, c, data.typeOrder[c]).map((t) => t.type)])),
     entries: Object.fromEntries(regions.map((r) => [r.id, CATEGORIES.flatMap((c) => r[c].map(entryKey))])),
   };
-  // A linked common monster unfolds its region's common monsters (see panel.js monsterGroup).
-  const withCommon = (s) => ({ ...s, commonFor: isCommonMonster(regions.find((r) => r.id === s.selectedId), s.openKey) ? s.selectedId : null });
-  const store = createStore({ ...withCommon(fromHash(hash, valid)), zoom: 1, fromResults: false });
+  // A linked common monster, or one above your rank, unfolds its list (see panel.js monsterGroup / lockedFold).
+  const withFolds = (s, ranks) => {
+    const r = regionById(s.selectedId);
+    const e = findEntry(r, s.openKey);
+    return {
+      ...s,
+      commonFor: isCommonMonster(r, s.openKey) ? s.selectedId : null,
+      lockedFor: e && availability(e, ranks[r.id]) === 'locked' ? s.selectedId : null,
+    };
+  };
+  const ranks = sanitizeRanks(storage.get(RANKS_KEY, {}), valid.regionIds);
+  const store = createStore({ ...withFolds(fromHash(hash, valid), ranks), ranks, mine: false, zoom: 1, fromResults: false });
+  store.subscribe((s, prev) => { if (s.ranks !== prev.ranks) storage.set(RANKS_KEY, s.ranks); });
 
   const controls = createControls(store, regions, data.typeOrder);
   const map = createMap(store, regions, {
@@ -28,6 +43,8 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
     height: data.image.height,
   });
   const panel = createPanel(store, data);
+
+  const myGame = h('button', { class: 'mygame', type: 'button', 'aria-pressed': 'false', onclick: () => store.set({ mine: !store.get().mine }) }, 'My game');
 
   const jump = h('button', {
     class: 'jump', type: 'button', hidden: true,
@@ -40,7 +57,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
       h('div', { class: 'titles' },
         h('h1', {}, 'Ginormosia Resource Map'),
         h('p', { class: 'sub' }, 'Where every ore, tree, fish and monster spawns. Ranks are the Area Rank a spawn starts at.')),
-      h('div', { class: 'top-actions', id: 'top-actions' })),
+      h('div', { class: 'top-actions', id: 'top-actions' }, myGame)),
     controls.el,
     h('main', { class: 'layout' }, map.el, panel.el),
     h('footer', { class: 'foot' },
@@ -67,6 +84,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
   }
 
   const render = (s, prev) => {
+    myGame.setAttribute('aria-pressed', String(s.mine));
     controls.render(s);
     map.render(s, prev);
     panel.render(s, prev);
@@ -92,14 +110,15 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
       controls.input.focus();
     } else if (e.key === 'Escape') {
       const s = store.get();
-      if (s.openKey) store.set({ openKey: null });
+      if (s.mine) store.set({ mine: false });
+      else if (s.openKey) store.set({ openKey: null });
       else if (s.selectedId) store.set({ selectedId: null, fromResults: false });
       else if (s.query || s.type) store.set({ query: '', type: null });
     }
   }, { signal: ac.signal });
 
   const applyHash = (h) => {
-    if (h !== toHash(store.get())) store.set({ ...withCommon(fromHash(h, valid)), fromResults: false });
+    if (h !== toHash(store.get())) store.set({ ...withFolds(fromHash(h, valid), store.get().ranks), fromResults: false });
   };
 
   return { store, applyHash, actions: root.querySelector('#top-actions'), destroy: () => ac.abort() };
