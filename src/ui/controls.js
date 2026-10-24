@@ -1,10 +1,11 @@
 import { h, CAT_LABEL, FILTERS } from './dom.js';
 import { typesFor } from '../lib/search.js';
 import { formatRank } from '../lib/rank.js';
+import { TAG_INFO, TYPE_TAG } from './panel.js';
 
 export function createControls(store, regions, typeOrder = {}) {
   const input = h('input', {
-    id: 'q', type: 'search', placeholder: 'Search, e.g. Platinum or Skytree',
+    id: 'q', type: 'search', placeholder: 'Search, e.g. Platinum or Mimic',
     'aria-label': 'Find a resource', autocomplete: 'off', enterkeyhint: 'search',
     oninput: (e) => store.set({ query: e.target.value, selectedId: null, fromResults: false, openKey: null }),
   });
@@ -45,7 +46,8 @@ export function createControls(store, regions, typeOrder = {}) {
             class: 'type-chip', type: 'button', dataset: { type },
             title: `${type}: ${n} region${n === 1 ? '' : 's'}, from ${formatRank(minRank)}`,
             onclick: () => store.set({ type: store.get().type === type ? null : type, selectedId: null, fromResults: false, openKey: null }),
-          }, type, h('span', { class: 'n', 'aria-label': `${n} regions` }, String(n)))),
+          }, s.category === 'monsters' && TYPE_TAG[type] && h('span', { 'aria-hidden': 'true' }, TAG_INFO[TYPE_TAG[type]][0]),
+          type, h('span', { class: 'n', 'aria-label': `${n} regions` }, String(n)))),
       ] : []));
       typeRow.hidden = !types.length;
     }

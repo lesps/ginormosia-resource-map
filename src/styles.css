@@ -222,6 +222,7 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 .group { margin-top: 12px; }
 .group h3 { font: 700 .95rem var(--font-body); margin: 0 0 4px; display: flex; align-items: center; gap: 8px; }
 .group h3 .dot { width: 12px; height: 12px; }
+.boss-count { flex: none; display: inline-flex; gap: 10px; font-size: .85rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
 .show-common { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; }
 .panel ul { list-style: none; margin: 0; padding: 0; }
 .panel li { border-top: 1px solid var(--line); }
@@ -233,7 +234,8 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 }
 .entry:hover { background: var(--soft); }
 .entries li.open > .entry { background: var(--soft); border-radius: 10px 10px 0 0; }
-.clamp { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp, .clamp2 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp2 { -webkit-line-clamp: 2; }
 .chev { flex: none; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); rotate: 45deg; margin: 0 4px 4px; transition: rotate .15s ease; }
 .entry[aria-expanded='true'] .chev { rotate: 225deg; margin-bottom: -4px; }
 .badges { display: inline-flex; gap: 4px; align-items: center; flex: none; flex-wrap: wrap; justify-content: flex-end; max-width: 45%; }
@@ -249,7 +251,6 @@ h1, h2 { font-family: var(--font-head); font-weight: 600; }
 @media (max-width: 420px) { .detail dl { grid-template-columns: 1fr; gap: 0; } .detail dd { margin-bottom: 6px; } }
 .drops { margin: 0; }
 .approx-mark { color: var(--muted); font-size: .8em; margin-left: 2px; }
-.drop.approx { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; }
 .find { margin: 0; padding-left: 1.3em; }
 .find li { border: 0 !important; padding: 0 0 4px; }
 .region-info { font-size: .9rem; margin: 0 0 6px; }

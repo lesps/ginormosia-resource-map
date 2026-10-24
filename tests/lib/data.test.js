@@ -78,8 +78,8 @@ describe('monsters', () => {
     expect(() => validateRegions(f)).toThrow(/maxRank "top"/);
   });
 
-  it('orders type chips Common, Silver-crown, Gold-crown boss, Legendary, Challenge', () => {
-    expect(raw.typeOrder.monsters).toEqual(['Common', 'Silver-crown', 'Gold-crown boss', 'Legendary', 'Challenge']);
+  it('orders type chips bosses first: Gold-crown boss, Silver-crown, Legendary, Challenge, Common', () => {
+    expect(raw.typeOrder.monsters).toEqual(['Gold-crown boss', 'Silver-crown', 'Legendary', 'Challenge', 'Common']);
   });
 });
 

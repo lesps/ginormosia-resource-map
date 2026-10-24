@@ -81,11 +81,11 @@
       "Lordfish"
     ],
     "monsters": [
-      "Common",
-      "Silver-crown",
       "Gold-crown boss",
+      "Silver-crown",
       "Legendary",
-      "Challenge"
+      "Challenge",
+      "Common"
     ],
     "other": [
       "Crops",

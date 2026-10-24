@@ -335,11 +335,28 @@ describe('monsters', () => {
   const names = () => [...t.panel().querySelectorAll('.entry .name')].map((n) => n.textContent);
   const toggle = () => t.panel().querySelector('.show-common');
 
-  it('has a Monsters chip whose type chips run Common → Challenge', () => {
+  it('has a Monsters chip whose type chips put bosses first, with their badge icons', () => {
     t.chip('Monsters').click();
-    expect(t.$$('.type-chip').map((c) => c.dataset.type)).toEqual(['', 'Common', 'Silver-crown', 'Gold-crown boss', 'Legendary', 'Challenge']);
+    expect(t.$$('.type-chip').map((c) => c.dataset.type)).toEqual(['', 'Gold-crown boss', 'Silver-crown', 'Legendary', 'Challenge', 'Common']);
     expect(t.$$('.type-chip')[0].textContent).toBe('All monsters');
+    expect(t.type('Gold-crown boss').textContent).toMatch(/^👑/);
+    expect(t.type('Challenge').textContent).toMatch(/^⚑/);
+    expect(t.type('Common').textContent).toMatch(/^Common/);
     expect(t.chip('Bosses')).toBeUndefined();
+  });
+
+  it('lists monsters after the other resources in the All view', () => {
+    t.pin('West Greatgut Plains').click();
+    expect(headings()).toEqual(['Trees', 'Fish', 'Other', 'Monsters']);
+  });
+
+  it('summarises bosses in the region list under the Monsters chip', () => {
+    t.chip('Monsters').click();
+    const row = [...t.panel().querySelectorAll('.region-list button')].find((b) => b.textContent.includes('Crickneck Canyon'));
+    expect(row.querySelector('.dots')).toBeNull();
+    const sum = row.querySelector('.boss-count');
+    expect(sum.getAttribute('aria-label')).toBe('1 gold-crown boss, 1 silver-crown monster');
+    expect(sum.textContent.replace(/\s+/g, '')).toBe('👑1🥈1');
   });
 
   it('shows bosses and rare monsters in a region, with common ones one tap away', () => {
@@ -415,7 +432,8 @@ describe('monsters', () => {
     ghost.click();
     const d = t.detail();
     expect([...d.querySelectorAll('dt')].map((x) => x.textContent)).toContain('Name');
-    expect(d.textContent).toMatch(/translated from Japanese/i);
+    expect(d.textContent).toMatch(/Translated from Japanese/);
+    expect(d.textContent).not.toMatch(/Name translated/);
   });
 
   it('shows element and drops in a monster card', () => {

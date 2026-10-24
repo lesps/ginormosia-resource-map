@@ -4,7 +4,8 @@ import { formatRank, rankOrder, rankTitle } from '../lib/rank.js';
 import { highlight } from '../lib/escape.js';
 import { howToFind } from '../lib/find.js';
 
-const VIEW_CATS = { all: ['ore', 'trees', 'fish', 'monsters', 'other'] };
+// Monsters go last in the All view so a long monster list doesn't bury the resources.
+const VIEW_CATS = { all: ['ore', 'trees', 'fish', 'other', 'monsters'] };
 const viewCats = (category) => VIEW_CATS[category] ?? [category];
 
 export const TAG_INFO = {
@@ -17,9 +18,11 @@ export const TAG_INFO = {
   cave: ['⛰️', 'In a cave'],
   mount: ['🐴', 'Can drop a mount'],
 };
+// The badge each monster type carries, shown on its type chip too.
+export const TYPE_TAG = { 'Gold-crown boss': 'gold-crown', 'Silver-crown': 'silver-crown', Legendary: 'legendary', Challenge: 'event' };
 const NAME_NOTE = {
-  unofficial: 'Name translated from Japanese; the in-game English name may differ.',
-  probable: 'English name matched from another source by region only; it may differ in game.',
+  unofficial: 'Translated from Japanese; the in-game English name may differ.',
+  probable: 'Matched to an English list by region only; the in-game name may differ.',
 };
 const CONF_LABEL = { 'single-source': 'unconfirmed', disputed: 'disputed' };
 
@@ -158,11 +161,21 @@ export function createPanel(store, data) {
             h('span', { class: 'title' },
               h('span', { class: 'name', html: highlight(entry.name, s.query) }),
               NAME_NOTE[entry.nameStatus] && approx(NAME_NOTE[entry.nameStatus])),
-            h('span', { class: 'note' }, r.name, drop ? h('span', {}, ' · drops ', h('span', { html: highlight(drop.name, s.query) })) : entry.where ? ` · ${entry.where}` : '')),
+            h('span', { class: 'note clamp2' }, r.name, drop ? h('span', {}, ' · drops ', h('span', { html: highlight(drop.name, s.query) })) : entry.where ? ` · ${entry.where}` : '')),
           badges(entry),
           rank(entry.minRank, category)));
       })),
     ];
+  }
+
+  function bossCount(r) {
+    const n = (type) => r.monsters.filter((e) => e.type === type).length;
+    const parts = [['Gold-crown boss', 'gold-crown boss', 'gold-crown bosses'], ['Silver-crown', 'silver-crown monster', 'silver-crown monsters']]
+      .map(([type, one, many]) => ({ tag: TYPE_TAG[type], k: n(type), label: n(type) === 1 ? one : many }))
+      .filter((p) => p.k);
+    if (!parts.length) return null;
+    return h('span', { class: 'boss-count', role: 'img', 'aria-label': parts.map((p) => `${p.k} ${p.label}`).join(', ') },
+      parts.map((p) => h('span', {}, TAG_INFO[p.tag][0], ` ${p.k}`)));
   }
 
   function idleView(s) {
@@ -175,7 +188,7 @@ export function createPanel(store, data) {
       h('ul', { class: 'region-list' }, list.map((r) => h('li', {},
         h('button', { type: 'button', onclick: () => select(r.id) },
           h('span', { class: 'what' }, h('span', { class: 'name' }, r.name), h('span', { class: 'note' }, r.where)),
-          h('span', { class: 'dots', 'aria-hidden': 'true' },
+          s.category === 'monsters' ? bossCount(r) : h('span', { class: 'dots', 'aria-hidden': 'true' },
             PIN_CATS.filter((c) => r[c].length).map((c) => h('span', { class: 'dot', dataset: { cat: c }, title: `${r[c].length} ${CAT_LABEL[c].toLowerCase()}` }))))))),
     ];
   }
