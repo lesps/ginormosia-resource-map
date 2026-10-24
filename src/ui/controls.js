@@ -1,8 +1,6 @@
-import { h, CAT_LABEL } from './dom.js';
+import { h, CAT_LABEL, FILTERS } from './dom.js';
 import { typesFor } from '../lib/search.js';
 import { formatRank } from '../lib/rank.js';
-
-const FILTERS = ['all', 'ore', 'trees', 'fish', 'boss'];
 
 export function createControls(store, regions, typeOrder = {}) {
   const input = h('input', {

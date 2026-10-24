@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { toHash, fromHash } from '../../src/lib/hash.js';
 
-const valid = { categories: ['all', 'ore', 'trees', 'fish', 'boss'], regionIds: ['moltana'], types: { ore: ['Platinum'] }, entries: { moltana: ['golemstone'] } };
+const valid = { categories: ['all', 'ore', 'trees', 'fish', 'monsters'], regionIds: ['moltana'], types: { ore: ['Platinum'] }, entries: { moltana: ['golemstone'] } };
 
 describe('hash state', () => {
   it('round-trips', () => {
@@ -16,5 +16,8 @@ describe('hash state', () => {
     expect(fromHash('#r=moltana&e=nope', valid).openKey).toBeNull();
     expect(fromHash('#e=golemstone', valid).openKey).toBeNull();
     expect(fromHash('#cat=trees&type=Platinum', valid).type).toBeNull();
+  });
+  it('maps the old boss category to monsters', () => {
+    expect(fromHash('#cat=boss&type=Field%20boss', valid)).toMatchObject({ category: 'monsters', type: null });
   });
 });

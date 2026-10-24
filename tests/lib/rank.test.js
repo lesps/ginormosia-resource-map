@@ -4,7 +4,7 @@ import { formatRank, rankOrder, rankTitle, RANKS } from '../../src/lib/rank.js';
 describe('formatRank', () => {
   it.each([
     ['1', 'R1'], ['2', 'R2'], ['3', 'R3'], ['4', 'R4'], ['5', 'R5'], ['6', 'R6'],
-    ['any', 'any rank'], ['top', 'top rank'], ['3+', 'R3+'], ['-', 'rank n/a'], ['1 or 5', 'R1 or R5'],
+    ['any', 'any rank'], ['top', 'top rank'], ['3+', 'R3+'], ['-', 'R?'], ['1 or 5', 'R1 or R5'],
   ])('%s → %s', (input, out) => expect(formatRank(input)).toBe(out));
 
   it('covers every allowed rank', () => {
@@ -18,6 +18,11 @@ describe('rankTitle', () => {
   it('explains that a rank is when a node is first seen', () => {
     expect(rankTitle('3')).toBe('First seen from Area Rank 3; higher tiers roll at random');
     expect(rankTitle('-')).toMatch(/not recorded/);
+  });
+
+  it('drops the tier wording for monsters', () => {
+    expect(rankTitle('5', 'monsters')).toBe('Appears from Area Rank 5');
+    expect(rankTitle('3+', 'monsters')).toBe('Appears from Area Rank 3');
   });
 });
 

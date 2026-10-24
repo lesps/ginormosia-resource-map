@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import raw from '../../data/regions.json';
-import { search, regionHasCategory, regionMatches, typesFor, entryKey } from '../../src/lib/search.js';
+import { search, regionHasCategory, regionMatches, typesFor, entryKey, isCommonMonster } from '../../src/lib/search.js';
+import { loadRegions } from '../../src/lib/data.js';
 
-const regions = raw.regions;
+const { regions } = loadRegions(raw);
 const byId = (id) => regions.find((r) => r.id === id);
 const ids = (res) => [...new Set(res.map((m) => m.regionId))].sort();
 
@@ -50,10 +51,16 @@ describe('search', () => {
 });
 
 describe('search over details', () => {
-  it('finds bosses under "all" and "boss"', () => {
+  it('finds monsters under "all" and "monsters"', () => {
     expect(ids(search(regions, 'napdragon', 'all'))).toContain('wgg');
-    expect(search(regions, 'napdragon', 'boss').every((m) => m.category === 'boss')).toBe(true);
+    expect(search(regions, 'napdragon', 'monsters').every((m) => m.category === 'monsters')).toBe(true);
     expect(search(regions, 'napdragon', 'ore').every((m) => m.drop)).toBe(true);
+  });
+
+  it('finds monsters by drop and by type', () => {
+    const fleece = search(regions, "sheep king's fleece", 'monsters');
+    expect(fleece.map((m) => [m.regionId, m.entry.name])).toEqual([['wgg', 'King Woolie']]);
+    expect(ids(search(regions, '', 'monsters', 'Legendary'))).toEqual(['crickneck', 'drakeseye', 'drakesnout']);
   });
 
   it('matches drop names and reports which drop matched', () => {
@@ -77,6 +84,15 @@ describe('entryKey', () => {
   it('slugs names', () => {
     expect(entryKey({ name: "Dragon's Claw" })).toBe('dragons-claw');
     expect(entryKey({ name: 'Oak / Great Oak Tree' })).toBe('oak-great-oak-tree');
+  });
+});
+
+describe('isCommonMonster', () => {
+  it('is true only for a common monster key in that region', () => {
+    expect(isCommonMonster(byId('crickneck'), 'white-woolie')).toBe(true);
+    expect(isCommonMonster(byId('crickneck'), 'mimic')).toBe(false);
+    expect(isCommonMonster(byId('crickneck'), 'gold-deposit')).toBe(false);
+    expect(isCommonMonster(undefined, 'white-woolie')).toBe(false);
   });
 });
 
@@ -111,7 +127,7 @@ describe('typesFor', () => {
     expect(typesFor(regions, 'ore', order.ore).find((x) => x.type === 'Platinum')).toEqual({ type: 'Platinum', regions: 3, minRank: '1' });
   });
 
-  it.each(['ore', 'trees', 'fish'])('follows the game tier order in typeOrder.%s', (cat) => {
+  it.each(['ore', 'trees', 'fish', 'monsters'])('follows the game tier order in typeOrder.%s', (cat) => {
     const t = typesFor(regions, cat, order[cat]).map((x) => x.type);
     expect(t).toEqual(order[cat]);
   });

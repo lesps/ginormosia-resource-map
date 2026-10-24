@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import raw from '../../data/regions.json';
 import { howToFind } from '../../src/lib/find.js';
+import { loadRegions } from '../../src/lib/data.js';
 
-const region = (id) => raw.regions.find((r) => r.id === id);
-const entry = (id, name) => raw.categories.flatMap((c) => region(id)[c].map((e) => ({ ...e, category: c }))).find((e) => e.name === name);
+const data = loadRegions(raw);
+const region = (id) => data.regions.find((r) => r.id === id);
+const entry = (id, name) => data.categories.flatMap((c) => region(id)[c].map((e) => ({ ...e, category: c }))).find((e) => e.name === name);
 const steps = (id, name) => howToFind(entry(id, name), region(id), entry(id, name).category).join('\n');
 
 describe('howToFind', () => {
@@ -30,8 +32,8 @@ describe('howToFind', () => {
 
   it('adds the cave respawn trick for gatherable nodes only', () => {
     expect(steps('drakesnout', 'Gold Deposit')).toMatch(/leave and re-enter/);
-    expect(steps('drakesnout', 'Black Box')).not.toMatch(/leave and re-enter/);
-    expect(steps('drakesnout', 'Black Box')).toMatch(/Anywhere Gate/);
+    expect(steps('drakesnout', "Pandora's Box")).not.toMatch(/leave and re-enter/);
+    expect(steps('drakesnout', "Pandora's Box")).toMatch(/Anywhere Gate/);
     expect(steps('moltana', 'Superior Red Ore Deposit').match(/re-enter/g)).toHaveLength(1);
   });
 
@@ -58,7 +60,8 @@ describe('howToFind', () => {
     expect(steps('wgg', 'King Woolie')).not.toMatch(/Only appears during/);
     expect(steps('wgg', 'King Woolie')).toMatch(/Also via 'Head of the Flock'/);
     expect(steps('shroomhaven', 'Great Skytree')).not.toMatch(/Only appears during/);
-    expect(steps('wingtip', 'Oak / Great Oak Tree')).toMatch(/Only appears during the 'Watch Out for Fakes' event/);
+    expect(steps('wingtip', 'Oak / Great Oak Tree')).toMatch(/Appears only during the 'Watch Out for Fakes' event and is marked/);
+    expect(steps('wingtip', 'Oak / Great Oak Tree')).not.toMatch(/Only appears during/);
   });
 
   it('merges a level note instead of repeating it', () => {
@@ -88,10 +91,10 @@ describe('howToFind with spawn types and shadows', () => {
   });
 
   it('describes roaming, legendary, challenge and fixed-boss spawns', () => {
-    expect(s({ name: 'Iron Golem', spawnType: 'roaming' }, 'boss')).toMatch(/Roams the overworld/);
+    expect(s({ name: 'Iron Golem', spawnType: 'roaming' }, 'monsters')).toMatch(/Roams the overworld/);
     expect(s({ name: 'Legendary God Tree', spawnType: 'legendary-event', tags: ['legendary'] }, 'trees')).toMatch(/marked on the map while active/);
     expect(s({ name: 'Giant Ancient Fossil', spawnType: 'area-challenge' })).toMatch(/only during the challenge/);
-    expect(s({ name: 'Stone Golem', spawnType: 'fixed-boss' }, 'boss')).toMatch(/shows on the in-game map/);
+    expect(s({ name: 'Stone Golem', spawnType: 'fixed-boss' }, 'monsters')).toMatch(/shows on the in-game map/);
   });
 
   it('prefers a recorded spot over the spawn type', () => {
@@ -101,5 +104,43 @@ describe('howToFind with spawn types and shadows', () => {
   it('adds shadow size for fish', () => {
     expect(s({ name: 'Tuna', shadow: 'big' }, 'fish')).toMatch(/big fish shadows/);
     expect(s({ name: 'Flying Fish', shadow: 'small' }, 'fish')).toMatch(/small fish shadows/);
+  });
+});
+
+describe('howToFind for monsters', () => {
+  it('describes common field monsters, including an unrecorded rank', () => {
+    const s = steps('wgg', 'Tortortoise');
+    expect(s).toContain('Its Area Rank isn’t recorded; most field monsters are around from Area Rank 1.');
+    expect(s).toContain('Roams the open field across West Greatgut Plains; no specific spot.');
+    expect(s).toContain('Can drop a mount.');
+  });
+
+  it('keeps the plain unrecorded-rank step for bosses', () => {
+    expect(steps('wgg', 'Shadow Behemoth')).toContain('Its Area Rank isn’t recorded, but it’s known to spawn here.');
+  });
+
+  it('says a cave or fort monster is only found inside', () => {
+    expect(steps('wgg', 'Shadow Wolf')).toContain('Only found inside Fort Gardhart.');
+  });
+
+  it('describes sleeping, aggressive and passive monsters', () => {
+    expect(steps('viridia', 'Hill Spider')).toContain('Sleeps during the day; it’s awake at night.');
+    expect(steps('wgg', 'White Woolie')).toContain('Sleeps at night; it’s awake during the day.');
+    expect(steps('wgg', 'White Woolie')).toContain('Won’t attack unless you strike first.');
+    expect(steps('wgg', 'Buffalo')).toContain('Attacks on sight.');
+  });
+
+  it('says when a monster stops appearing at higher ranks', () => {
+    expect(steps('shroomhaven', 'Pseudo Cherry')).toContain('Only up to Area Rank 4; it’s gone from Rank 5.');
+  });
+
+  it('names the challenge once for challenge-only monsters', () => {
+    const s = steps('scorchrock', 'Goliath');
+    expect(s).toContain("Appears only during the 'Beware the Glittering Silk' challenge and is marked on the map while active.");
+    expect(s).not.toMatch(/Only appears during/);
+  });
+
+  it('uses the defeat wording for gold-crown bosses', () => {
+    expect(steps('moltana', 'Mohawkasaurus')).toMatch(/respawns 5 minutes after you defeat it/);
   });
 });

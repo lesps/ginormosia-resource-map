@@ -14,5 +14,7 @@ export function h(tag, attrs = {}, ...children) {
 
 export const reducedMotion = () => globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
-export const CAT_LABEL = { ore: 'Ore', trees: 'Trees', fish: 'Fish', boss: 'Bosses', other: 'Other' };
-export const PIN_CATS = ['ore', 'trees', 'fish', 'boss'];
+export const CAT_LABEL = { ore: 'Ore', trees: 'Trees', fish: 'Fish', monsters: 'Monsters', other: 'Other' };
+// Every region has monsters, so they get no pin dot.
+export const PIN_CATS = ['ore', 'trees', 'fish'];
+export const FILTERS = ['all', 'ore', 'trees', 'fish', 'monsters'];

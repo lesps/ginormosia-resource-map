@@ -11,7 +11,8 @@ export function toHash({ category, type, query, selectedId, openKey }) {
 
 export function fromHash(hash, { categories, regionIds, types, entries = {} }) {
   const p = new URLSearchParams(String(hash ?? '').replace(/^#/, ''));
-  const category = categories.includes(p.get('cat')) ? p.get('cat') : 'all';
+  const cat = p.get('cat') === 'boss' ? 'monsters' : p.get('cat'); // bosses folded into monsters in data v4
+  const category = categories.includes(cat) ? cat : 'all';
   const type = types[category]?.includes(p.get('type')) ? p.get('type') : null;
   const selectedId = regionIds.includes(p.get('r')) ? p.get('r') : null;
   const openKey = selectedId && entries[selectedId]?.includes(p.get('e')) ? p.get('e') : null;
