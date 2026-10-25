@@ -233,3 +233,60 @@ describe('validateRegions', () => {
     expect(d).toEqual(raw);
   });
 });
+
+describe('spots, places and merged field notes', () => {
+  const golem = (d) => d.regions.find((r) => r.id === 'moltana').ore.find((e) => e.name === 'Golemstone');
+  const pyro = (d) => d.regions.find((r) => r.id === 'moltana').monsters.find((a) => a.id === 'pyro-panther');
+  const spot = (extra = {}) => ({ x: 0.5, y: 0.5, precision: 'approx', sources: ['ingame'], ...extra });
+
+  it('defines the in-game source', () => expect(raw.sources.ingame).toBe('In-game observation (field notes)'));
+
+  it('accepts spots on entries and monster appearances, region places and merged ids', () => {
+    const d = clone();
+    golem(d).spots = [spot()];
+    pyro(d).spots = [spot({ precision: 'exact', x: 0.4, y: 0.3 })];
+    d.regions.find((r) => r.id === 'moltana').places = [{ name: 'Agekara Cave', x: 0.4, y: 0.3 }];
+    d.fieldNotesMerged = ['n-20261024-abcdef'];
+    expect(() => validateRegions(d)).not.toThrow();
+    expect(loadRegions(d).regions.find((r) => r.id === 'moltana').monsters.find((e) => e.id === 'pyro-panther').spots).toHaveLength(1);
+  });
+
+  it.each([
+    ['out of range', spot({ x: 1.5 })],
+    ['a bad precision', spot({ precision: 'roughly' })],
+    ['an undefined source', spot({ sources: ['rumour'] })],
+  ])('rejects a spot with %s', (_, bad) => {
+    const d = clone();
+    golem(d).spots = [bad];
+    expect(() => validateRegions(d)).toThrow(/Golemstone.*spot/);
+  });
+
+  it('rejects spots on spawns that are not at one place', () => {
+    const d = clone();
+    d.regions.find((r) => r.id === 'moltana').ore.find((e) => e.name === 'Gold Deposit').spots = [spot()];
+    expect(() => validateRegions(d)).toThrow(/Gold Deposit.*spot.*overworld/);
+    const e = clone();
+    e.regions.find((r) => r.id === 'moltana').monsters.find((a) => a.id === 'mimic').spots = [spot()];
+    expect(() => validateRegions(e)).toThrow(/Mimic.*spot.*roaming/);
+  });
+
+  it('rejects bad or duplicate place names', () => {
+    const d = clone();
+    d.regions[0].places = [{ name: 'Lake', x: 0.1, y: 0.1 }, { name: 'lake', x: 0.2, y: 0.2 }];
+    expect(() => validateRegions(d)).toThrow(/duplicate place "lake"/i);
+    const e = clone();
+    e.regions[0].places = [{ name: '', x: 0.1, y: 0.1 }];
+    expect(() => validateRegions(e)).toThrow(/place/);
+    const f = clone();
+    f.regions[0].places = [{ name: 'Lake', x: 2, y: 0.1 }];
+    expect(() => validateRegions(f)).toThrow(/place/);
+  });
+
+  it('rejects non-string or repeated merged note ids', () => {
+    const d = clone();
+    d.fieldNotesMerged = [1];
+    expect(() => validateRegions(d)).toThrow(/fieldNotesMerged/);
+    d.fieldNotesMerged = ['a', 'a'];
+    expect(() => validateRegions(d)).toThrow(/fieldNotesMerged/);
+  });
+});

@@ -73,6 +73,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash, storage = cr
     width: data.image.width,
     height: data.image.height,
     onPlace,
+    merged: data.fieldNotesMerged ?? [],
   });
   const panel = createPanel(store, data);
 

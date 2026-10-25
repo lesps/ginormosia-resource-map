@@ -177,3 +177,13 @@ describe('howToFind with your unlocked rank', () => {
     expect(s('viridia', 'Golemstone', 3)).toMatch(/rank isn’t recorded/i);
   });
 });
+
+describe('howToFind with spots', () => {
+  const r = { id: 'x', name: 'Test Isles', tower: "Test's Tower" };
+  const s = (spots) => howToFind({ name: 'Golemstone', minRank: '5', spawnType: 'fixed-boss', spots }, r, 'ore').join('\n');
+  it('points to the map', () => {
+    expect(s([{ x: 0.1, y: 0.2, precision: 'approx', sources: ['ingame'] }])).toContain('Marked on the map (approximate, from in-game notes).');
+    expect(s([{ x: 0.1, y: 0.2, precision: 'exact', sources: ['ingame'] }])).toContain('Marked on the map.');
+    expect(s(undefined)).not.toMatch(/Marked on the map/);
+  });
+});

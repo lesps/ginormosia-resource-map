@@ -79,6 +79,7 @@ export function howToFind(entry, region, category, { unlocked } = {}) {
   const named = entry.spawnType === 'area-challenge' && !entry.where && event && event !== 'event';
   if (entry.where) steps.push(end(entry.spawnType === 'cave-or-fort' ? `Only found inside ${entry.where}` : `Go to: ${entry.where}`));
   else steps.push(spawnStep(entry.spawnType, region, possessive, category, named && event));
+  if (entry.spots?.length) steps.push(entry.spots.some((p) => p.precision === 'approx') ? 'Marked on the map (approximate, from in-game notes).' : 'Marked on the map.');
   if (entry.shadow) steps.push(`Fish at ${entry.shadow} fish shadows.`);
 
   if (tags.includes('gold-crown')) steps.push(`Gold-crown: appears from Area Rank 5 and respawns 5 minutes after you ${verb}.`);
