@@ -34,6 +34,11 @@ describe('manifest', () => {
     expect(m.background_color).toMatch(/^#[0-9a-f]{6}$/i);
   });
 
+  it('describes the app, monsters included', () => {
+    expect(m.description).toMatch(/monster/);
+    expect(read('index.html')).toMatch(/<meta name="description" content="[^"]*monster/);
+  });
+
   it('scopes start_url and scope to BASE_PATH', () => {
     expect(m.start_url).toBe(base);
     expect(m.scope).toBe(base);

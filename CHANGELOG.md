@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- The page meta description and the app manifest mention monsters. The footer data credit lists the same sources as the README.
 - Monsters layer (data v4): 111 monsters in 255 region appearances from a 2026-10-23 survey (FLiDB, Gamer Guides, the Japanese wiki, kokorogu, gget.jp). A Monsters chip with type chips 👑 Gold-crown boss · 🥈 Silver-crown · ★ Legendary · ⚑ Challenge · Common (bosses first, so they're on screen on a phone); matching pins light up like resource types. Region panels list bosses first; in the All view monsters come after the other groups and common monsters fold behind "Show N common monsters" (a link to one opens it anyway). Under the Monsters chip the region list shows each region's boss count instead of resource dots. Monster cards show How to find (roams the field / only inside a cave or fort, sleeps by day or night, attacks on sight or not, the rank it disappears at, can drop a mount), drops, element, and a Name note when the English name is a translation (≈) or an unconfirmed match. New 🐴 mount badge, `cave-or-fort` spawn type, and 60 new drop names (59 translated; Sack of Copper is official).
 - Monsters are stored once in a top-level `monsters` map and joined onto appearances at load; type and tags are derived from crown, spawn type, time and sleep. Validation rejects unknown monster ids and bad crown/time/sleeps/nameStatus/maxRank values.
 - Keyboard focus stays on the row or toggle you pressed when the panel re-renders.
@@ -41,6 +42,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - Sub-type chips follow the game's tier order, set by a new `typeOrder` list in `data/regions.json` (validated against the types in use). Chip tooltips show the earliest rank.
 
 ### Removed
+- Shroomhaven's duplicate "monkey village" landmark (the Monkey Village entry stays).
 - The Bosses chip and the red boss dot on pins and in the region list (bosses live under Monsters; every region has monsters, so there's no monster dot). Drop grouping by monster (`from`/`when`), which no entry uses any more.
 - The selected pin's name tag; the new image labels every region.
 - The r/fantasylife fan-annotation credit, and the swapped West/East Greatgut caveat, which no longer applies.

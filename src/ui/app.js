@@ -52,7 +52,7 @@ export function mountApp(root, json, { imageSrc, hash = '', onHash } = {}) {
       h('h2', {}, 'Not found in Ginormosia'),
       h('ul', {}, data.notInGinormosia.map((n) => h('li', {}, h('strong', {}, n.name), ` — ${n.foundAt}`))),
       h('p', {}, 'Common fish, herbs and ground pickups aren’t mapped.'),
-      h('p', {}, 'Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), cross-checked with Gamer Guides and Game Rant. Monsters: FLiDB (hassaku74kg.com) and Gamer Guides.'),
+      h('p', {}, 'Data: Ginormosia FAQ & Data Project (fli-ginormosia.bearblog.dev), Gamer Guides and Game Rant, plus GameWith, Game8, kokorogu.com, wikiwiki.jp, FLiDB (hassaku74kg.com) and gget.jp (Japanese).'),
       h('p', { class: 'legal' }, h('cite', {}, 'Fantasy Life i: The Girl Who Steals Time'),
         ' and the map artwork © LEVEL-5 Inc. Fan-made, unofficial and not affiliated with or endorsed by LEVEL-5.')),
   );

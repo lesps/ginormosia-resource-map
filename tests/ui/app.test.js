@@ -196,8 +196,8 @@ describe('footer', () => {
   it('lists resources not in Ginormosia and the source', () => {
     const foot = t.$('footer').textContent;
     for (const n of raw.notInGinormosia) expect(foot).toContain(n.name);
-    expect(foot).toContain('fli-ginormosia.bearblog.dev');
-    expect(foot).toContain('hassaku74kg.com');
+    for (const src of ['fli-ginormosia.bearblog.dev', 'Gamer Guides', 'Game Rant', 'GameWith', 'Game8', 'kokorogu.com', 'wikiwiki.jp', 'hassaku74kg.com', 'gget.jp'])
+      expect(foot).toContain(src);
   });
 
   it('credits LEVEL-5 and disclaims affiliation', () => {
