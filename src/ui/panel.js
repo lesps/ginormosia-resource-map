@@ -1,8 +1,10 @@
 import { h, reducedMotion, CAT_LABEL, PIN_CATS } from './dom.js';
-import { search, entryKey, isCommonMonster } from '../lib/search.js';
+import { search, entryKey, isCommonMonster, findEntry } from '../lib/search.js';
 import { formatRank, rankOrder, rankTitle } from '../lib/rank.js';
 import { highlight } from '../lib/escape.js';
 import { howToFind } from '../lib/find.js';
+import { availability, lowestRank } from '../lib/ranks.js';
+import { createMine, rankSelect } from './mine.js';
 
 // Monsters go last in the All view so a long monster list doesn't bury the resources.
 const VIEW_CATS = { all: ['ore', 'trees', 'fish', 'other', 'monsters'] };
@@ -47,17 +49,26 @@ const dropList = (drops) => h('p', { class: 'drops' }, drops.flatMap((d, i) => [
 
 const sourceLabel = (data, k) => data.sources[k].replace(/\s*\(.*\)\s*$/, '');
 
+const locked = (s, regionId, entry) => availability(entry, s.ranks?.[regionId]) === 'locked';
+
 export function createPanel(store, data) {
   const { regions } = data;
   const byId = new Map(regions.map((r) => [r.id, r]));
   const el = h('section', { id: 'panel', class: 'panel', 'aria-live': 'polite', tabindex: '-1' });
-  // Opening a common monster unfolds the region's common monsters, so closing the card leaves the row in place.
-  const select = (id, fromResults = false, openKey = null) =>
-    store.set({ selectedId: id, fromResults, openKey, ...(isCommonMonster(byId.get(id), openKey) && { commonFor: id }) });
+  const mine = createMine(store, regions);
+  // Opening a folded entry (common monster, or one above your rank) unfolds it, so closing the card leaves the row in place.
+  const select = (id, fromResults = false, openKey = null) => {
+    const e = findEntry(byId.get(id), openKey);
+    store.set({
+      selectedId: id, fromResults, openKey,
+      ...(isCommonMonster(byId.get(id), openKey) && { commonFor: id }),
+      ...(e && locked(store.get(), id, e) && { lockedFor: id }),
+    });
+  };
 
-  function detail(r, entry, cat, id, open) {
+  function detail(r, entry, cat, id, open, s) {
     const rows = [
-      ['How to find', h('ol', { class: 'find' }, howToFind(entry, r, cat).map((step) => h('li', {}, step)))],
+      ['How to find', h('ol', { class: 'find' }, howToFind(entry, r, cat, { unlocked: s.ranks?.[r.id] }).map((step) => h('li', {}, step)))],
       ['Drops', entry.drops?.length && dropList(entry.drops)],
       ['Element', entry.element],
       ['Name', NAME_NOTE[entry.nameStatus]],
@@ -85,7 +96,34 @@ export function createPanel(store, data) {
         badges(entry),
         rank(entry.minRank, cat),
         h('span', { class: 'chev', 'aria-hidden': 'true' })),
-      detail(r, entry, cat, id, open));
+      detail(r, entry, cat, id, open, s));
+  }
+
+  // With a rank set, entries above it fold to the end of their group (one region at a time, like commonFor).
+  function lockedFold(r, c, list, s) {
+    if (!list.length) return null;
+    const open = s.lockedFor === r.id;
+    const from = Math.min(...list.map((e) => lowestRank(e.minRank)));
+    return {
+      list: open ? list : [],
+      toggle: h('button', {
+        class: 'link show-locked', type: 'button', 'aria-expanded': String(open), dataset: { focus: `show-locked:${c}` },
+        onclick: () => store.set({ lockedFor: open ? null : r.id, ...(open && list.some((e) => entryKey(e) === s.openKey) && { openKey: null }) }),
+      }, open ? 'Hide higher-rank entries' : `Show ${list.length} more from R${from}`),
+    };
+  }
+
+  function group(r, c, all, s) {
+    const above = all.filter((e) => locked(s, r.id, e));
+    const now = above.length ? all.filter((e) => !above.includes(e)) : all;
+    const { list, more } = c === 'monsters' ? monsterGroup(r, now, s) : { list: now };
+    const fold = lockedFold(r, c, above, s);
+    return h('div', { class: 'group' },
+      h('h3', {}, h('span', { class: 'dot', dataset: { cat: c } }), CAT_LABEL[c]),
+      list.length > 0 && h('ul', { class: 'entries' }, list.map((e) => entryRow(r, e, c, s))),
+      more,
+      fold?.list.length > 0 && h('ul', { class: 'entries locked' }, fold.list.map((e) => entryRow(r, e, c, s))),
+      fold?.toggle);
   }
 
   // In the All view, common monsters fold behind a toggle.
@@ -105,8 +143,8 @@ export function createPanel(store, data) {
   function regionView(r, s) {
     const groups = viewCats(s.category)
       .map((c) => ({ c, list: r[c].filter((e) => !s.type || e.type === s.type) }))
-      .filter((g) => g.list.length)
-      .map((g) => (g.c === 'monsters' ? { ...g, ...monsterGroup(r, g.list, s) } : g));
+      .filter((g) => g.list.length);
+    const setRank = (value) => mine.setRank(r.id, value);
     const close = () => store.set({ selectedId: null, fromResults: false, openKey: null });
     return [
       h('div', { class: 'panel-head' },
@@ -118,13 +156,12 @@ export function createPanel(store, data) {
       (r.summary || r.tower) && h('div', { class: 'region-info' },
         r.summary && h('p', {}, r.summary),
         h('p', { class: 'note' }, [r.tower && `Tower: ${r.tower}`, r.landmarks?.length && `Landmarks: ${r.landmarks.join(' · ')}`].filter(Boolean).join('. '))),
+      h('label', { class: 'rank-row your-rank-row' }, 'Your rank here',
+        rankSelect({ class: 'your-rank', dataset: { focus: 'your-rank' }, onchange: (e) => setRank(e.target.value) }, s.ranks?.[r.id])),
       s.type && h('p', { class: 'scope' }, `Showing ${s.type} only. `,
         h('button', { class: 'link', type: 'button', onclick: () => store.set({ type: null }) }, `Show all ${CAT_LABEL[s.category].toLowerCase()}`)),
       groups.length
-        ? groups.map(({ c, list, more }) => h('div', { class: 'group' },
-            h('h3', {}, h('span', { class: 'dot', dataset: { cat: c } }), CAT_LABEL[c]),
-            h('ul', { class: 'entries' }, list.map((e) => entryRow(r, e, c, s))),
-            more))
+        ? groups.map(({ c, list }) => group(r, c, list, s))
         : h('p', { class: 'empty' }, `No ${s.type ?? CAT_LABEL[s.category].toLowerCase()} in this region.`),
     ];
   }
@@ -150,11 +187,9 @@ export function createPanel(store, data) {
     }
     const regionCount = new Set(matches.map((m) => m.regionId)).size;
     const title = s.query.trim() ? `“${s.query.trim()}”` : s.type;
-    return [
-      h('h2', {}, title),
-      h('p', { class: 'where' }, `${matches.length} match${matches.length === 1 ? '' : 'es'} in ${regionCount} region${regionCount === 1 ? '' : 's'}${filt && s.query.trim() ? ` · ${filt}` : ''} · earliest rank first`),
-      h('ul', { class: 'results' }, matches.map(({ regionId, category, entry, drop }) => {
+    const resultList = (list) => h('ul', { class: 'results' }, list.map(({ regionId, category, entry, drop }) => {
         const r = byId.get(regionId);
+        const above = locked(s, regionId, entry);
         return h('li', {}, h('button', { type: 'button', onclick: () => select(regionId, true, entryKey(entry)) },
           h('span', { class: 'dot', dataset: { cat: category }, 'aria-hidden': 'true' }),
           h('span', { class: 'what' },
@@ -163,8 +198,21 @@ export function createPanel(store, data) {
               NAME_NOTE[entry.nameStatus] && approx(NAME_NOTE[entry.nameStatus])),
             h('span', { class: 'note clamp2' }, r.name, drop ? h('span', {}, ' · drops ', h('span', { html: highlight(drop.name, s.query) })) : entry.where ? ` · ${entry.where}` : '')),
           badges(entry),
-          rank(entry.minRank, category)));
-      })),
+          above
+            ? h('span', { class: 'rank-col' }, rank(entry.minRank, category), h('span', { class: 'you' }, `you: R${s.ranks[regionId]}`))
+            : rank(entry.minRank, category)));
+      }));
+    // With any listed region's rank set, split into what you can get now and what needs ranking up.
+    const split = matches.some((m) => s.ranks?.[m.regionId]);
+    const above = split ? matches.filter((m) => locked(s, m.regionId, m.entry)) : [];
+    const now = matches.filter((m) => !above.includes(m));
+    return [
+      h('h2', {}, title),
+      h('p', { class: 'where' }, `${matches.length} match${matches.length === 1 ? '' : 'es'} in ${regionCount} region${regionCount === 1 ? '' : 's'}${filt && s.query.trim() ? ` · ${filt}` : ''} · earliest rank first`),
+      split
+        ? [['Available to you', now], ['Needs a higher rank', above]].filter(([, list]) => list.length)
+            .map(([label, list]) => h('div', { class: 'results-section' }, h('h3', {}, label), resultList(list)))
+        : resultList(matches),
     ];
   }
 
@@ -185,9 +233,11 @@ export function createPanel(store, data) {
     return [
       h('h2', {}, 'Regions'),
       h('p', { class: 'where' }, 'Tap a pin or a region, search above (names and drops), or pick a type to see where it spawns.'),
+      !Object.keys(s.ranks ?? {}).length && h('p', { class: 'note rank-hint' }, 'Set your Area Ranks in My game to see what you can get now.'),
       h('ul', { class: 'region-list' }, list.map((r) => h('li', {},
         h('button', { type: 'button', onclick: () => select(r.id) },
           h('span', { class: 'what' }, h('span', { class: 'name' }, r.name), h('span', { class: 'note' }, r.where)),
+          s.ranks?.[r.id] && h('span', { class: 'your-rank-chip', title: `Your Area Rank here: R${s.ranks[r.id]}` }, `R${s.ranks[r.id]}`),
           s.category === 'monsters' ? bossCount(r) : h('span', { class: 'dots', 'aria-hidden': 'true' },
             PIN_CATS.filter((c) => r[c].length).map((c) => h('span', { class: 'dot', dataset: { cat: c }, title: `${r[c].length} ${CAT_LABEL[c].toLowerCase()}` }))))))),
     ];
@@ -197,10 +247,15 @@ export function createPanel(store, data) {
     const r = s.selectedId && byId.get(s.selectedId);
     const active = s.query.trim() || s.type;
     const focused = el.contains(document.activeElement) && document.activeElement.dataset.focus;
-    el.replaceChildren(...[r ? regionView(r, s) : active ? resultsView(s) : idleView(s)].flat(3).filter(Boolean));
+    el.replaceChildren(...[s.mine ? mine.view(s) : r ? regionView(r, s) : active ? resultsView(s) : idleView(s)].flat(3).filter(Boolean));
     if (focused) el.querySelector(`[data-focus="${focused}"]`)?.focus({ preventScroll: true });
     const behavior = reducedMotion() ? 'auto' : 'smooth';
-    if (r && s.openKey && (!prev || prev.openKey !== s.openKey || prev.selectedId !== s.selectedId)) {
+    if (s.mine) {
+      if (!prev?.mine) {
+        el.scrollIntoView?.({ behavior, block: 'nearest' });
+        el.focus({ preventScroll: true });
+      }
+    } else if (r && s.openKey && (!prev || prev.openKey !== s.openKey || prev.selectedId !== s.selectedId)) {
       el.querySelector(`li[data-key="${s.openKey}"]`)?.scrollIntoView?.({ behavior, block: 'nearest' });
     } else if (r && prev && prev.selectedId !== s.selectedId) {
       el.scrollIntoView?.({ behavior, block: 'nearest' });

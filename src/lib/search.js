@@ -54,3 +54,5 @@ export function typesFor(regions, category, order = []) {
 export const entryKey = (entry) => entry.name.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export const isCommonMonster = (region, key) => !!region?.monsters?.some((e) => e.type === 'Common' && entryKey(e) === key);
+
+export const findEntry = (region, key) => (key && region ? SEARCHABLE.all.flatMap((c) => region[c] ?? []).find((e) => entryKey(e) === key) : undefined);
