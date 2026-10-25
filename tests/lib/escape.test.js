@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { escapeHtml, highlight } from '../../src/lib/escape.js';
+import { escapeHtml, highlight, excerpt } from '../../src/lib/escape.js';
 
 describe('escapeHtml', () => {
   it('escapes the five specials', () => expect(escapeHtml(`<a href="x">'&'</a>`)).toBe('&lt;a href=&quot;x&quot;&gt;&#39;&amp;&#39;&lt;/a&gt;'));
@@ -21,4 +21,31 @@ describe('highlight', () => {
     expect(highlight('<x>', '')).toBe('&lt;x&gt;');
     expect(highlight('<x>', 'zzz')).toBe('&lt;x&gt;');
   });
+});
+
+describe('excerpt', () => {
+  const long = 'A trio along the NE edge of the region. Also: one more deep inside Agekara Cave, east half.';
+
+  it('keeps short text whole', () => expect(excerpt('Off the coast', 'coast', 50)).toBe('Off the coast'));
+
+  it('cuts long text to a window around the match, on word boundaries', () => {
+    const e = excerpt(long, 'agekara', 40);
+    expect(e).toMatch(/^…/);
+    expect(e).toContain('Agekara');
+    expect(e.length).toBeLessThanOrEqual(42);
+    const inner = e.replace(/^…|…$/g, '');
+    const at = long.indexOf(inner);
+    expect(at).toBeGreaterThan(0);
+    expect(long[at - 1]).toBe(' ');
+  });
+
+  it('keeps the start when the match is early', () => {
+    expect(excerpt(long, 'trio', 30)).toMatch(/^A trio along.*…$/);
+  });
+
+  it('never cuts into the match', () => {
+    expect(excerpt('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxAgekaraCave and more words after it', 'agekara', 20)).toContain('Agekara');
+  });
+
+  it('returns the text unchanged without a match', () => expect(excerpt(long, 'nowhere', 30)).toBe(long));
 });

@@ -1,7 +1,7 @@
 import { h, reducedMotion, CAT_LABEL, PIN_CATS } from './dom.js';
-import { search, entryKey, isCommonMonster, findEntry } from '../lib/search.js';
-import { formatRank, rankOrder, rankTitle } from '../lib/rank.js';
-import { highlight } from '../lib/escape.js';
+import { search, searchPlaces, sortMatches, entryKey, isCommonMonster, findEntry } from '../lib/search.js';
+import { formatRank, rankTitle } from '../lib/rank.js';
+import { highlight, excerpt } from '../lib/escape.js';
 import { howToFind } from '../lib/find.js';
 import { availability, lowestRank } from '../lib/ranks.js';
 import { createMine, rankSelect } from './mine.js';
@@ -20,6 +20,13 @@ export const TAG_INFO = {
   cave: ['⛰️', 'In a cave'],
   mount: ['🐴', 'Can drop a mount'],
 };
+// Badge filter chips: short labels, in chip order.
+export const TAG_SHORT = {
+  'gold-crown': 'Gold-crown', 'silver-crown': 'Silver-crown', legendary: 'Legendary', event: 'Challenge',
+  mount: 'Mount', night: 'Night only', day: 'Day only', cave: 'Cave',
+};
+export const tagLabel = (t) => `${TAG_INFO[t][0]} ${TAG_SHORT[t]}`;
+export const filterOf = (s) => ({ query: s.query, category: s.category, type: s.type, tag: s.tag });
 // The badge each monster type carries, shown on its type chip too.
 export const TYPE_TAG = { 'Gold-crown boss': 'gold-crown', 'Silver-crown': 'silver-crown', Legendary: 'legendary', Challenge: 'event' };
 const NAME_NOTE = {
@@ -129,7 +136,7 @@ export function createPanel(store, data) {
   // In the All view, common monsters fold behind a toggle.
   function monsterGroup(r, list, s) {
     const common = list.filter((e) => e.type === 'Common');
-    if (s.category !== 'all' || !common.length) return { list };
+    if (s.category !== 'all' || s.tag || !common.length) return { list };
     const expanded = s.commonFor === r.id;
     return {
       list: expanded ? list : list.filter((e) => e.type !== 'Common'),
@@ -142,7 +149,7 @@ export function createPanel(store, data) {
 
   function regionView(r, s) {
     const groups = viewCats(s.category)
-      .map((c) => ({ c, list: r[c].filter((e) => !s.type || e.type === s.type) }))
+      .map((c) => ({ c, list: r[c].filter((e) => (!s.type || e.type === s.type) && (!s.tag || e.tags?.includes(s.tag))) }))
       .filter((g) => g.list.length);
     const setRank = (value) => mine.setRank(r.id, value);
     const close = () => store.set({ selectedId: null, fromResults: false, openKey: null });
@@ -160,34 +167,56 @@ export function createPanel(store, data) {
         rankSelect({ class: 'your-rank', dataset: { focus: 'your-rank' }, onchange: (e) => setRank(e.target.value) }, s.ranks?.[r.id])),
       s.type && h('p', { class: 'scope' }, `Showing ${s.type} only. `,
         h('button', { class: 'link', type: 'button', onclick: () => store.set({ type: null }) }, `Show all ${CAT_LABEL[s.category].toLowerCase()}`)),
+      s.tag && h('p', { class: 'scope' }, `Showing ${tagLabel(s.tag)} only. `,
+        h('button', { class: 'link', type: 'button', onclick: () => store.set({ tag: null }) }, 'Show everything')),
       groups.length
         ? groups.map(({ c, list }) => group(r, c, list, s))
-        : h('p', { class: 'empty' }, `No ${s.type ?? CAT_LABEL[s.category].toLowerCase()} in this region.`),
+        : h('p', { class: 'empty' }, `No ${s.type ?? (s.tag ? `${tagLabel(s.tag)} entries` : CAT_LABEL[s.category].toLowerCase())} in this region.`),
     ];
   }
 
   function describeFilter(s) {
-    return [s.type, s.category !== 'all' && CAT_LABEL[s.category].toLowerCase()].filter(Boolean).join(' / ');
+    return [s.type, s.tag && tagLabel(s.tag), s.category !== 'all' && CAT_LABEL[s.category].toLowerCase()].filter(Boolean).join(' / ');
+  }
+
+  // The second line of a result: what matched, when it wasn't the name.
+  function matchNote(r, { entry, via, drop }, q) {
+    if (drop) return [r.name, h('span', {}, ' · drops ', h('span', { html: highlight(drop.name, q) }))];
+    if (via === 'where' || via === 'conditions' || via === 'note') {
+      const during = via === 'conditions' && /challenge|event/i.test(entry.conditions) ? 'during ' : '';
+      return [r.name, ' · ', during, h('span', { html: highlight(excerpt(entry[via], q), q) })];
+    }
+    return [r.name, entry.where ? ` · ${entry.where}` : ''];
+  }
+
+  function placeList(places, q) {
+    return h('ul', { class: 'results' }, places.map(({ regionId, via, text }) => {
+      const r = byId.get(regionId);
+      return h('li', {}, h('button', { type: 'button', onclick: () => select(regionId, true) },
+        h('span', { class: 'place-mark', 'aria-hidden': 'true' }, '📍'),
+        h('span', { class: 'what' },
+          h('span', { class: 'title' }, h('span', { class: 'name', html: highlight(r.name, q) })),
+          h('span', { class: 'note clamp2' }, via === 'region' ? r.where : [via === 'tower' ? 'Tower: ' : '', h('span', { html: highlight(excerpt(text, q, 70), q) })]))));
+    }));
   }
 
   function resultsView(s) {
-    const matches = search(regions, s.query, s.category, s.type)
-      .map((m, i) => ({ ...m, i }))
-      .sort((a, b) => !!a.drop - !!b.drop || rankOrder(a.entry.minRank) - rankOrder(b.entry.minRank) || a.i - b.i);
+    const matches = sortMatches(search(regions, filterOf(s)));
+    const places = searchPlaces(regions, s.query);
     const filt = describeFilter(s);
-    if (!matches.length) {
+    if (!matches.length && !places.length) {
       return [
         h('h2', {}, 'No matches'),
         h('p', { class: 'empty' },
           `Nothing in Ginormosia matches “${s.query.trim()}”${filt ? ` with the ${filt} filter on` : ''}. `,
-          filt && h('button', { class: 'link', type: 'button', onclick: () => store.set({ category: 'all', type: null }) }, 'Search everything'),
+          filt && h('button', { class: 'link', type: 'button', onclick: () => store.set({ category: 'all', type: null, tag: null }) }, 'Search everything'),
           filt && '. ',
           'Some resources are not found in Ginormosia at all; see the list below.'),
       ];
     }
     const regionCount = new Set(matches.map((m) => m.regionId)).size;
-    const title = s.query.trim() ? `“${s.query.trim()}”` : s.type;
-    const resultList = (list) => h('ul', { class: 'results' }, list.map(({ regionId, category, entry, drop }) => {
+    const title = s.query.trim() ? `“${s.query.trim()}”` : s.type ?? tagLabel(s.tag);
+    const resultList = (list) => h('ul', { class: 'results' }, list.map(({ regionId, category, entry, via, drop }) => {
         const r = byId.get(regionId);
         const above = locked(s, regionId, entry);
         return h('li', {}, h('button', { type: 'button', onclick: () => select(regionId, true, entryKey(entry)) },
@@ -196,7 +225,7 @@ export function createPanel(store, data) {
             h('span', { class: 'title' },
               h('span', { class: 'name', html: highlight(entry.name, s.query) }),
               NAME_NOTE[entry.nameStatus] && approx(NAME_NOTE[entry.nameStatus])),
-            h('span', { class: 'note clamp2' }, r.name, drop ? h('span', {}, ' · drops ', h('span', { html: highlight(drop.name, s.query) })) : entry.where ? ` · ${entry.where}` : '')),
+            h('span', { class: 'note clamp2' }, matchNote(r, { entry, via, drop }, s.query))),
           badges(entry),
           above
             ? h('span', { class: 'rank-col' }, rank(entry.minRank, category), h('span', { class: 'you' }, `you: R${s.ranks[regionId]}`))
@@ -206,13 +235,20 @@ export function createPanel(store, data) {
     const split = matches.some((m) => s.ranks?.[m.regionId]);
     const above = split ? matches.filter((m) => locked(s, m.regionId, m.entry)) : [];
     const now = matches.filter((m) => !above.includes(m));
+    const plural = (n, word, many = `${word}s`) => `${n} ${n === 1 ? word : many}`;
+    const counts = [
+      places.length && plural(places.length, 'place'),
+      matches.length && `${plural(matches.length, 'match', 'matches')} in ${plural(regionCount, 'region')}`,
+    ].filter(Boolean).join(' · ');
+    const section = (label, body) => h('div', { class: 'results-section' }, h('h3', {}, label), body);
+    const spawns = split
+      ? [['Available to you', now], ['Needs a higher rank', above]].filter(([, list]) => list.length).map(([label, list]) => section(label, resultList(list)))
+      : places.length ? matches.length && section('Spawns', resultList(matches)) : resultList(matches);
     return [
       h('h2', {}, title),
-      h('p', { class: 'where' }, `${matches.length} match${matches.length === 1 ? '' : 'es'} in ${regionCount} region${regionCount === 1 ? '' : 's'}${filt && s.query.trim() ? ` · ${filt}` : ''} · earliest rank first`),
-      split
-        ? [['Available to you', now], ['Needs a higher rank', above]].filter(([, list]) => list.length)
-            .map(([label, list]) => h('div', { class: 'results-section' }, h('h3', {}, label), resultList(list)))
-        : resultList(matches),
+      h('p', { class: 'where' }, `${counts}${filt && s.query.trim() ? ` · ${filt}` : ''}${matches.length ? ' · earliest rank first' : ''}`),
+      places.length > 0 && section('Places', placeList(places, s.query)),
+      spawns || null,
     ];
   }
 
@@ -245,7 +281,7 @@ export function createPanel(store, data) {
 
   function render(s, prev) {
     const r = s.selectedId && byId.get(s.selectedId);
-    const active = s.query.trim() || s.type;
+    const active = s.query.trim() || s.type || s.tag;
     const focused = el.contains(document.activeElement) && document.activeElement.dataset.focus;
     el.replaceChildren(...[s.mine ? mine.view(s) : r ? regionView(r, s) : active ? resultsView(s) : idleView(s)].flat(3).filter(Boolean));
     if (focused) el.querySelector(`[data-focus="${focused}"]`)?.focus({ preventScroll: true });
