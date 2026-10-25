@@ -85,7 +85,8 @@ export function howToFind(entry, region, category, { unlocked } = {}) {
   if (tags.includes('silver-crown')) steps.push('Silver-crown: no cooldown. Change any tower’s Area Rank or use the Anywhere Gate to respawn it instantly.');
   if (tags.includes('legendary')) steps.push('Legendary challenge: appears at random once a tower is at Area Rank 3 or higher (solo), or when the multiplayer challenge gauge fills. Changing any tower’s rank rerolls it.');
   const alternative = extras.some((x) => /^(also|or) /i.test(x));
-  if (tags.includes('event') && !tags.includes('legendary') && !named && (event || !alternative)) {
+  const challengeSpawn = entry.spawnType === 'area-challenge' && !entry.where; // its spawn step already says so
+  if (tags.includes('event') && !tags.includes('legendary') && !named && !challengeSpawn && (event || !alternative)) {
     steps.push(event && event !== 'event' ? `Only appears during the ${challengeName(event)}.` : 'Only appears during an event or area challenge.');
   }
   if (tags.includes('night')) steps.push('Go at night.');

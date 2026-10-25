@@ -15,12 +15,36 @@ Live: `https://lesps.github.io/ginormosia-resource-map/`
 - **Resource detail cards.** Each row shows the name, a one-line location, badges and the minimum rank. Badges: 👑 gold-crown, 🥈 silver-crown, ★ legendary, ⚑ event or challenge, 🌙 night, ☀️ day, ⛰️ cave, 🐴 can drop a mount, a level badge like Lv60, and "unconfirmed"/"disputed" for weaker data. A ≈ after a monster name means the English name is a translation or an unconfirmed match. Tapping a row opens its card: a numbered **How to find** checklist, then drops, element (monsters), a name note for unconfirmed names, note and sources. The checklist is built from the data, never invented: the rank to set and at which tower, where to go (or that the exact spot isn't recorded), plus the relevant spawn rules (gold-crown respawns, silver-crown resets, legendary rolls, event-only, night/day, cave-node respawns, random tier rolls, recommended level), for monsters whether it roams the field, when it sleeps, whether it attacks on sight, the rank it disappears at and whether it can drop a mount, and any extra condition notes. Japanese names aren't shown but still work in search. One card is open at a time. Tapping a search result opens that exact card.
 - **Your ranks.** Each region panel has a "Your rank here" picker (Not set, R1–R7) for the highest Area Rank you've reached there. With a rank set, entries that need more fold to the end of their group behind "Show N more from R5"; entries with an unrecorded rank (R?) stay visible. Search and type results split into "Available to you" and "Needs a higher rank" (locked rows show "you: R2"), a pin whose matches all need a higher rank turns grey with a 🔒 count, the region list shows your rank per region, and How to find speaks to your rank ("You've unlocked R6 here, so set the tower to R5 or higher", "Gone above R4: set the tower to R4 or lower"). Opening a locked entry from a result or link unfolds it.
 - **My game**: a header button opens your Area Ranks for all 15 regions, with "Set all to" and a two-tap "Clear all". Ranks are saved on this device only (`localStorage`, falling back to memory when storage is blocked) and never go in the URL.
+- **Field notes** (opt-in, in My game): record what you see in the game — sightings with the tower rank and time, spots and places tapped on the map, English names for ≈ monsters and drops, free notes — against a per-region checklist of open questions, then export them as a file or a prefilled GitHub issue. See [Field notes](#field-notes).
 - **How spawns work**: a collapsible box in the footer explains tier rolls, crowns, legendary challenges and Area Points, with a key to the badges.
 - **Zoom** 1× / 2× / 3×. The map pans inside its frame and centers on the selected pin. Pins keep a 44×56 px hit target at every zoom.
 - **Shareable state**: the filter, type, badge, search and selected region are kept in the URL hash (`#cat=ore&type=Platinum&r=moltana&e=golemstone`, `#tag=mount`), including an open detail card.
 - **Keyboard**: `/` focuses search, Esc closes My game, then the open card, then the region, then clears the search, Enter/Space selects a focused pin.
 - **Installable and offline**: an Install button (Android/desktop Chrome) or Add-to-Home-Screen steps (iOS). Once loaded, it works fully offline. An "Offline" badge shows when you lose your connection.
 - Light/dark themes, safe-area aware, self-hosted fonts, about 0.4 MB precached. All five category chips fit on screens 360 px and wider.
+
+## Field notes
+
+The data still has gaps (151 spawns with no recorded rank, 98 resting on one source, 10 disputed, and many names that are translations), and the game screen settles them. Field notes turn those gaps into a checklist while you play and record each answer in a tap. They only capture what you saw; they never change the map's data in the app.
+
+- **Turn it on** in My game ("Field notes"). Off by default; with it off, nothing changes anywhere.
+- **Region panel:** a Field notes bar with **Tower set to** (defaults to your rank; an explicit choice is remembered per region) and a ☀️ Day / 🌙 Night toggle (not saved). **Open questions (N)** lists each entry with something unknown — `disputed`, `one source`, `rank?`, `spot?`, `name?`, `N drop names` — and tapping one opens its card. The region list shows each region's count ("? 14").
+- **Entry card:** **Seen here** and **Looked, not here** (hidden for tier rolls, legendary and challenge spawns, where absence means nothing) record the tower rank and time of day. **📍 Mark spot** (hidden for spawns that aren't at one place) and **📍 Mark a place** (from the region bar, picking a landmark or typing a name) switch the map to placement mode: tap the spot (zoom in for accuracy), or Esc/Cancel. **✎ Note** saves up to 500 characters. For ≈ names, "English name in game: Same as shown / Different…" records the monster's name, and ✎ next to each ≈ drop records the drop's, keyed by its Japanese name. Your notes for the entry are listed newest first, each with Undo.
+- **My game is in English** (on by default): name corrections only make sense from the English release, so turning it off hides them and marks the export `gameLanguage: "other"`.
+- **Export** (in My game): Share file (where the browser supports it), Download, Copy JSON, or **Open GitHub issue** (prefilled with the JSON, titled "[field notes] N notes", label `field-notes`; disabled with an explanation when the URL would pass 8,000 characters). Merged notes (ids listed in `data.fieldNotesMerged`) are left out unless "Include merged notes" is on. "Clear merged notes" and a two-tap "Clear all notes" tidy up. Notes live only on this device (`localStorage`) until you export them; if a save fails, a toast asks you to export now.
+
+**Note format v1.** Every note has `id` (`n-YYYYMMDD-` + 6 random base36 characters), `date` (local `YYYY-MM-DD`, no time, no personal data) and `kind`:
+
+| kind | fields |
+|---|---|
+| `seen`, `absent` | `region`, `category`, `entry`, `rank` (1–7 or null), `time` (`day`/`night`/null) |
+| `spot` | `region`, `category`, `entry`, `x`, `y` (0–1 on the map image), `zoom` |
+| `place` | `region`, `name`, `x`, `y`, `zoom` |
+| `name` | `monster` (id), `shown`, `inGame` |
+| `drop-name` | `ja`, `shown`, `inGame` |
+| `text` | `region`, `category`, `entry`, `text` (≤ 500 characters) |
+
+`entry` is the monster id for monsters and the entry key (the `e=` slug) otherwise. An export is `{ "format": "ginormosia-field-notes", "version": 1, "dataVersion": 4, "exported": "YYYY-MM-DD", "gameLanguage": "en", "notes": [...] }`.
 
 ## Install on your phone
 

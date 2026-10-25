@@ -1,10 +1,11 @@
 import { h, reducedMotion, PIN_CATS } from './dom.js';
 import { regionHasCategory, search, searchPlaces } from '../lib/search.js';
 import { availability } from '../lib/ranks.js';
+import { toNormalized, entryRef } from '../lib/notes.js';
 
 export const ZOOMS = [1, 2, 3];
 
-export function createMap(store, regions, { imageSrc, imageAlt, width, height }) {
+export function createMap(store, regions, { imageSrc, imageAlt, width, height, onPlace = () => {} }) {
   const pins = new Map();
   const inner = h('div', { class: 'map-inner' },
     h('img', { src: imageSrc, alt: imageAlt, width, height, decoding: 'async', draggable: 'false' }));
@@ -12,6 +13,7 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
   for (const r of regions) {
     const select = () => {
       const s = store.get();
+      if (s.placing) return;
       if (s.selectedId !== r.id || s.mine) store.set({ selectedId: r.id, fromResults: false, openKey: null, mine: false });
     };
     const pin = h('button', {
@@ -30,7 +32,19 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
     inner.append(pin);
   }
 
+  // Field notes placement: the next tap on the map records a normalized point.
+  inner.addEventListener('click', (e) => {
+    const s = store.get();
+    if (!s.placing) return;
+    onPlace({ ...toNormalized(e.clientX, e.clientY, inner.getBoundingClientRect()), zoom: s.zoom });
+  });
+  const halos = h('div', { class: 'halos', 'aria-hidden': 'true' });
+  inner.append(halos);
+
   const scroller = h('div', { class: 'map-scroll', tabindex: '-1', style: `aspect-ratio: ${width} / ${height}` }, inner);
+  const banner = h('div', { class: 'place-banner', role: 'status', hidden: true },
+    h('span', {}, 'Tap the spot · zoom in for accuracy · '),
+    h('button', { class: 'link place-cancel', type: 'button', onclick: () => store.set({ placing: null }) }, 'Cancel'));
   const zoomBtns = ZOOMS.map((z) => h('button', { type: 'button', onclick: () => store.set({ zoom: z }) }, `${z}×`));
   const el = h('section', { class: 'mapcard', 'aria-label': 'Map' },
     h('div', { class: 'mapbar' },
@@ -38,6 +52,7 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
       h('p', { class: 'legend' },
         h('span', { class: 'lg' }, h('span', { class: 'swatch hit' }), 'match'),
         h('span', { class: 'lg' }, h('span', { class: 'swatch sel' }), 'selected'))),
+    banner,
     scroller);
 
   function centerOn(fx, fy, smooth) {
@@ -71,6 +86,14 @@ export function createMap(store, regions, { imageSrc, imageAlt, width, height })
       else pin.removeAttribute('aria-description');
     }
     inner.dataset.zoom = String(s.zoom);
+    el.classList.toggle('placing', !!s.placing);
+    banner.hidden = !s.placing;
+    if (s.placing && !prev?.placing) el.scrollIntoView?.({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    // Your own unmerged spots for the open card, as dashed halos.
+    const sel = regions.find((x) => x.id === s.selectedId);
+    const ref = s.notesOn && s.openKey && entryRef(sel, s.openKey);
+    halos.replaceChildren(...(ref ? s.notes.filter((n) => n.kind === 'spot' && n.region === sel.id && n.category === ref.category && n.entry === ref.id) : [])
+      .map((n) => h('span', { class: 'halo local', style: `left:${+(n.x * 100).toFixed(3)}%;top:${+(n.y * 100).toFixed(3)}%` })));
     zoomBtns.forEach((b, i) => b.setAttribute('aria-pressed', String(ZOOMS[i] === s.zoom)));
 
     if (prev && prev.zoom !== s.zoom) {
